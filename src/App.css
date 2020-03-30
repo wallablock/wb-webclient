@@ -57,6 +57,7 @@
   z-index: 3;
 }
 
+
 .title {
   color: white;
 	font-family: 'Monoton', cursive;
@@ -206,9 +207,29 @@
   margin: 10px 0;
 }
 
+.m11 {
+  margin: 10px;
+  margin-bottom: 25px;
+}
+
 .m1,
 .result-list .m1 {
   margin: 1rem;
+}
+
+.bts_content{
+  margin-top: 30px;
+  margin-bottom: 30px;
+  width: 100%;
+  text-align: center;
+}
+
+.bts_wrap{
+  width: 50%;
+}
+
+.bts{
+  width: 80%;
 }
 
 /* media queries */

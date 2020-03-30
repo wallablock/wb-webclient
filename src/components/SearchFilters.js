@@ -1,20 +1,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-	MultiDropdownList,
 	SingleDropdownRange,
 	RangeSlider,
-	SingleList,
+	MultiDataList,
 } from '@appbaseio/reactivesearch';
 
 const SearchFilters = ({ currentTopics, setTopics, visible }) => (
+
+
+
 	<div className={`flex column filters-container ${!visible ? 'hidden' : ''}`}>
-		
-		<div className="child m10">
+			
+
+	<div className="child m10">
+		<MultiDataList
+			componentId="Categoria"
+			data={
+				[{
+				label: "TVs",
+				value: "TVs"
+				}, {
+				label: "Electrodomésticos",
+				value: "electrodomesticos"
+				}, {
+				label: "Móviles",
+				value: "moviles"
+				},{
+				label: "Coches",
+				value: "coches"
+				}, {
+				label: "Motos",
+				value: "motos"
+				}, {
+				label: "Inmobiliaria",
+				value: "inmobiliaria"
+				}]
+			}
+			title="Categoria"
+			showSearch={false}
+		/>
+	</div>
+
+		<div className="child m11">
 			<RangeSlider
-				componentId="stars"
+				componentId="Precio"
 				title="Precio"
-				dataField="stars"
+				dataField="Precio"
 				range={{ start: 0, end: 300000 }}
 				showHistogram={false}
 				rangeLabels={{
@@ -29,11 +61,10 @@ const SearchFilters = ({ currentTopics, setTopics, visible }) => (
 
 		<div className="child m10">
 			<SingleDropdownRange
-				componentId="pushed"
-				dataField="pushed"
+				componentId="Antiguedad"
+				dataField="Antiguedad"
 				placeholder="Filtrar por fecha"
 				title="Oferta creada"
-				filterLabel="Last Active"
 				data={[
 					{ start: 'now-1M', end: 'now', label: 'Últimos 30 días' },
 					{ start: 'now-6M', end: 'now', label: 'Últimos 6 meses' },
@@ -43,11 +74,9 @@ const SearchFilters = ({ currentTopics, setTopics, visible }) => (
 		</div>
 		
 		<div className="child m10">
-			<SingleList
-				componentId="categorias"
-				title="Categorías"
-				
-			/>
+			<div className="col">
+			
+			</div>
 		</div>
 
 	</div>
