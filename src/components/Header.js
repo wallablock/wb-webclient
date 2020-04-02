@@ -25,31 +25,25 @@ class Header extends Component {
 
 	render() {
 		return (
-            /*<div className="bar">
-                <div className="title">WallaBlock</div>
-                <SearchFilters currentTopics={this.state.currentTopics} setTopics={this.setTopics}/>
-            </div>*/
-
-
-			<nav className={`bar ${this.state.visible ? 'active' : ''}`}>
+   			<nav className={`bar ${this.state.visible ? 'active' : ''}`}>
 				<div className="title">WallaBlock</div>
 				<div className="btn toggle-btn" onClick={this.toggleVisibility}>Toggle Filters</div>
 
 				<div className="flex flex-reverse bts_content">
 					<div className="bts_wrap">
 						<Link to="/generate">
-							<input type="button" className="btn bts " value="Generar cuenta"/>
+							<input type="button" className="button button1" value="Generar cuenta"/>
 						</Link>
 					</div>
 					<div className="bts_wrap">
 						<Link to="/publish">
-							<input type="submit" className="btn bts" value="Publicar oferta"/>
+							<input type="submit" className="button button1" value="Publicar oferta"/>
 						</Link>
 					</div>
 				</div>
 				
-                
-                <SearchFilters {...this.props} visible={this.state.visible} />
+				<SearchFilters {...this.props} visible={this.state.visible} />
+
 			</nav>
 		);
 	}

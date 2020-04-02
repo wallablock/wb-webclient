@@ -1,18 +1,28 @@
 import React from 'react';
 import { SelectedFilters, ReactiveList } from '@appbaseio/reactivesearch';
+
 const onResultStats = (results, time) => (
   <div className="flex justify-end">
     {results} results found in {time}ms
   </div>
 );
+
 const onData = (data) => (
   <div className="result-item" key={data.fullname}>
     {data.owner}/{data.name}
   </div>
 );
+
 const Results = () => (
-  <div className="result-list">
-    <SelectedFilters className="m1" />
+  <div className="results">
+    <div className="filters-aplied">
+      <SelectedFilters className="m1" showClearAll={false}/>
+    </div>
+
+  </div>
+);
+
+/*
     <ReactiveList
       componentId="results"
       dataField="name"
@@ -30,6 +40,6 @@ const Results = () => (
       }}
       size={6}
     />
-  </div>
-);
+*/
+
 export default Results;

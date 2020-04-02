@@ -36,17 +36,21 @@ class App extends Component {
       <section className="container">
         <ReactiveBase
           app="test"
-          credentials="a:a"
+          url="https://f90c7dc79c2b425caf77079b50ec5677.eu-central-1.aws.cloud.es.io"
+          credentials="alex:123456"
+
           theme={theme}
         >
+          
              <div className="flex row-reverse">
                 <Header currentTopics={this.state.currentTopics} setTopics={this.setState} />
                 <div className="results-container">
                     <DataSearch
                         componentId="repo"
-                        filterLabel="Search"
-                        dataField={'found'}
-                        autosuggest={false}
+                        filterLabel="Buscar"
+                        dataField={'name'}
+                        autosuggest={true}
+                        placeholder="Buscar"
                     />
                     <Results currentTopics={this.state.currentTopics} toggleTopic={this.toggleTopic}/>
                 </div>
