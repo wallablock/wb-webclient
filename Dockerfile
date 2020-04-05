@@ -7,8 +7,12 @@ RUN apk add --no-cache python make g++ git
 WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
 RUN npm ci
-COPY . .
+
+COPY public/ public/
+COPY src/ src/
+
 RUN npm run build
 
 FROM nginx:stable-alpine
+COPY nginx/ /etc/nginx/
 COPY --from=builder /usr/src/app/build /usr/share/nginx/html
