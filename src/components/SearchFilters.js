@@ -4,11 +4,8 @@ import {
 	SingleDropdownRange,
 	RangeSlider,
 	MultiDataList,
-	MultiDropdownList,
 } from '@appbaseio/reactivesearch';
 
-import { Container, Header, List } from "semantic-ui-react";
-import CountryList from "./CountryList";
 
 // TODO: Switch to https://github.com/palmerhq/the-platform#stylesheet when it will be stable
 const styleLink = document.createElement("link");
@@ -25,12 +22,12 @@ const SearchFilters = ({ currentTopics, setTopics, visible }) => (
 
 		<div className="child m10">
 			<MultiDataList
-				componentId="Categoria"
-				dataField="name"
+				componentId="category"
+				dataField="category"
 				data={
 					[{
 					label: "TVs",
-					value: "TVs"
+					value: "tvs"
 					}, {
 					label: "Electrodomésticos",
 					value: "electrodomesticos"
@@ -65,9 +62,9 @@ const SearchFilters = ({ currentTopics, setTopics, visible }) => (
 
 		<div className="child m11">
 			<RangeSlider
-				componentId="Precio"
+				componentId="price"
 				title="Precio"
-				dataField="Precio"
+				dataField="price"
 				range={{ start: 0, end: 500000 }}
 				showHistogram={false}
 				rangeLabels={{
@@ -91,7 +88,6 @@ const SearchFilters = ({ currentTopics, setTopics, visible }) => (
 		
 		<div className="m13">
 			<p className="m14">País de orgien</p>
-			<CountryList />
 		</div>
 
 		<div className="separator">

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 
 import SearchFilters from './SearchFilters';
 
-import '../App.css';
-
 import {
 	Link
   } from "react-router-dom";
@@ -25,11 +23,11 @@ class Header extends Component {
 
 	render() {
 		return (
-   			<nav className={`bar ${this.state.visible ? 'active' : ''}`}>
+			<nav className={`navbar ${this.state.visible ? 'active' : ''}`}>
 				<div className="title">WallaBlock</div>
 				<div className="btn toggle-btn" onClick={this.toggleVisibility}>Toggle Filters</div>
 
-				<div className="flex flex-reverse bts_content">
+				<div className="flex row-reverse bts_content">
 					<div className="bts_wrap">
 						<Link to="/generate">
 							<input type="button" className="button button1" value="Generar cuenta"/>
@@ -41,9 +39,8 @@ class Header extends Component {
 						</Link>
 					</div>
 				</div>
-				
-				<SearchFilters {...this.props} visible={this.state.visible} />
 
+					<SearchFilters {...this.props} visible={this.state.visible} />
 			</nav>
 		);
 	}

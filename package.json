@@ -1,31 +1,21 @@
 {
   "name": "wallablock",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.2.0",
+  "private": false,
   "dependencies": {
-    "@appbaseio/reactivemaps": "^3.0.0-beta.4",
-    "@appbaseio/reactivesearch": "^3.7.1",
-    "@elastic/elasticsearch": "^7.6.1",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "base-64": "^0.1.0",
-    "elasticsearch": "^16.6.0",
+    "@appbaseio/reactivesearch": "^3.7.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-native-base64": "0.0.2",
-    "react-scripts": "3.4.1",
-    "semantic-ui-react": "^0.88.2",
-    "typescript": "^3.8.3"
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [
