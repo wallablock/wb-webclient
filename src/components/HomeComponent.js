@@ -15,6 +15,7 @@ class HomeComponent extends Component {
 		};
 	}
 
+	/**FILTERS STATE FUNCTIONS**/
 	setTopics = (currentTopics) => {
 		this.setState({
 			currentTopics: currentTopics || [],
@@ -31,11 +32,11 @@ class HomeComponent extends Component {
 		});
 	}
 
+
 	render() {
-		return (
+		return (	
 			<section className="container">
 				<ReactiveBase
-
 					app="test2"
 					url="https://f90c7dc79c2b425caf77079b50ec5677.eu-central-1.aws.cloud.es.io:9243"
 					credentials="alex:123456"
@@ -58,7 +59,7 @@ class HomeComponent extends Component {
 									input: 'search-input',
 								}}
 							/>
-							<Results currentTopics={this.state.currentTopics} toggleTopic={this.toggleTopic} />
+							<Results currentTopics={this.state.currentTopics} toggleTopic={this.toggleTopic} cardClickedHC={this.cardClickedHC} />
 						</div>
 					</div>
 				</ReactiveBase>
