@@ -29,13 +29,13 @@ class Header extends Component {
 
 				<div className="flex row-reverse bts_content">
 					<div className="bts_wrap">
-						<Link to="/generate">
-							<input type="button" className="button button1" value="Generar cuenta"/>
+						<Link to="/publish">
+							<input type="button" className="button button1" value="Publicar oferta"/>
 						</Link>
 					</div>
 					<div className="bts_wrap">
-						<Link to="/publish">
-							<input type="submit" className="button button1" value="Publicar oferta"/>
+						<Link to="/generate">
+							<input type="button" className="button button1" value="Generar cuenta"/>
 						</Link>
 					</div>
 				</div>

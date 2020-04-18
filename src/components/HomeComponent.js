@@ -35,17 +35,23 @@ class HomeComponent extends Component {
 
 	render() {
 		return (	
+			
 			<section className="container">
+											
+
 				<ReactiveBase
-					app="test2"
-					url="https://f90c7dc79c2b425caf77079b50ec5677.eu-central-1.aws.cloud.es.io:9243"
-					credentials="alex:123456"
+					app="testweb"
+					url="https://ae4d7ff23f8e4bcea2feecefc1b2337a.eu-central-1.aws.cloud.es.io:9243"
+					credentials="webtest:webtest"
 
 					theme={theme}
 				>
 					<div className="flex row-reverse app-container">
-						<Header currentTopics={this.state.currentTopics} setTopics={this.setTopics} />
+
+						<Header  />
+
 						<div className="results-container">
+
 							<DataSearch
 								componentId="search"
 								filterLabel="Search"
@@ -59,7 +65,11 @@ class HomeComponent extends Component {
 									input: 'search-input',
 								}}
 							/>
-							<Results currentTopics={this.state.currentTopics} toggleTopic={this.toggleTopic} cardClickedHC={this.cardClickedHC} />
+					
+
+							<Results />
+
+
 						</div>
 					</div>
 				</ReactiveBase>
@@ -67,5 +77,22 @@ class HomeComponent extends Component {
 		);
 	}
 }
+
+/*
+
+
+
+*/
+
+
+
+
+//						<Header currentTopics={this.state.currentTopics} setTopics={this.setTopics} />
+
+
+// <ImageReader />
+
+//							<Results currentTopics={this.state.currentTopics} toggleTopic={this.toggleTopic} cardClickedHC={this.cardClickedHC} />
+
 
 export default HomeComponent;

@@ -1,5 +1,6 @@
 import React from 'react';  
 import '../App.css';  
+import ImageReader from './ImageReader';
 
 class Popup extends React.Component {  
     render() {  
@@ -8,6 +9,7 @@ class Popup extends React.Component {
                 <div className='popup' onClick={(e) => {e.stopPropagation();}}>  
                     <h2>{this.props.offer.title}</h2>
                     <h2>{this.props.offer.price}</h2>  
+                    <ImageReader />
 
                 </div>  
             </div>  

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Popup from './Popup';
 
 
+
 class Results extends React.Component {
 	constructor(props) {
 		super(props);
@@ -34,16 +35,40 @@ class Results extends React.Component {
 		});
 	}
 
+/*
+		<div className="result-item" key={offer} onClick={this.cardClicked.bind(this, {offer, title, price})}> 
+			<img className="card-img" src="anuncios/iphon.jpg" />
+			<div classname="flex row-reverse  card-info">
+				<div className="card-info-title">
+					Title: {title} 
 
+				</div>
+
+				<div className="card-info-price">
+					Price: {price}
+
+				</div>
+				
+
+			</div>
+			
+		</div>
+*/
 	test = ({offer, title, price}) => (
 		<div className="result-item" key={offer} onClick={this.cardClicked.bind(this, {offer, title, price})}> 
-			Title: {title} 
-			<br></br>
-			Price: {price}
-
-
-
+			<img className="card-img" src="anuncios/xbox.jpg" />
+			<div className="flex row-reverse card-info">
+				<div className="card-info-title">
+					{title} 
+				</div>
+				<div className="card-info-price">
+					{price} Eth
+				</div>
+			</div>
+		
 		</div>
+		
+			
 	)
 
 	render() {
@@ -57,14 +82,14 @@ class Results extends React.Component {
 					:null
 				}
 
-				<SelectedFilters className="m1" showClearAll={'default'}/>
+				<SelectedFilters className="m1" showClearAll={'default'} onClear={(component, value) => { console.log(`${component} has been removed with value as ${value}`); }}/>
 				<ReactiveList
 					componentId="results"
 					dataField="Title"
 					size={8}
 					pagination={true}
 					react={{
-						and: ['search', 'price', 'category'],
+						and: ['search', 'price', 'category', 'myColorPicker'],
 					}}
 					render={({loading, error, data }) => {
 						if (loading) {

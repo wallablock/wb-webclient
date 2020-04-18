@@ -4,7 +4,12 @@ import {
 	SingleDropdownRange,
 	RangeSlider,
 	MultiDataList,
+	ReactiveComponent,
 } from '@appbaseio/reactivesearch';
+
+import CountryFilter from './CountryFilter';
+import ColorPickerWrapper from './ColorPickerWrapper';
+import ColorPicker from './ColorPicker';
 
 
 // TODO: Switch to https://github.com/palmerhq/the-platform#stylesheet when it will be stable
@@ -35,8 +40,8 @@ const SearchFilters = ({ currentTopics, setTopics, visible }) => (
 					label: "Móviles",
 					value: "moviles"
 					},{
-					label: "Coches",
-					value: "coches"
+					label: "Vehiculos",
+					value: "Vehiculos"
 					}, {
 					label: "Motos",
 					value: "motos"
@@ -87,7 +92,31 @@ const SearchFilters = ({ currentTopics, setTopics, visible }) => (
 
 		
 		<div className="m13">
-			<p className="m14">País de orgien</p>
+			<p className="m14">País de origen</p>
+
+
+
+			<ReactiveComponent
+				componentId="myColorPicker"   // a unique id we will refer to later
+				defaultQuery={() => ({
+					aggs: {
+						shipsFrom: {
+							terms: {
+								field: 'shipsFrom'
+							}
+						}
+					}
+				})}
+				filterLabel="pais"
+				render={({ aggregations, setQuery }) => (
+						<ColorPickerWrapper
+							aggregations={aggregations}
+							setQuery={setQuery}
+						/>
+					)}
+			/>
+
+
 		</div>
 
 		<div className="separator">
@@ -116,6 +145,28 @@ const SearchFilters = ({ currentTopics, setTopics, visible }) => (
 	</div>
 
 );
+
+
+/*
+<ReactiveComponent
+				componentId="myColorPicker"   // a unique id we will refer to later
+				defaultQuery={() => ({
+					aggs: {
+						color: {
+							terms: {
+								field: 'color'
+							}
+						}
+					}
+				})}
+				render={({ aggregations, setQuery }) => (
+						<ColorPickerWrapper
+							aggregations={aggregations}
+							setQuery={setQuery}
+						/>
+					)}
+			/>
+*/
 
 SearchFilters.propTypes = {
 	currentTopics: PropTypes.arrayOf(PropTypes.string),
