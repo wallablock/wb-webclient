@@ -40,7 +40,8 @@ class Header extends Component {
 					</div>
 				</div>
 
-					<SearchFilters {...this.props} visible={this.state.visible} />
+				
+				<SearchFilters {...this.props} visible={this.state.visible} />
 			</nav>
 		);
 	}

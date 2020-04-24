@@ -12,8 +12,20 @@ class HomeComponent extends Component {
 		super(props);
 		this.state = {
 			currentTopics: [],
+			resetCountryFilter: null,
 		};
 	}
+
+	sQ = (func) => {
+		this.setState({
+			resetCountryFilter: func
+		})
+	}
+
+	clearCFilter = () => {
+		this.state.resetCountryFilter()
+	}
+
 
 	/**FILTERS STATE FUNCTIONS**/
 	setTopics = (currentTopics) => {
@@ -38,7 +50,6 @@ class HomeComponent extends Component {
 			
 			<section className="container">
 											
-
 				<ReactiveBase
 					app="testweb"
 					url="https://ae4d7ff23f8e4bcea2feecefc1b2337a.eu-central-1.aws.cloud.es.io:9243"
@@ -48,7 +59,7 @@ class HomeComponent extends Component {
 				>
 					<div className="flex row-reverse app-container">
 
-						<Header  />
+						<Header sQ={this.sQ}/>
 
 						<div className="results-container">
 
@@ -66,8 +77,7 @@ class HomeComponent extends Component {
 								}}
 							/>
 					
-
-							<Results />
+							<Results clearCFilter={this.clearCFilter}/>
 
 
 						</div>

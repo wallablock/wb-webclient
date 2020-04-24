@@ -82,14 +82,19 @@ class Results extends React.Component {
 					:null
 				}
 
-				<SelectedFilters className="m1" showClearAll={'default'} onClear={(component, value) => { console.log(`${component} has been removed with value as ${value}`); }}/>
+				<SelectedFilters className="m1" showClearAll={'default'} onClear={(component, value) => { 
+					console.log(`${component} has been removed with value as ${value}`); 
+					if (component === "myColorPicker" || !component) {
+						this.props.clearCFilter()
+					}
+				}}/>
 				<ReactiveList
 					componentId="results"
 					dataField="Title"
 					size={8}
 					pagination={true}
 					react={{
-						and: ['search', 'price', 'category', 'myColorPicker'],
+						and: ['search', 'price', 'category', 'myColorPicker', 'filtroPais'],
 					}}
 					render={({loading, error, data }) => {
 						if (loading) {

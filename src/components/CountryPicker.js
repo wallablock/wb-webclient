@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 
-class ColorPicker extends Component {
+class CountryPicker extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            colors: ""
+            countries: []
         }
     }
 
     handleClick = (newC) => {
         this.setState({
-            colors: newC
+            countries: this.state.countries.concat(newC)
         })
         this.props.onChange(newC)
     }
@@ -25,7 +25,6 @@ class ColorPicker extends Component {
                     BZ
                 </button>  
                     
-                <p>Color: {this.state.colors}</p>
             </div>
         );
 
@@ -33,7 +32,7 @@ class ColorPicker extends Component {
 
 }
 
-export default ColorPicker;
+export default CountryPicker;
 
 
 //El estado de los paises debo elevarlo al homecomponent, ya que desde SelectedFilters invocaremos a una funcion para limpiar estado de paises.
