@@ -16,3 +16,4 @@ RUN npm run build
 FROM nginx:stable-alpine
 COPY nginx/ /etc/nginx/
 COPY --from=builder /usr/src/app/build /usr/share/nginx/html
+COPY config/ /etc/wallablock/
