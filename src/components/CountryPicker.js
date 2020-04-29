@@ -18,11 +18,11 @@ class CountryPicker extends Component {
     render() {
         return (
             <div className="flex">
-                <button onClick={() => {this.handleClick("uk")}}>
-                    UK
+                <button onClick={() => {this.handleClick("ES")}}>
+                    ES
                 </button>
-                <button onClick={() => {this.handleClick("bz")}}>
-                    BZ
+                <button onClick={() => {this.handleClick("FR")}}>
+                    FR
                 </button>  
                     
             </div>

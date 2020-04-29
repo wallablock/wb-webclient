@@ -5,7 +5,7 @@ import CountryPicker from './CountryPicker';
 class CountryPickerWrapper extends Component {
 	constructor(props) {
 		super(props);
-		this.props.sQ(this.resetFilter);
+		//this.props.sQ(this.resetFilter);
 		this.state = {
 			selectedCountries: [],
 		};

@@ -54,16 +54,18 @@ class Results extends React.Component {
 			
 		</div>
 */
-	test = ({offer, title, price}) => (
-		<div className="result-item" key={offer} onClick={this.cardClicked.bind(this, {offer, title, price})}> 
+	test = (data /*{offer, title, price}*/) => (
+		<div className="result-item" key={data.offer} onClick={this.cardClicked.bind(this, data/*{offer, title, price}*/)}> 
 			<img className="card-img" src="anuncios/xbox.jpg" />
-			<div className="flex row-reverse card-info">
-				<div className="card-info-title">
-					{title} 
-				</div>
+			<div className="flex column card-info">
 				<div className="card-info-price">
-					{price} Eth
+					{data.price} Eth
 				</div>
+			
+				<div className="card-info-title">
+					{data.title} 
+				</div>
+
 			</div>
 		
 		</div>
@@ -85,16 +87,17 @@ class Results extends React.Component {
 				<SelectedFilters className="m1" showClearAll={'default'} onClear={(component, value) => { 
 					console.log(`${component} has been removed with value as ${value}`); 
 					if (component === "myColorPicker" || !component) {
-						this.props.clearCFilter()
+						//this.props.clearCFilter()
 					}
 				}}/>
+
 				<ReactiveList
 					componentId="results"
 					dataField="Title"
-					size={8}
+					size={18}
 					pagination={true}
 					react={{
-						and: ['search', 'price', 'category', 'myColorPicker', 'filtroPais'],
+						and: ['search', 'price', 'category', 'myCustomSwitch', 'filtroPais'],
 					}}
 					render={({loading, error, data }) => {
 						if (loading) {

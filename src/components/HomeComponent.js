@@ -48,16 +48,27 @@ class HomeComponent extends Component {
 	render() {
 		return (	
 			
-			<section className="container">
+			<section className="containererer">
 											
 				<ReactiveBase
-					app="testweb"
+
+					/*transformRequest={
+						request => ({
+							...request,
+							headers: {
+								...request.headers,
+												// Reactivesearch will not encode this header
+								Authorization: `ApiKey MWxYb3BuRUJxeXpfeTlwQW1jUVY6S09PdDhqNDRTaGlSVEdadFFaRXZ5dw==`,
+							},
+						})
+					}*/
+					app="testweb" //en un futuro: offers
 					url="https://ae4d7ff23f8e4bcea2feecefc1b2337a.eu-central-1.aws.cloud.es.io:9243"
 					credentials="webtest:webtest"
-
+					//headers={{Authorization: `ApiKey MWxYb3BuRUJxeXpfeTlwQW1jUVY6S09PdDhqNDRTaGlSVEdadFFaRXZ5dw==`}}
 					theme={theme}
 				>
-					<div className="flex row-reverse app-container">
+					<div className="flex app-container">
 
 						<Header sQ={this.sQ}/>
 
@@ -66,11 +77,11 @@ class HomeComponent extends Component {
 							<DataSearch
 								componentId="search"
 								filterLabel="Search"
-								dataField={['title']}
-								placeholder="Search Repos"
+								dataField={['title', 'title.completion', 'category']}
+								placeholder="Buscar..."
 								iconPosition="left"
 								autosuggest={true}
-								URLParams
+								URLParams={true}
 								className="data-search-container results-container"
 								innerClass={{
 									input: 'search-input',

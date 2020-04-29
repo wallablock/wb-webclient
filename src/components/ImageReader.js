@@ -9,12 +9,18 @@ class ImageReader extends Component {
         this.state = {
             data: []
         };
+               this.getImages();
+
     }
 
 
     async getImages() {
         const ipfsConnection = new ipfs.IpfsConnection("79.147.40.189");
-        const hash = "QmcxAke8tG6cNJiZCqQoZvTE2yDoJu95VJ9KSQKYdkgcCm";
+        //const hash = "QmcxAke8tG6cNJiZCqQoZvTE2yDoJu95VJ9KSQKYdkgcCm";
+        const hash = this.props.cid;
+        //const hash = "QmcxAke8tG6cNJiZCqQoZvTE2yDoJu95VJ9KSQKYdkgcCm";
+        console.log("getImages")
+        console.log(hash)
         let links;
         try {
             links = await ipfsConnection.read(hash);
@@ -32,7 +38,6 @@ class ImageReader extends Component {
     }
 
     render() {
-       this.getImages();
 
 
         //console.log("vals")
@@ -40,7 +45,6 @@ class ImageReader extends Component {
 
         return (
             <div>
-                <button>eso diseee</button>
                 
 
                 {this.state.data ?

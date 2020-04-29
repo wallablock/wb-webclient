@@ -1,11 +1,9 @@
 import React from "react";
+import PublishComponent from '../components/PublishComponent';
 
 const KeyGenerator = () => {
     return(
-        <div>
-            <h1>Publicar ofera</h1>
-            <h2>This page will show a form to publish items.</h2>
-        </div>
+        <PublishComponent />
     );
 };
 

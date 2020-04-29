@@ -23,9 +23,8 @@ class Header extends Component {
 
 	render() {
 		return (
-			<nav className={`navbar ${this.state.visible ? 'active' : ''}`}>
-				<div className="title">WallaBlock</div>
-				<div className="btn toggle-btn" onClick={this.toggleVisibility}>Toggle Filters</div>
+			<nav className="mynavbar">
+				<div className="mytitle">WallaBlock</div>
 
 				<div className="flex row-reverse bts_content">
 					<div className="bts_wrap">
