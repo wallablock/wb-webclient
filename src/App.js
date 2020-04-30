@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
-  Redirect
+  Switch
 } from "react-router-dom";
 
 import './App.css';
@@ -18,7 +17,6 @@ import NotFoundPage from "./pages/404";
 
 class App extends Component {
 
-
   render() {
     return (
       <Router>
@@ -26,8 +24,7 @@ class App extends Component {
           <Route exact path="/" component={MainPage} />
           <Route exact path="/generate" component={CreateAcc} />
           <Route exact path="/publish" component={Publish} />
-          <Route exact path="/404" component={NotFoundPage} />
-          <Redirect to="/404"/>
+          <Route path="*" component={NotFoundPage} />
         </Switch>
       </Router>
     );
