@@ -47,7 +47,7 @@ class CustomSwitch extends Component {
                     checked={this.state.checked}
                     onChange={this.handleChange}
                     onColor="#71E275"
-                    onHandleColor="white"
+                    onHandleColor="#FFFFFF"
                     handleDiameter={25}
                     uncheckedIcon={false}
                     checkedIcon={false}

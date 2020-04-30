@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 
 import Popup from './Popup';
 
+import getImages from './IPFSImage';
 
+import MyCard from './MyCard';
 
 class Results extends React.Component {
 	constructor(props) {
@@ -14,6 +16,8 @@ class Results extends React.Component {
 			offer: null
 		};
 	}
+
+	/*
 
 	togglePopup() {  
 		this.setState({  
@@ -29,11 +33,25 @@ class Results extends React.Component {
 
 	cardClicked(data) {
 		//this.props.togglePopupHC(data);
-		this.togglePopup();
+		//this.togglePopup();
+
+
+		console.log("cardClicked")
+
+
 		this.setState({
-			offer: data
+			offer: data,
+			showPopup: !this.state.showPopup
 		});
-	}
+
+		if (this.state.offer != null) {
+			this.setState({
+				offer: null
+			});
+		}
+
+
+	}*/
 
 /*
 		<div className="result-item" key={offer} onClick={this.cardClicked.bind(this, {offer, title, price})}> 
@@ -54,8 +72,58 @@ class Results extends React.Component {
 			
 		</div>
 */
-	test = (data /*{offer, title, price}*/) => (
-		<div className="result-item" key={data.offer} onClick={this.cardClicked.bind(this, data/*{offer, title, price}*/)}> 
+
+/*
+	async myFunc(data) {
+		console.log("myFunc()")
+		console.log(data.length)
+
+
+
+		let imgs = []
+
+		for (let i = 0; i < data.length; i++) {
+			//console.log("it")
+			const tmp_item = data[i];
+			//console.log(tmp_item.cid)
+
+			const url_tmp = await getImages(data[0].cid)
+			//console.log(url_tmp)
+
+			imgs.push(url_tmp)
+
+		}
+		return imgs;
+	}
+
+	async test2 (data) {
+		console.log("fuck")
+
+		(	
+		<div className="result-item" key={data.offer} onClick={this.cardClicked.bind(this, data)}> 
+			<img className="card-img" src="anuncios/xbox.jpg" />
+			<div className="flex column card-info">
+				<div className="card-info-price">
+					{data.price} Eth
+				</div>
+			
+				<div className="card-info-title">
+					{data.title} 
+				</div>
+
+			</div>
+		
+		</div>
+		)}
+
+	
+
+	 test = (data, img ) => (
+		console.log("inside test"),
+		console.log(img),
+
+
+		<div className="result-item" key={data.offer} onClick={this.cardClicked.bind(this, data)}> 
 			<img className="card-img" src="anuncios/xbox.jpg" />
 			<div className="flex column card-info">
 				<div className="card-info-price">
@@ -72,6 +140,7 @@ class Results extends React.Component {
 		
 			
 	)
+	*/
 
 	render() {
 		return(
@@ -107,11 +176,20 @@ class Results extends React.Component {
 							return <div> Something go wrong.</div>
 						}
 						if (data) {
+							//let imgs = this.myFunc(data);
+
+							//let i = 0;
 							return(
 								<ReactiveList.ResultCardsWrapper>
+									
+								
 									{data.map(item => (
-
-										this.test(item)
+										<MyCard 
+											key={item.offer}
+											data={item}
+											onClack={this.cardClicked}
+										/>
+										//this.test(item, imgs[i])
 									))}
 								</ReactiveList.ResultCardsWrapper>
 							)
