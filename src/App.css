@@ -81,11 +81,7 @@
 	left: 0;
   width: 400px;
 	padding: 1rem;
-  max-height: 100vh;
-  height: 100vh;
-
-  z-index: 3;
-
+  min-height: 100vh;
 }
 
 .mytitle {
