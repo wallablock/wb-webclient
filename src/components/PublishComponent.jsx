@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import FormFile from 'react-bootstrap/FormFile';
-import Feedback from 'react-bootstrap/Feedback';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
@@ -13,7 +11,7 @@ import './styles/PublishStyle.css';
 import ImageUploader from './ImageUploader';
 
 
-import { getCode, getNames, getNameList } from 'country-list';
+import { getNames } from 'country-list';
 
 
 class PublishComponent extends Component {
@@ -24,7 +22,7 @@ class PublishComponent extends Component {
         }
     }
 
-    suu (event) {
+    suu () {
         console.log("arriba")
         this.setState({
             test: 'b'
@@ -84,7 +82,7 @@ class PublishComponent extends Component {
                         <Form.Control as="select" placeholder="">
                             <option></option>
                             {(getNames()).map(country => (
-                                <option>{country}</option>
+                                <option key={country}>{country}</option>
                             ))}
 
                         </Form.Control>

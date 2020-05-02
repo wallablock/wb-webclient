@@ -73,8 +73,8 @@ export default class MultipleImageUploadComponent extends Component {
 
                 <div className="form-group multi-image-preview">
                     {(this.state.file || []).map(url => (
-                        <div className="image-preview" >
-                            <button type="button" class="close" aria-label="Close" onClick={(e) => {
+                        <div key={url} className="image-preview" >
+                            <button type="button" className="close" aria-label="Close" onClick={() => {
                                 this.handleClose({url})
                             }}>
                                 <span aria-hidden="true">&times;</span>

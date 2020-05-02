@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 
 import Popup from './Popup';
 
-import getImages from './IPFSImage';
-
 import MyCard from './MyCard';
 
 class Results extends React.Component {

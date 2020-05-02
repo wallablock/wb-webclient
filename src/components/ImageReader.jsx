@@ -42,7 +42,7 @@ class ImageReader extends Component {
 
 
                 {this.state.data ?
-				     <img src={this.state.data} />
+					<img src={this.state.data} />
 					:null
 				}
 

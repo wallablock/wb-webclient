@@ -1,8 +1,6 @@
 import React from 'react';
 import '../App.css';
-import ImageReader from './ImageReader';
 
-import AwesomeSlider from 'react-awesome-slider';
 import 'react-awesome-slider/dist/styles.css';
 
 import MyCarousel from './MyCarousel';
@@ -41,20 +39,7 @@ class Popup extends React.Component {
 
 
     render() {
-        const images = [
-            { url: "anuncios/ip9.jpg" },
-            { url: "anuncios/ip92.jpg" },
-            { url: "anuncios/ip93.jpg" },
-            { url: "anuncios/ip94.jpeg" },
-            { url: "anuncios/ip96.jpeg" },
-            { url: "anuncios/ip97.jpg" },
-        ];
 
-        const slideImages = [
-            'images/slide_2.jpg',
-            'images/slide_3.jpg',
-            'images/slide_4.jpg'
-        ];
 
         return (
             <div className='popup_background' onClick={this.props.closePopup}>

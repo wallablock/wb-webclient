@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 
-import getImages from './IPFSImage';
-
 import { IpfsConnection } from "wb-ipfs";
 
 import Popup from './Popup';
