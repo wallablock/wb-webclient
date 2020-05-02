@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import getImages from './IPFSImage';
 
+import { IpfsConnection } from "wb-ipfs";
+
 import Popup from './Popup';
 
 class MyCard extends Component {
@@ -10,16 +12,17 @@ class MyCard extends Component {
         this.state = {
             showPopup: false,
 			offer: null,
-			imgs: []
+            imgs: [],
+            ipfs: new IpfsConnection("http://79.147.40.189:3000")
         };
-        
+
         this.initImgs()
     }
 
-	togglePopup() {  
-		this.setState({  
-			showPopup: !this.state.showPopup  
-		}); 
+	togglePopup() {
+		this.setState({
+			showPopup: !this.state.showPopup
+		});
 		if (this.state.offer != null) {
 			this.setState({
 				offer: null
@@ -36,17 +39,17 @@ class MyCard extends Component {
 			offer: data,
 		});
     }
-    
+
 
 
     async initImgs() {
         //console.log("initImgs()")
-        const urls = await getImages(this.props.data.cid)
+        //const urls = await getImages(this.props.data.cid)
        // console.log(urls)
 
-        this.setState({  
-			imgs: urls
-		}); 
+        this.setState({
+			imgs: await this.state.ipfs.getAllImagesUrl(this.props.data.cid)
+		});
     }
 
 
@@ -58,7 +61,7 @@ class MyCard extends Component {
             <div>
 
 {this.state.showPopup ?
-					<Popup 
+					<Popup
 						offer={this.state.offer}
                         closePopup={this.togglePopup.bind(this)}
                         imgs={this.state.imgs}
@@ -67,24 +70,24 @@ class MyCard extends Component {
 				}
 
 
-            <div className="result-item" key={this.props.data.offer} onClick={this.cardClicked.bind(this, this.props.data)}> 
+            <div className="result-item" key={this.props.data.offer} onClick={this.cardClicked.bind(this, this.props.data)}>
                 <img className="card-img" src={this.state.imgs[0]} />
                 <div className="flex column card-info">
                     <div className="card-info-price">
                         {this.props.data.price} Eth
                     </div>
-                
+
                     <div className="card-info-title">
-                        {this.props.data.title} 
+                        {this.props.data.title}
                     </div>
 
                 </div>
-            
-            </div>
-            
 
             </div>
-		
+
+
+            </div>
+
 
         );
     }
