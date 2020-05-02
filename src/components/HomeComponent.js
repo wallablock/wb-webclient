@@ -46,22 +46,12 @@ class HomeComponent extends Component {
 
 
 	render() {
-		return (	
-			
+		return (
+
 			<section className="containererer">
-											
+
 				<ReactiveBase
 
-					/*transformRequest={
-						request => ({
-							...request,
-							headers: {
-								...request.headers,
-												// Reactivesearch will not encode this header
-								Authorization: `ApiKey MWxYb3BuRUJxeXpfeTlwQW1jUVY6S09PdDhqNDRTaGlSVEdadFFaRXZ5dw==`,
-							},
-						})
-					}*/
 					app="testweb" //en un futuro: offers
 					url="https://ae4d7ff23f8e4bcea2feecefc1b2337a.eu-central-1.aws.cloud.es.io:9243"
 					credentials="webtest:webtest"
@@ -87,7 +77,7 @@ class HomeComponent extends Component {
 									input: 'search-input',
 								}}
 							/>
-					
+
 							<Results clearCFilter={this.clearCFilter}/>
 
 
@@ -98,22 +88,5 @@ class HomeComponent extends Component {
 		);
 	}
 }
-
-/*
-
-
-
-*/
-
-
-
-
-//						<Header currentTopics={this.state.currentTopics} setTopics={this.setTopics} />
-
-
-// <ImageReader />
-
-//							<Results currentTopics={this.state.currentTopics} toggleTopic={this.toggleTopic} cardClickedHC={this.cardClickedHC} />
-
 
 export default HomeComponent;

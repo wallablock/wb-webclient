@@ -5,7 +5,6 @@ import CountryPicker from './CountryPicker';
 class CountryPickerWrapper extends Component {
 	constructor(props) {
 		super(props);
-		//this.props.sQ(this.resetFilter);
 		this.state = {
 			selectedCountries: [],
 		};
@@ -39,38 +38,23 @@ class CountryPickerWrapper extends Component {
 			for (let j = lastI; j < i; j++) {
 				newArray.push(array[j])
 			}
-		} 
+		}
 
 		return newArray;
 	}
 
 
 	render() {
-
-		if (
-			// checking for when component gets the aggregation results
-			this.props.aggregations &&
-			this.props.aggregations.colors &&
-			this.props.aggregations.colors.buckets.length
-		) {
-			//colors = this.props.aggregations.map(color => color.key);
-		}
-
 		return (
 			<CountryPicker
 				countryFilter={this.props.countryFilter}
-				//colors={colors}
 				onChange={newCountry => {
 					let countries = this.state.selectedCountries;
-					
+
 					console.log("inside onChange")
 					console.log(countries)
 
 					console.log(newCountry)
-					// handles color change
-
-					//const countries = colors
-					//let newC = []
 					if (countries.includes(newCountry)) {
 						countries = this.removeItem(countries, newCountry)
 						console.log("inside IF1")
@@ -81,12 +65,12 @@ class CountryPickerWrapper extends Component {
 						countries = countries.concat(newCountry)
 						console.log("inside ELSE1")
 						console.log(countries)
-					} 
+					}
 
 					this.setState({
 						selectedCountries: countries
 					})
-					
+
 
 					let query = {}
 
@@ -103,7 +87,7 @@ class CountryPickerWrapper extends Component {
 						console.log("inside ELSE IF")
 						console.log(countries.length)
 
-						
+
 						query = {
 							query: {
 								term: { shipsFrom: countries[0]},
@@ -112,17 +96,10 @@ class CountryPickerWrapper extends Component {
 					}
 					else {
 						console.log("inside ELSE")
-						//this.props.setQuery(null);
 						query = null
 					}
 
 					console.log(query)
-					/*
-					const query = {
-						query: {
-							terms: { shipsFrom: newColor },
-						},
-					};*/https://github.com/manindu/ReactiveSearchRangeSlider
 
 					this.props.setQuery({
 						query,

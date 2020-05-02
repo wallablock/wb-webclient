@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-//import ipfs from 'wb-ipfs';
 var ipfs = require('wb-ipfs');
 
 
@@ -16,7 +15,6 @@ class ImageReader extends Component {
 
     async getImages() {
         const ipfsConnection = new ipfs.IpfsConnection("79.147.40.189");
-        //const hash = "QmcxAke8tG6cNJiZCqQoZvTE2yDoJu95VJ9KSQKYdkgcCm";
         const hash = this.props.cid;
 
         let links;
@@ -31,7 +29,6 @@ class ImageReader extends Component {
 
         for (let item of links) {
             this.setState({
-                //data: this.state.data.concat(item)
                 data: item
             })
         }
@@ -42,7 +39,7 @@ class ImageReader extends Component {
 
         return (
             <div>
-                
+
 
                 {this.state.data ?
 				     <img src={this.state.data} />

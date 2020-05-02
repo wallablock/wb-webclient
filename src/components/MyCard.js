@@ -43,10 +43,6 @@ class MyCard extends Component {
 
 
     async initImgs() {
-        //console.log("initImgs()")
-        //const urls = await getImages(this.props.data.cid)
-       // console.log(urls)
-
         this.setState({
 			imgs: await this.state.ipfs.getAllImagesUrl(this.props.data.cid)
 		});

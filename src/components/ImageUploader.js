@@ -20,7 +20,7 @@ export default class MultipleImageUploadComponent extends Component {
         this.fileObj = [];
         this.fileArray = [];
         this.setState({file: []})
-        
+
         this.fileObj.push(e.target.files)
         for (let i = 0; i < this.fileObj[0].length; i++) {
             this.fileArray.push(URL.createObjectURL(this.fileObj[0][i]))
@@ -38,7 +38,7 @@ export default class MultipleImageUploadComponent extends Component {
     removeImage(img) {
         console.log("removeImage()")
         console.log(img.url)
-        
+
         var array = [...this.state.file]; // make a separate copy of the array
         console.log(array)
         var index = array.indexOf(img.url)
@@ -46,7 +46,6 @@ export default class MultipleImageUploadComponent extends Component {
         if (index !== -1) {
             console.log("REMOVES")
           array.splice(index, 1);
-         // this.fileArray = array;
           this.setState({file: array});
         }
     }
@@ -66,7 +65,7 @@ export default class MultipleImageUploadComponent extends Component {
         return (
             <div className="form-group">
                 <Form.Label>Imágenes</Form.Label>
-                
+
                 {
                 console.log("state.file"),
                 console.log(this.state.file)
@@ -78,11 +77,10 @@ export default class MultipleImageUploadComponent extends Component {
                         <div className="image-preview" >
                             <button type="button" class="close" aria-label="Close" onClick={(e) => {
                                 this.handleClose({url})
-                                //this.handleClose(1)
                             }}>
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            
+
                             <img src={url} alt="..." height="100" width="auto"/>
                         </div>
                     ))}
@@ -100,14 +98,6 @@ export default class MultipleImageUploadComponent extends Component {
         )
     }
 }
-
-/*
-<FormFile >
-                        <FormFile.Label>Allow us to contact you?</FormFile.Label>
-                        <FormFile.Input isInvalid multiple/>
-                        <Feedback type="invalid">Yo this is required</Feedback>
-                    </FormFile>
-*/
 
 //he de adaptar el tamany  de imatge
 //afegir separadors entre imatges

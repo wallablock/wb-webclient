@@ -1,4 +1,4 @@
-import React, {Component} from 'react';  
+import React, {Component} from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import FormFile from 'react-bootstrap/FormFile';
@@ -38,7 +38,7 @@ class PublishComponent extends Component {
                 <div className='non-background'>
                 <div className='content'>
 
-               
+
                     <Form.Group controlId="formBasicEmail">
                         <Row>
                             <Col>
@@ -51,7 +51,7 @@ class PublishComponent extends Component {
                             </Col>
                         </Row>
 
-                        
+
 
                     </Form.Group>
 
@@ -77,7 +77,7 @@ class PublishComponent extends Component {
 
 
 
-                  
+
 
                     <Form.Group controlId="exampleForm.ControlSelect2">
                         <Form.Label>País de origen</Form.Label>
@@ -86,11 +86,11 @@ class PublishComponent extends Component {
                             {(getNames()).map(country => (
                                 <option>{country}</option>
                             ))}
-                          
+
                         </Form.Control>
                     </Form.Group>
 
-                    
+
                     <ImageUploader />
 
 
@@ -100,25 +100,14 @@ class PublishComponent extends Component {
 
 
                     <Button type="submit" onClick={this.suu}>Submit form</Button>
-                    
+
                 </div>
 
                 </div>
             </div>
-            
+
         );
     }
 }
-
-/*
-
-
-                    <FormFile >
-                        <FormFile.Label>Allow us to contact you?</FormFile.Label>
-                        <FormFile.Input isInvalid multiple/>
-                        <Feedback type="invalid">Yo this is required</Feedback>
-                    </FormFile>
-
-*/
 
 export default PublishComponent;

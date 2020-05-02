@@ -47,18 +47,18 @@ class SearchFilters extends Component {
 			console.log("ITEM"),
 			console.log(item),
 
-			
+
 
 			<div>
-				<Form.Check 
+				<Form.Check
 					type='checkbox'
 					id={`default-${item.label}`}
 					label={item.label}
-					onClick={() => handleChange(item.label)} 
+					onClick={() => handleChange(item.label)}
 				/>
 			</div>
 
-			
+
 		))
 		);
 	}
@@ -66,17 +66,17 @@ class SearchFilters extends Component {
 	render() {
 		return (
 
-	
 
-			
+
+
 			<div className={`flex column`}>
 
 
 
-				
+
 				<div className="m13">
-					
-				
+
+
 				<div className="child m10">
 					<MultiDataList
 						componentId="category"
@@ -155,7 +155,7 @@ class SearchFilters extends Component {
 									style={{
 										fontSize: '1.5em',
 										lineHeight: '1.5em',
-										marginRight: 7, 
+										marginRight: 7,
 										marginTop: 2
 									}}
 									svg
@@ -171,9 +171,9 @@ class SearchFilters extends Component {
 
 						)}
 
-						
+
 						sortBy="asc"
-				
+
 
 						onError={(error) => (
 							console.log("OnError"),
@@ -181,7 +181,7 @@ class SearchFilters extends Component {
 
 						)}
 					/>
-				
+
 
 
 				<div className="separator2">
@@ -205,7 +205,7 @@ class SearchFilters extends Component {
 							title: 'range-title'
 						}}
 						className="range"
-						
+
 						tooltipTrigger="hover"
 						renderTooltipData={data => (
 							<h5 style={{
@@ -229,11 +229,11 @@ class SearchFilters extends Component {
 
 
 
-	
-	
 
 
-					
+
+
+
 
 
 
@@ -247,11 +247,6 @@ class SearchFilters extends Component {
 							/>
 						)}
 				/>
-			
-
-
-
-					
 
 
 
@@ -259,100 +254,23 @@ class SearchFilters extends Component {
 
 
 
-				
+
+
+
+
+
+
 
 
 				</div>
 
 			</div>
-			
+
 
 
 		);
 	}
 }
-
-
-//								<img  style={{marginRight: 7, marginTop: 2}} height="15"  src={getCountryInfo(label, "flag")}/> 
-
-
-//			<CountryFilter />
-
-
-/*
-
-<ReactiveComponent
-				componentId="myColorPicker"   // a unique id we will refer to later
-				defaultQuery={() => ({
-					aggs: {
-						shipsFrom: {
-							terms: {
-								field: 'shipsFrom'
-							}
-						}
-					}
-				})}
-				filterLabel="pais"
-				render={({ aggregations, setQuery }) => (
-						<ColorPickerWrapper
-							sQ={sQ}
-							aggregations={aggregations}
-							setQuery={setQuery}
-						/>
-					)}
-			/>
-			*/
-
-/*
-				transformData= {(data) => {
-					console.log("TransformData")
-					//this.constApiRest2(data)
-					
-
-					for (let i = 0; i < data.length; i++) {
-
-						if (data[i].key.length === 3) data[i].key = getCountryInfo(data[i].key, "name")
-					}
-					return data
-				}}*/
-
-					/*	renderItem={(label, count, isSelected) => (
-					
-					this.state.countries[label] ?
-					console.log("cas1")
-					:console.log("cas2"),
-
-					
-					this.setState({
-						countries: this.state.countries.concat(["a"] = "b")
-					}),
-
-					/*fetch('https://restcountries.eu/rest/v2/alpha/' + `${label}`)
-					.then(res => res.json())
-					.then((data) => {
-						console.log("dins then")
-						console.log(data)
-
-						const newCountries = this.state.countries
-						newCountries[label] = data
-						
-						this.setState({ countries:  newCountries})
-						
-					})
-					.catch(console.log),
-					<div className="flex">
-						<img  style={{marginRight: 7, marginTop: 2}} height="15"  src="https://restcountries.eu/data/esp.svg"/>
-						{label}
-						<span style={{
-							marginLeft: 5, color: isSelected ? 'red' : 'dodgerblue'
-						}}>
-							{count}
-						</span>
-					</div>
-					
-
-				)}*/
-
 
 SearchFilters.propTypes = {
 	currentTopics: PropTypes.arrayOf(PropTypes.string),
