@@ -14,7 +14,7 @@ class Header extends Component {
 		};
 	}
 
-	toggleVisibility = () => {
+	toggleVisibility () {
 		const visible = !this.state.visible;
 		this.setState({
 			visible,
@@ -39,7 +39,7 @@ class Header extends Component {
 					</div>
 				</div>
 
-				
+
 				<SearchFilters {...this.props} visible={this.state.visible} />
 			</nav>
 		);

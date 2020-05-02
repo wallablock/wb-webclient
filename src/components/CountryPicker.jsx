@@ -8,7 +8,7 @@ class CountryPicker extends Component {
         }
     }
 
-    handleClick = (newC) => {
+    handleClick (newC) {
         this.setState({
             countries: this.state.countries.concat(newC)
         })
@@ -23,8 +23,8 @@ class CountryPicker extends Component {
                 </button>
                 <button onClick={() => {this.handleClick("FR")}}>
                     FR
-                </button>  
-                    
+                </button>
+
             </div>
         );
 

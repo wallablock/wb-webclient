@@ -3,8 +3,8 @@ import CustomSwitch from './CustomSwitch';
 
 
 class CountryPickerWrapper extends Component {
-	
-	resetFilter = () => {
+
+	resetFilter () {
 		let q = null
 		this.props.setQuery({
 			q,
@@ -17,20 +17,20 @@ class CountryPickerWrapper extends Component {
 
 		return (
 			<CustomSwitch
-				onChange={(active, account) => {				
+				onChange={(active, account) => {
 					if (active) {
 						let query = {
 							query: {
 								term: { seller: account},
 							},
 						}
-							
+
 						this.props.setQuery({
 							query,
 							value: account,
 						});
 					}
-					else this.resetFilter();					
+					else this.resetFilter();
 				}}
 			/>
 		);

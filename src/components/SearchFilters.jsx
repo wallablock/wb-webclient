@@ -41,7 +41,7 @@ class SearchFilters extends Component {
 		};
 	}
 
-	halfOpts = (data, handleChange) => {
+	halfOpts (data, handleChange) {
 		return (
 		data.map(item => (
 			console.log("ITEM"),

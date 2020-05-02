@@ -4,14 +4,13 @@ import './styles/PublishStyle.css';
 
 export default class MultipleImageUploadComponent extends Component {
 
-    fileObj = [];
-    fileArray = [];
-
     constructor(props) {
         super(props)
         this.state = {
             file: []
         }
+        this.fileObj = [];
+        this.fileArray = [];
         this.uploadMultipleFiles = this.uploadMultipleFiles.bind(this)
         this.uploadFiles = this.uploadFiles.bind(this)
     }

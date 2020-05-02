@@ -16,25 +16,25 @@ class HomeComponent extends Component {
 		};
 	}
 
-	sQ = (func) => {
+	sQ (func) {
 		this.setState({
 			resetCountryFilter: func
 		})
 	}
 
-	clearCFilter = () => {
+	clearCFilter () {
 		this.state.resetCountryFilter()
 	}
 
 
 	/**FILTERS STATE FUNCTIONS**/
-	setTopics = (currentTopics) => {
+	setTopics (currentTopics) {
 		this.setState({
 			currentTopics: currentTopics || [],
 		});
 	}
 
-	toggleTopic = (topic) => {
+	toggleTopic (topic) {
 		const { currentTopics } = this.state;
 		const nextState = currentTopics.includes(topic)
 			? currentTopics.filter(item => item !== topic)

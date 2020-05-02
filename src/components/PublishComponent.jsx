@@ -24,7 +24,7 @@ class PublishComponent extends Component {
         }
     }
 
-    suu = (event) => {
+    suu (event) {
         console.log("arriba")
         this.setState({
             test: 'b'

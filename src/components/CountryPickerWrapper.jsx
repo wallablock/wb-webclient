@@ -10,7 +10,7 @@ class CountryPickerWrapper extends Component {
 		};
 	}
 
-	resetFilter = () => {
+	resetFilter () {
 		this.setState({
 			selectedCountries: [],
 		})
@@ -22,7 +22,7 @@ class CountryPickerWrapper extends Component {
 		});
 	}
 
-	removeItem = (array, value) => {
+	removeItem (array, value) {
 		let newArray = [];
 		let lastI = 0;
 		let i = 0;
