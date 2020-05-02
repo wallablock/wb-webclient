@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-var ipfs = require('wb-ipfs');
+import ipfs from "wb-ipfs";
 
 
 class ImageReader extends Component {

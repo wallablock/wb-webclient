@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-var ipfs = require('wb-ipfs');
+import ipfs from "wb-ipfs";
 
 
 async function getImages(hash) {
