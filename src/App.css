@@ -1,6 +1,4 @@
-
-
-.popup_background{
+.popup_background {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -9,13 +7,11 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 3;
 }
 
-
-.popup{
-
+.popup {
   position: fixed;
   left: 25%;
   right: 25%;
@@ -26,11 +22,10 @@
   background-color: rgb(255, 255, 255);
 }
 
-
 /* containers */
 .containererer {
   width: 100%;
-	height: 100vh;
+  height: 100vh;
 }
 
 .data-search-container {
@@ -45,7 +40,7 @@
 .filters-container {
   max-height: calc(100vh - 100px);
   height: 100%;
-	overflow-y: auto;
+  overflow-y: auto;
 }
 
 .results-container {
@@ -78,18 +73,18 @@
 /* header styles #0984e3 */
 .mynavbar {
   background: #4188ff;
-	left: 0;
+  left: 0;
   width: 400px;
-	padding: 1rem;
+  padding: 1rem;
   min-height: 100vh;
 }
 
 .mytitle {
   color: white;
-	font-family: 'Monoton', cursive;
-	font-size: 2.7rem;
+  font-family: "Monoton", cursive;
+  font-size: 2.7rem;
   text-align: center;
-  margin-top:25px;
+  margin-top: 25px;
   margin-bottom: 40px;
 }
 
@@ -102,18 +97,18 @@
   cursor: pointer;
   margin: 5px;
   padding: 5px;
-	text-align: center;
+  text-align: center;
   border-radius: 4px;
 }
 
-.bts_content{
+.bts_content {
   margin-top: 40px;
-  margin-bottom:20px;
+  margin-bottom: 20px;
   width: 100%;
   text-align: center;
 }
 
-.bts_wrap{
+.bts_wrap {
   width: 50%;
 }
 
@@ -132,8 +127,7 @@
 }
 
 .button1:hover {
-  background-color: #E6E6E6
-  ; /* Green */
+  background-color: #e6e6e6; /* Green */
   color: black;
 }
 
@@ -144,26 +138,26 @@
 
 .card-btn:hover {
   background: #008000;
-	color: white;
+  color: white;
 }
 
 .link {
   cursor: pointer;
-	color: mediumseagreen;
-	text-decoration: none;
-	font-weight: bold;
-	margin-left: 20px;
-	font-size: 1.2rem;
+  color: mediumseagreen;
+  text-decoration: none;
+  font-weight: bold;
+  margin-left: 20px;
+  font-size: 1.2rem;
 }
 
 .topic {
   background: mediumseagreen;
-	margin: 3px;
-	padding: 4px;
-	color: white;
-	font-weight: bold;
-	cursor: pointer;
-	border-radius: 4px;
+  margin: 3px;
+  padding: 4px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
 .topic:hover {
@@ -176,18 +170,18 @@
 
 .toggle-btn {
   color: white;
-	border: 1px solid white;
-	display: none;
-	max-width: 200px;
-	font-size: 1.3rem;
-	align-self: center;
-	padding: 10px;
-	margin-top: 10px;
+  border: 1px solid white;
+  display: none;
+  max-width: 200px;
+  font-size: 1.3rem;
+  align-self: center;
+  padding: 10px;
+  margin-top: 10px;
 }
 
 .toggle-btn:hover {
   background: white;
-	color: mediumseagreen;
+  color: mediumseagreen;
 }
 
 .range-label {
@@ -196,19 +190,18 @@
 
 .range .range-title {
   font-size: 22px;
-  font-family: 'Calibri';
+  font-family: "Calibri";
 }
 
 .fecha .fecha-title {
   padding-bottom: 10px;
   font-size: 24px;
-  font-family: 'Calibri';
+  font-family: "Calibri";
 }
 
 .countryFilter {
   color: white;
   font-size: 16px;
-
 }
 
 .countries {
@@ -217,35 +210,32 @@
 
 .add-country {
   width: 10%;
-  color: #71E275;
+  color: #71e275;
   font-size: 16px;
-  font-family: 'Arial';
+  font-family: "Arial";
   font-weight: bold;
-
 }
 
 .result-item {
-	margin: 15px;
-	padding: 0px;
+  margin: 15px;
+  padding: 0px;
 
   width: 195px;
-	height: 225px;
-	max-width: 195px;
-	max-height: 225px;
-	box-shadow: 0 1px 2px #accbff, 0 1px 2px #accbff;
-	transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-	font-size: 14px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
+  height: 225px;
+  max-width: 195px;
+  max-height: 225px;
+  box-shadow: 0 1px 2px #accbff, 0 1px 2px #accbff;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 
   border-radius: 0px;
 
   cursor: pointer;
 }
-
-
 
 .result-item:hover {
   box-shadow: 0 12px 12px #78aaff, 0 10px 10px #78aaff;
@@ -261,20 +251,18 @@
 
   padding-left: 15px;
 
-
-  height:30%;
+  height: 30%;
   width: 100%;
   text-align: center;
 }
 
-.card-info-title{
+.card-info-title {
   margin-top: 13px;
 
   padding-bottom: 20px;
-  text-align: left  ;
+  text-align: left;
   font-size: 16px;
   font-family: Helvetica, Arial, Sans-Serif;
-
 }
 .card-info-price {
   height: 50%;
@@ -282,14 +270,13 @@
   font-size: 18px;
   font-family: Helvetica, Arial, Sans-Serif;
   font-weight: bold;
-
 }
 
 .search-input {
   border: none;
   border-bottom: 1px solid #ccc;
   background: #fafafa;
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   height: 50px;
 }
 
@@ -297,14 +284,13 @@
   border-color: #92bbff;
 }
 
-
-hr.solid{
+hr.solid {
   border-top: 1px solid white;
 }
 
-.categs .cat-tit{
+.categs .cat-tit {
   font-size: 22px;
-  font-family: 'Calibri';
+  font-family: "Calibri";
 }
 
 .categs .cat-label {
@@ -317,8 +303,6 @@ hr.solid{
   font-weight: bold;
   color: rgb(113, 226, 117);
 }
-
-
 
 /* flex layouts */
 .flex {
@@ -354,7 +338,6 @@ hr.solid{
   margin-top: 10px;
   margin-bottom: 10px;
   font-size: 20px;
-
 }
 
 .m10-0 {
@@ -372,24 +355,21 @@ hr.solid{
   margin-top: 10px;
   margin-bottom: 10px;
   font-size: 20px;
-
 }
 
 .m13 {
   margin-left: 12px;
   margin-top: 10px;
   margin-bottom: 15px;
-
 }
 
 .m14 {
   font-size: 24px;
-  font-family: 'Calibri';
+  font-family: "Calibri";
   font-weight: 999;
   color: white;
   margin-bottom: 10px;
 }
-
 
 .m1,
 .result-list .m1 {
@@ -424,12 +404,12 @@ hr.solid{
 
   .mynavbar {
     width: 100%;
-		display: flex;
-		flex-direction: column;
+    display: flex;
+    flex-direction: column;
   }
 
   .mynavbar.active {
-		height: 100vh;
+    height: 100vh;
   }
 
   .results-container {
@@ -464,9 +444,9 @@ hr.solid{
 @media all and (max-width: 768px) {
   .data-search-container {
     width: 100%;
-		right: auto;
-		padding: 0 30px;
-		margin-top: 65px;
+    right: auto;
+    padding: 0 30px;
+    margin-top: 65px;
   }
 
   .search-input {
@@ -475,13 +455,11 @@ hr.solid{
 
   .title {
     text-align: center;
-		margin-bottom: 50px;
+    margin-bottom: 50px;
   }
 }
 
 /***********CHECKBOX***************/
-
-
 
 .container {
   display: block;
@@ -522,7 +500,7 @@ hr.solid{
 
 /* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkmark {
-  background-color: #2196F3;
+  background-color: #2196f3;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -557,7 +535,6 @@ hr.solid{
 .separator2 {
   margin-top: 40px;
   margin-bottom: 30px;
-
 }
 
 .my-adds-wrapper {
@@ -574,12 +551,10 @@ hr.solid{
   padding-right: 20px;
   font-size: 20px;
   color: white;
-
 }
 
 .my-carousel {
   width: 100%;
   height: 55vh;
   max-height: 55vh;
-
 }

@@ -1,22 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import MainPage from "./pages";
-import CreateAcc from "./pages/keygenerator"
-import Publish from "./pages/publish"
+import CreateAcc from "./pages/keygenerator";
+import Publish from "./pages/publish";
 import NotFoundPage from "./pages/404";
 
 class App extends Component {
-
   render() {
     return (
       <Router>
