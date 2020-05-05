@@ -15,13 +15,27 @@ class ImageReader extends Component {
 
 
     async getImages() {
-        const ipfsConnection = new ipfs.IpfsConnection("79.147.40.189");
-        //const hash = "QmcxAke8tG6cNJiZCqQoZvTE2yDoJu95VJ9KSQKYdkgcCm";
-        const hash = this.props.cid;
+        const ipfsConnection = new ipfs.IpfsConnection("http://79.147.40.189:3000");
+        console.log("getImages, ipfsconn")
+        console.log(ipfsConnection)
+
+        const hash = "QmV8PNhNpvxQt89YVihxgU1mVdMbqLyrVYBXD5hheQd4v5";
+        //const hash = this.props.cid;
 
         let links;
         try {
-            links = await ipfsConnection.read(hash);
+            let cover_link = await ipfsConnection.coverUrl(hash);
+            console.log("IN try, cover link")
+            console.log(cover_link)
+
+            links = await ipfsConnection.getAllImagesUrl(hash);
+            console.log("IN try, links")
+            console.log(links)
+            
+            const desc = await ipfsConnection.fetchDesc(hash);
+            console.log("IN try, desc")
+            console.log(desc)
+
         } catch (err) {
             console.error("Error from IPFS.read:", err);
         }

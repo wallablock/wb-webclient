@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+
 import './styles/PublishStyle.css';
 
 export default class MultipleImageUploadComponent extends Component {
@@ -10,104 +12,85 @@ export default class MultipleImageUploadComponent extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            file: []
+            files: []
         }
         this.uploadMultipleFiles = this.uploadMultipleFiles.bind(this)
-        this.uploadFiles = this.uploadFiles.bind(this)
     }
+
 
     uploadMultipleFiles(e) {
-        this.fileObj = [];
-        this.fileArray = [];
-        this.setState({file: []})
-        
-        this.fileObj.push(e.target.files)
-        for (let i = 0; i < this.fileObj[0].length; i++) {
-            this.fileArray.push(URL.createObjectURL(this.fileObj[0][i]))
+        let tmp_files = this.state.files
+
+        for (let i = 0; i < e.target.files.length; i++) {
+            tmp_files.push(e.target.files[i])
         }
 
-        this.setState({ file: this.fileArray })
+        this.setState({
+            files: tmp_files,
+        })
 
+        this.props.onChange(tmp_files)
     }
 
-    uploadFiles(e) {
-        e.preventDefault()
-        console.log(this.state.file)
-    }
 
     removeImage(img) {
-        console.log("removeImage()")
-        console.log(img.url)
         
-        var array = [...this.state.file]; // make a separate copy of the array
+        var array = [...this.state.files];
         console.log(array)
-        var index = array.indexOf(img.url)
+        var index = array.indexOf(img)
         console.log(index)
         if (index !== -1) {
-            console.log("REMOVES")
-          array.splice(index, 1);
-         // this.fileArray = array;
-          this.setState({file: array});
+            array.splice(index, 1);
+            this.setState({files: array});
+        }
+
+        if (array.length === 0) {
+            document.getElementById("selectImage").value = null;
         }
     }
 
     handleClose(param) {
-        console.log("handleClose");
-        console.log(param);
         this.removeImage(param);
     }
 
-    upload() {
-        console.log("upload")
+    upload(e) {
+        e.preventDefault()
         document.getElementById("selectImage").click()
     }
+
 
     render() {
         return (
             <div className="form-group">
                 <Form.Label>Imágenes</Form.Label>
-                
-                {
-                console.log("state.file"),
-                console.log(this.state.file)
-                }
-
-
+    
                 <div className="form-group multi-image-preview">
-                    {(this.state.file || []).map(url => (
-                        <div className="image-preview" >
-                            <button type="button" class="close" aria-label="Close" onClick={(e) => {
-                                this.handleClose({url})
-                                //this.handleClose(1)
+                    {
+                    (this.state.files || []).map(file => (
+                        <div className="image-preview" key={URL.createObjectURL(file)}>
+                            <button type="button" className="close" aria-label="Close" onClick={(e) => {
+                                this.handleClose(file)
                             }}>
                                 <span aria-hidden="true">&times;</span>
                             </button>
+
+                                <div>
+                                    {this.state.files[0] == file ?
+                                        <p>Portada</p>
+                                        :null
+                                    }
+                                </div>
                             
-                            <img src={url} alt="..." height="100" width="auto"/>
+                            
+                            <img src={URL.createObjectURL(file)} alt="..." height="100" width="auto"/>
                         </div>
                     ))}
                 </div>
 
-
-
-                <div className="form-group ">
-                    <button id='plus' onClick={this.upload}>+</button>
-                    <input id='selectImage' type="file" onChange={this.uploadMultipleFiles} hidden multiple />
-                </div>
-
+                <button id='plus' onClick={this.upload}>Subir imágenes</button>
+                <input id='selectImage' type="file" onChange={this.uploadMultipleFiles} multiple hidden/>
 
             </div>
         )
     }
 }
-
-/*
-<FormFile >
-                        <FormFile.Label>Allow us to contact you?</FormFile.Label>
-                        <FormFile.Input isInvalid multiple/>
-                        <Feedback type="invalid">Yo this is required</Feedback>
-                    </FormFile>
-*/
-
-//he de adaptar el tamany  de imatge
-//afegir separadors entre imatges
