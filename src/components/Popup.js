@@ -10,8 +10,6 @@ import ImageReader from './ImageReader';
 //import { Slide } from 'react-slideshow-image';
 
 
-import AwesomeSlider from 'react-awesome-slider';
-import 'react-awesome-slider/dist/styles.css';
 
 //import 'react-awesome-slider/dist/custom-animations/cube-animation.css';
 //import 'react-awesome-slider/dist/custom-animations/cube-animation.css';
