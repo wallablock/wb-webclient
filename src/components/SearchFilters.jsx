@@ -14,6 +14,8 @@ import ReactCountryFlag from "react-country-flag";
 
 import CustomSwitchWrapper from "./CustomSwitchWrapper";
 
+import "./styles/SearchFilters.css";
+
 // TODO: Switch to https://github.com/palmerhq/the-platform#stylesheet when it will be stable
 const styleLink = document.createElement("link");
 styleLink.rel = "stylesheet";

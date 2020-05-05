@@ -4,6 +4,8 @@ import SearchFilters from "./SearchFilters";
 
 import { Link } from "react-router-dom";
 
+import "./styles/Header.css";
+
 class Header extends Component {
   constructor(props) {
     super(props);

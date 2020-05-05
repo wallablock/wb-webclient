@@ -1,0 +1,30 @@
+.button {
+  padding: 12px 20px;
+  text-align: center;
+  font-size: 18px;
+  border-radius: 4px;
+}
+
+.button1 {
+  background-color: white;
+  border: none;
+  border: 2px solid Grey; /* rgb(230, 230, 230)*/
+  color: black;
+}
+
+.button1:hover {
+  background-color: #e6e6e6; /* Green */
+  color: black;
+}
+
+.flex {
+  display: flex;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.row-reverse {
+  flex-direction: row-reverse;
+}

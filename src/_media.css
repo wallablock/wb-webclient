@@ -1,0 +1,83 @@
+/* Media queries with an obscure purpose I dare not to touch */
+
+@media all and (max-width: 1280px) {
+  .result-item {
+    flex-basis: 350px;
+    max-width: 350px;
+  }
+
+  .result-card-header {
+    flex-direction: column;
+  }
+
+  .result-card-header > div {
+    justify-content: center;
+    margin-top: 5px;
+  }
+}
+
+@media all and (max-width: 1200px) {
+  .title {
+    text-align: left;
+  }
+
+  .result-list {
+    margin-top: 170px;
+  }
+
+  .mynavbar {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mynavbar.active {
+    height: 100vh;
+  }
+
+  .results-container {
+    width: 100%;
+  }
+
+  .data-search-container {
+    margin-top: 20px;
+    width: calc(100% - 280px);
+    right: 20px;
+  }
+
+  .toggle-btn {
+    display: block;
+  }
+
+  .hidden {
+    display: none;
+  }
+}
+
+@media all and (max-width: 992px) {
+  .app-container {
+    flex-direction: column;
+  }
+
+  .result-list {
+    margin-top: 220px;
+  }
+}
+
+@media all and (max-width: 768px) {
+  .data-search-container {
+    width: 100%;
+    right: auto;
+    padding: 0 30px;
+    margin-top: 65px;
+  }
+
+  .search-input {
+    height: 42px;
+  }
+
+  .title {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+}

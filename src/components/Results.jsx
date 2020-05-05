@@ -6,6 +6,8 @@ import Popup from "./Popup";
 
 import MyCard from "./MyCard";
 
+import "./styles/Results.css";
+
 class Results extends React.Component {
   constructor(props) {
     super(props);

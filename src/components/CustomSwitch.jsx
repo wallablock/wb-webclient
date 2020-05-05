@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Switch from "react-switch";
 
+import "./styles/CustomSwitch.css";
+
 class CustomSwitch extends Component {
   constructor() {
     super();

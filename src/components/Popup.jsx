@@ -7,6 +7,8 @@ import MyCarousel from "./MyCarousel";
 
 import { Link } from "react-router-dom";
 
+import "./styles/Popup.css";
+
 class Popup extends React.Component {
   constructor(props) {
     super(props);

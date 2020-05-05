@@ -31,12 +31,3 @@
 .content {
   padding: 30px;
 }
-
-.multi-image-preview {
-  display: flex;
-  flex-direction: row;
-}
-
-.image-preview {
-  padding-right: 20px;
-}

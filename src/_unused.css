@@ -1,0 +1,190 @@
+/* Likely unused styles. Kept for future reference. */
+.card-icon {
+  margin-right: 4px;
+}
+
+.filters-container {
+  max-height: calc(100vh - 100px);
+  height: 100%;
+  overflow-y: auto;
+}
+
+.result-list-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.result-list-info {
+  margin: 1rem;
+  justify-content: space-between;
+}
+
+.result-list-pagination {
+  margin: 40px 0 50px;
+}
+
+.results-container .powered-by {
+  display: none;
+}
+
+.avatar {
+  height: 100%;
+}
+
+.btn {
+  cursor: pointer;
+  margin: 5px;
+  padding: 5px;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.bts_content {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+.bts_wrap {
+  width: 50%;
+}
+
+.card-btn {
+  background: #eff3f6;
+  min-width: 70px;
+}
+
+.card-btn:hover {
+  background: #008000;
+  color: white;
+}
+
+.link {
+  cursor: pointer;
+  color: mediumseagreen;
+  text-decoration: none;
+  font-weight: bold;
+  margin-left: 20px;
+  font-size: 1.2rem;
+}
+
+.topic {
+  background: mediumseagreen;
+  margin: 3px;
+  padding: 4px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.topic:hover {
+  background: #008000;
+}
+
+.topic.active {
+  background: #008000;
+}
+
+.toggle-btn {
+  color: white;
+  border: 1px solid white;
+  display: none;
+  max-width: 200px;
+  font-size: 1.3rem;
+  align-self: center;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.toggle-btn:hover {
+  background: white;
+  color: mediumseagreen;
+}
+
+.fecha .fecha-title {
+  padding-bottom: 10px;
+  font-size: 24px;
+  font-family: "Calibri";
+}
+
+.m10-0 {
+  margin: 10px 0;
+}
+
+.m12 {
+  margin: 12px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+/***********CHECKBOX***************/
+
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+/* Hide the browser's default checkbox */
+
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196f3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import "../App.css";
+import "./styles/CountryFilter.css";
 
 class CountryFilter extends Component {
   constructor(props) {

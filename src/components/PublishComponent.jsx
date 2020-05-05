@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import "./styles/PublishStyle.css";
+import "./styles/PublishComponent.css";
 
 import ImageUploader from "./ImageUploader";
 

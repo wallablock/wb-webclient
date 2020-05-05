@@ -4,6 +4,8 @@ import { IpfsConnection } from "wb-ipfs";
 
 import Popup from "./Popup";
 
+import "./styles/MyCard.css";
+
 class MyCard extends Component {
   constructor(props) {
     super(props);

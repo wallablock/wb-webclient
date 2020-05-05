@@ -1,0 +1,15 @@
+.my-adds-wrapper {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  justify-content: left;
+  margin-left: 30px;
+  margin-top: 20%;
+}
+
+.my-adds-text {
+  padding-right: 20px;
+  font-size: 20px;
+  color: white;
+}

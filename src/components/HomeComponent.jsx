@@ -5,7 +5,7 @@ import Header from "./Header";
 import Results from "./Results";
 
 import theme from "../theme";
-import "../App.css";
+import "./styles/HomeComponent.css";
 
 class HomeComponent extends Component {
   constructor(props) {

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
-import "./styles/PublishStyle.css";
+
+import "./styles/ImageUploader.css";
 
 export default class MultipleImageUploadComponent extends Component {
   constructor(props) {

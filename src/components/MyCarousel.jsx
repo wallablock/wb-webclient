@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import Carousel from "react-bootstrap/Carousel";
 
+import "./styles/MyCarousel.css";
+
 class MyCarousel extends Component {
   myCarouselItem() {}
 
