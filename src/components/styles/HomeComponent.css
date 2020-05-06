@@ -1,0 +1,25 @@
+.containererer {
+  width: 100%;
+  height: 100vh;
+}
+
+.data-search-container {
+  position: fixed;
+  z-index: 3;
+}
+
+.results-container {
+  width: calc(100% - 400px);
+}
+
+.search-input {
+  border: none;
+  border-bottom: 1px solid #ccc;
+  background: #fafafa;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  height: 50px;
+}
+
+.search-input:focus {
+  border-color: #92bbff;
+}

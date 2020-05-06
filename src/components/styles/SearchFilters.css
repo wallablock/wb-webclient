@@ -1,0 +1,60 @@
+.range-label {
+  color: white;
+}
+
+.range .range-title {
+  font-size: 22px;
+  font-family: "Calibri";
+}
+
+.categs .cat-tit {
+  font-size: 22px;
+  font-family: "Calibri";
+}
+
+.categs .cat-label {
+  font-size: 14px;
+  color: white;
+}
+
+.categs .cat-label:hover {
+  font-size: 14px;
+  font-weight: bold;
+  color: rgb(113, 226, 117);
+}
+
+.m10 {
+  margin: 12px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.m11 {
+  margin: 12px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.m13 {
+  margin-left: 12px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.m14 {
+  font-size: 24px;
+  font-family: "Calibri";
+  font-weight: 999;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.pfilt {
+  max-height: 50px;
+}
+
+.separator2 {
+  margin-top: 40px;
+  margin-bottom: 30px;
+}

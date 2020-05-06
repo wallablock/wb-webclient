@@ -1,0 +1,36 @@
+/*
+    Single-property classes. Classes that exist only to provide one attribute.
+    These should be refactored and removed.
+*/
+
+.flex {
+  display: flex;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.row-reverse {
+  flex-direction: row-reverse;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+hr.solid {
+  border-top: 1px solid white;
+}
