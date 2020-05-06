@@ -9,7 +9,7 @@ import {getName} from "country-list";
 
 import {abi} from "wb-contracts/build/contracts/Offer.json";
 import Web3 from "web3";
-const myweb3 = new Web3("ws://localhost:7545");
+const myweb3 = new Web3(window.ethereum);
 
 class OfferDetail extends Component {
     constructor(props) {

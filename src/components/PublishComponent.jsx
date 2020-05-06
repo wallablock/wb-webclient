@@ -16,7 +16,7 @@ import getCountryISO3 from "country-iso-2-to-3";
 
 import {abi, bytecode} from "wb-contracts/build/contracts/Offer.json"; //"../contracts/Offer.json"
 import Web3 from "web3";
-const myweb3 = new Web3("ws://localhost:7545");
+const myweb3 = new Web3(window.ethereum);
 
 class PublishComponent extends Component {
   constructor(props) {
@@ -45,11 +45,11 @@ class PublishComponent extends Component {
   async getAccount() {
     const accounts = await window.ethereum.enable();
 
+    console.log("windows.ethereum: ", window.ethereum)
+
     this.setState({
       account: accounts[0],
     });
-
-    //get private key
   }
 
   /** INPUT HANDLERS **/
@@ -175,12 +175,19 @@ class PublishComponent extends Component {
           cid,
           hex_deposit
         );
+        
+        
+        //ElasticSearch
+       //this.createDBEntry()
+
       })
       .catch((ex) => {
         console.log("Exception catched");
         console.log(ex);
       });
   }
+
+
 
   async createContract(account, price, title, category, country, cid, deposit) {
     let myOffer = new myweb3.eth.Contract(abi, {
@@ -189,16 +196,88 @@ class PublishComponent extends Component {
       gas: 6721975,
     }); //, gasPrice: 2, gas: 6721975
 
-    let nuevaOferta = await myOffer
+    let newContract = await myOffer
       .deploy({
         data: bytecode,
         arguments: [price, title, category, country, cid],
       })
       .send({ value: deposit });
 
-    console.log("Nuevo contrato");
-    console.log(nuevaOferta);
+
+      //ElasticSearch
+      const addr = newContract.options.from;
+      const contract_addr = newContract._address;
+      console.log("Nuevo contrato.addr: ", addr);
+      this.createDBEntry(contract_addr, addr, title, this.state.price, category, this.state.country, cid)
   }
+
+
+  /***************************/
+  /*********** ES ************/
+  /***************************/
+  async getDBCount(url) {
+    await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Basic ' + new Buffer('webtest' + ":" + 'webtest').toString('base64')
+      }
+    })
+      .then(res => res.json())
+      .then (
+        (result) => {
+          console.log("OK, count: ", result.count)
+          return result.count;
+        },
+        (error) => {
+          console.log("Error: ", error)
+          return -1;
+        }
+      )
+  }
+
+  async callES(url, contract_addr, addr, title, price, category, country, cid) {
+    await fetch(url , {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + new Buffer('webtest' + ":" + 'webtest').toString('base64')
+      },
+      body: JSON.stringify({
+        offer: contract_addr, 
+        seller: addr,  
+        title: title, 
+        price: price, 
+        category: category, 
+        shipsFrom: country, 
+        bought: false, 
+        cid: cid
+      })
+    })
+      .then(res => res.json())
+      .then (
+        (result) => {
+          console.log("OK, result: ", result)
+          return result
+        },
+        (error) => {
+          console.log("Error: ", error)
+          return error;
+        }
+      )
+  }
+
+  async createDBEntry(contract_addr, addr, title, price, category, country, cid) {
+    const url = "https://ae4d7ff23f8e4bcea2feecefc1b2337a.eu-central-1.aws.cloud.es.io:9243/testweb/";
+
+    let n_entries = this.getDBCount(url + "_count") + 1;
+
+    const res_ES = this.callES(url + "_doc/" + n_entries.toString(), contract_addr, addr, title, price, category, country, cid)
+    console.log("result ES: ", res_ES)
+  }
+  /***********************/
+  /***********************/
+  /***********************/
 
   render() {
     return (
