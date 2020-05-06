@@ -26,6 +26,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "format": "prettier --write src",
+    "lint": "eslint \"src/**/*.js\" \"src/**/*.jsx\"",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
