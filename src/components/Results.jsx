@@ -32,8 +32,6 @@ class Results extends React.Component {
           showClearAll={"default"}
           onClear={(component, value) => {
             console.log(`${component} has been removed with value as ${value}`);
-            if (component === "myColorPicker" || !component) {
-            }
           }}
         />
 
