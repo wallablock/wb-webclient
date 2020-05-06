@@ -14,7 +14,7 @@ import { IpfsConnection } from "wb-ipfs";
 
 import getCountryISO3 from "country-iso-2-to-3";
 
-import { abi, bytecode } from "../contracts/Offer.json";
+import {abi, bytecode} from "wb-contracts/build/contracts/Offer.json"; //"../contracts/Offer.json"
 import Web3 from "web3";
 const myweb3 = new Web3("ws://localhost:7545");
 
@@ -25,7 +25,7 @@ class PublishComponent extends Component {
       ipfs: "http://79.147.40.189:3000",
       account: null,
       title: null,
-      price: null,
+      price: "",
       description: null,
       category: null,
       country: null,
@@ -64,9 +64,14 @@ class PublishComponent extends Component {
   }
 
   handlePriceChange(event) {
+    let n = parseInt(event.target.value, 10)
+    if (isNaN(n)) {
+        n = ""
+    }
+
     this.setState({
-      price: parseInt(event.target.value, 10),
-    });
+        price: n
+    })
   }
 
   handleCountryChange(event) {
@@ -122,6 +127,12 @@ class PublishComponent extends Component {
   //IPFS library call
   async handleSubmit2(e) {
     e.preventDefault();
+
+    //Check price is integer
+    if (isNaN(parseInt(this.state.price, 10))) {
+      console.log("Price is NaN!")
+      return "";
+    }
 
     //File description
     let descr = null;
@@ -210,10 +221,11 @@ class PublishComponent extends Component {
                   <Col>
                     <Form.Label>Precio</Form.Label>
                     <Form.Control
-                      type="number"
+                      type="text"
                       name="price"
                       placeholder="Precio en ethers"
                       onChange={this.handlePriceChange}
+                      value={this.state.price}
                       required
                     />
                   </Col>

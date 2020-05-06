@@ -16,6 +16,7 @@
     "react-scripts": "3.4.1",
     "react-switch": "^5.0.1",
     "save": "^2.4.0",
+    "wb-contracts": "git+https://github.com/wallablock/wb-contracts.git",
     "wb-ipfs": "git+https://github.com/wallablock/wb-ipfs.git",
     "web3": "^1.2.7"
   },
