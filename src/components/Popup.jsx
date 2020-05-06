@@ -42,7 +42,7 @@ class Popup extends React.Component {
           <h2>{this.props.offer.title}</h2>
           <h2>{this.props.offer.price}</h2>
 
-          <Link to="/publish">
+          <Link to={`/offer/${this.props.offer.offer}`}>
             <input type="button" className="button button1" value="Comprar" />
           </Link>
         </div>
