@@ -9,6 +9,10 @@ import {getName} from "country-list";
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
+import Buy from "./Buy";
+
+import "./styles/OfferDetail.css";
+
 import {abi} from "wb-contracts/build/contracts/Offer.json";
 import Web3 from "web3";
 const myweb3 = new Web3(window.ethereum);
@@ -19,6 +23,7 @@ class OfferDetail extends Component {
         const offerId = this.props.match.params.offerId;
 
         this.state = {
+            rdy: false,
             account: null,
             contract: null,
             contract_addr: offerId,
@@ -117,7 +122,8 @@ class OfferDetail extends Component {
         const {img_urls, descr} = await this.getIPFSData(cid)
         this.setState({
             img_urls: img_urls,
-            descr: descr
+            descr: descr,
+            rdy: true
         })
     }
 
@@ -129,11 +135,11 @@ class OfferDetail extends Component {
         return array;
     }
 
-    async handleClick(e) {
+    async handleClick(contact) {
         console.log("Comprar clicked")
 
         //Hay que substituir el hardcoded por la lectura de un campo e-mail
-        const contactInfo = Web3.utils.toHex("marcpons@gmail.com")
+        const contactInfo = Web3.utils.toHex(contact)
 
 
 
@@ -228,6 +234,63 @@ class OfferDetail extends Component {
     render() {
         
         return (
+
+ 
+
+
+
+            <div className="buy-background">
+                <div className="buy-non-background">
+                    <div className="buy-content">
+
+                        {this.state.rdy ? 
+                            (<Buy title={this.state.title} desc={this.state.descr} price={this.state.priceEths} category={this.state.category} country={this.state.shipsFrom} imgs={this.state.img_urls} buy={this.handleClick.bind(this)}/>) 
+                            : null
+                        }       
+
+                        <NotificationContainer/>
+                    </div>
+                </div>
+            </div>
+            
+        );
+    }
+}
+
+/*
+                        <div className="buy-title-price">
+                            <div className="buy-title">
+                                <h2>{this.state.title}</h2>
+                            </div>
+                            <div className="buy-price">
+                                <h2>{this.state.priceEths} Eths</h2>
+                            </div>
+                        </div>
+    
+                        <div className="buy-carrousel">
+                            <MyCarousel imgs={this.state.img_urls}/>
+                        </div>
+
+
+
+                        <div className="categoria i shipsfrom">
+
+                        </div>
+
+                        <div className="descripcio">
+
+                        </div>
+
+                        <div className="boton">
+
+                        </div>
+
+*/
+
+
+
+
+       /*
         <div>
             <h1>Comprar</h1>
 
@@ -270,31 +333,6 @@ class OfferDetail extends Component {
             
             <NotificationContainer/>
         </div>
-        );
-    }
-
-
-}
+        */
 
 export default withRouter(OfferDetail);
-
-
-
-    /*
-
-    render() {
-        return(
-            <div>
-                <p>oferta</p>
-                {
-                
-                this.state.offerId ?
-                    <p>{this.state.offerId}</p>
-                    :null
-                    
-                }
-            </div>
-        )
-    }
-
-    */

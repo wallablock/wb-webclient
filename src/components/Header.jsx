@@ -30,6 +30,28 @@ class Header extends Component {
             <Link to="/publish">
               <input
                 type="button"
+                className="button button1 mybutton"
+                value="Publicar oferta"
+              />
+            </Link>
+          </div>
+        </div>
+
+        <SearchFilters {...this.props} visible={this.state.visible} />
+      </nav>
+    );
+  }
+}
+
+export default Header;
+
+
+/**
+ <div className="flex row-reverse bts_content">
+          <div className="bts_wrap">
+            <Link to="/publish">
+              <input
+                type="button"
                 className="button button1"
                 value="Publicar oferta"
               />
@@ -45,11 +67,4 @@ class Header extends Component {
             </Link>
           </div>
         </div>
-
-        <SearchFilters {...this.props} visible={this.state.visible} />
-      </nav>
-    );
-  }
-}
-
-export default Header;
+ */

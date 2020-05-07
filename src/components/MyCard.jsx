@@ -13,6 +13,7 @@ class MyCard extends Component {
       showPopup: false,
       offer: null,
       imgs: [],
+      desc: "",
       ipfs: new IpfsConnection("http://79.147.40.189:3000"),
     };
 
@@ -41,6 +42,7 @@ class MyCard extends Component {
   async initImgs() {
     this.setState({
       imgs: await this.state.ipfs.getAllImagesUrl(this.props.data.cid),
+      desc: await this.state.ipfs.fetchDesc(this.props.data.cid)
     });
   }
 
@@ -52,6 +54,7 @@ class MyCard extends Component {
             offer={this.state.offer}
             closePopup={this.togglePopup.bind(this)}
             imgs={this.state.imgs}
+            desc={this.state.desc}
           />
         ) : null}
 

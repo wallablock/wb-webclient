@@ -39,13 +39,17 @@ class Popup extends React.Component {
         >
           <MyCarousel imgs={this.props.imgs} />
 
-          <h2>{this.props.offer.title}</h2>
-          <h2>{this.props.offer.price}</h2>
-          
+          <div className="popup-data">
+            <h2>{this.props.offer.title}</h2>
+            <h2>{this.props.offer.price} Eths</h2>
+            <p className="popup-descr">{this.props.desc}</p>
+          </div>
 
-          <Link to={`/offer/${this.props.offer.offer}`}>
-            <input type="button" className="button button1" value="Comprar" />
-          </Link>
+          <div className="buy-btn-wrap">
+            <Link to={`/offer/${this.props.offer.offer}`}>
+              <input type="button" className="button button1 buy-btn" value="Comprar" />
+            </Link>
+          </div>
         </div>
       </div>
     );
