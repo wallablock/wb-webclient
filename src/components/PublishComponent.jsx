@@ -206,9 +206,7 @@ class PublishComponent extends Component {
       try {
 
         let myOffer = new myweb3.eth.Contract(abi, {
-          from: account,
-          gasPrice: 2,
-          gas: 6721975,
+          from: account
         }); //, gasPrice: 2, gas: 6721975
     
         await myOffer
@@ -393,15 +391,6 @@ class PublishComponent extends Component {
   }
   /***********************/
 
-  async handleMyButton() {
-
-    const url = "https://ae4d7ff23f8e4bcea2feecefc1b2337a.eu-central-1.aws.cloud.es.io:9243/testweb/_count";
-
-   const n_entries = await this.getDBCount2(url)
-
-    //const n_entries = await this.getDBCount(url);
-    console.log("MY test, n_entries: ", n_entries)
-  }
 
   render() {
     //            <ImageReader/>
@@ -409,9 +398,6 @@ class PublishComponent extends Component {
       <div className="background">
         <div className="non-background">
           <div className="content">
-  
-            <button onClick={this.handleMyButton.bind(this)}>get count</button>
-
             <Form onSubmit={this.handleSubmit2.bind(this)}>
               <Form.Group controlId="TitleAndPrice">
                 <Row>
@@ -459,12 +445,13 @@ class PublishComponent extends Component {
                   required
                 >
                   <option></option>
-                  <option>TVs</option>
-                  <option>Electrodomésticos</option>
-                  <option>Móviles</option>
-                  <option>Vehículos</option>
-                  <option>Motos</option>
+                  <option>Electrodomesticos</option>
                   <option>Inmobiliaria</option>
+                  <option>Moviles</option>
+                  <option>Ordenadores</option>
+                  <option>TV</option>
+                  <option>Vehiculos</option>
+                  <option>Otros</option>
                 </Form.Control>
               </Form.Group>
 

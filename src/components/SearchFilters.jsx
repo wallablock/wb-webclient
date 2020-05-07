@@ -65,10 +65,6 @@ class SearchFilters extends Component {
               URLParams={true}
               data={[
                 {
-                  label: "Electrónica",
-                  value: "electronica",
-                },
-                {
                   label: "Electrodomésticos",
                   value: "electrodomesticos",
                 },
@@ -91,6 +87,10 @@ class SearchFilters extends Component {
                 {
                   label: "Vehículos",
                   value: "vehiculos",
+                },
+                {
+                  label: "Otros",
+                  value: "otros",
                 },
               ]}
               title="Categoría"
@@ -157,12 +157,12 @@ class SearchFilters extends Component {
               componentId="price"
               title="Precio"
               dataField="price"
-              range={{ start: 0, end: 500000 }}
+              range={{ start: 0, end: 5000 }}
               showHistogram={false}
               URLParams={true}
               rangeLabels={{
                 start: "0 Eth",
-                end: "500K Eth",
+                end: "5000 Eth",
               }}
               innerClass={{
                 label: "range-label",
