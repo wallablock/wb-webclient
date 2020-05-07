@@ -6,6 +6,8 @@ import { IpfsConnection } from "wb-ipfs";
 import getCountryISO2 from "country-iso-3-to-2";
 import {getName} from "country-list";
 
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 import {abi} from "wb-contracts/build/contracts/Offer.json";
 import Web3 from "web3";
@@ -131,8 +133,7 @@ class OfferDetail extends Component {
         console.log("Comprar clicked")
 
         //Hay que substituir el hardcoded por la lectura de un campo e-mail
-        const contactInfo = this.stringToArray("marcpons@gmail.com")
-        const contactInfo2 = Web3.utils.toHex("marcpons@gmail.com")
+        const contactInfo = Web3.utils.toHex("marcpons@gmail.com")
 
 
 
@@ -144,17 +145,85 @@ class OfferDetail extends Component {
             }
         );
 
-        const deposit = await contract.methods.buyerDepositWithPayment().call()
-        console.log("deposit: ", deposit)
+        try {
+            const deposit = await contract.methods.buyerDepositWithPayment().call()
+            console.log("deposit: ", deposit)
+    
+            /*
+            const res = await contract.methods.buy(contactInfo).send({
+                value: deposit
+            })
+            
+            console.log("bought(), res: ", res)
+            */
+
+            await contract.methods.buy(contactInfo).send({value: deposit})
+            .then((response) => {
+                console.log("buy() resp: ", response)
+
+                //Success notification
+                this.createNotification2('success', "Su compra se ha tramitado satisfactoriamente.", "Compra aceptada")
+            })
+            .catch((ex) => {
+                console.log("buy exception: ", ex)
+
+                //Error notification
+                this.createNotification2('error', "Ha surgido un error en el proceso de compra.", "Blockchain error")
+            })
 
 
-        const res = await contract.methods.buy(contactInfo2).send({
-            value: deposit
-        })
+        } catch(ex) {
+            console.log("compra exception: ", ex)
 
-        console.log("bought(), res: ", res)
+            //Error notification
+            this.createNotification2('error', "Ha surgido un error en el proceso de compra.", "Blockchain error")
+        }
+
+        
 
     }
+
+    /*****NOTIFICATIONS*****/
+    createNotification (type, msg, title) {
+        console.log("CREATE NOTIFICATION()!!!")
+        return () => {
+        switch (type) {
+            case 'info':
+            NotificationManager.info(msg);
+            break;
+            case 'success':
+            NotificationManager.success(msg, title);
+            break;
+            case 'warning':
+            NotificationManager.warning(msg, 'Close after 3000ms', 3000);
+            break;
+            case 'error':
+            NotificationManager.error(msg, title, 5000, () => {
+                alert('callback');
+            });
+            break;
+        }
+        }
+    }
+
+    createNotification2 (type, msg, title) {
+        console.log("CREATE NOTIFICATION()!!!")
+        switch (type) {
+            case 'info':
+            NotificationManager.info(msg);
+            break;
+            case 'success':
+            NotificationManager.success(msg, title);
+            break;
+            case 'warning':
+            NotificationManager.warning(msg, 'Close after 3000ms', 3000);
+            break;
+            case 'error':
+            NotificationManager.error(msg, title, 5000);
+            break;
+        }
+    }
+    /***********************/
 
     render() {
         
@@ -198,7 +267,8 @@ class OfferDetail extends Component {
             }
 
             <button onClick={this.handleClick}>Comprar</button>
-
+            
+            <NotificationContainer/>
         </div>
         );
     }

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import ipfs from 'wb-ipfs';
+
+import { IpfsConnection } from "wb-ipfs";
 
 class ImageReader extends Component {
   constructor(props) {
@@ -11,11 +12,11 @@ class ImageReader extends Component {
   }
 
   async getImages() {
-    const ipfsConnection = new ipfs.IpfsConnection("http://79.147.40.189:3000");
+    const ipfsConnection = new IpfsConnection("http://79.147.40.189:3000");
     console.log("getImages, ipfsconn");
     console.log(ipfsConnection);
 
-    const hash = "QmV8PNhNpvxQt89YVihxgU1mVdMbqLyrVYBXD5hheQd4v5";
+    const hash = "QmcWvh7vjXYRYY169AKnRLHDCFJnbCfaQ1v7EHAbpGnkZL";
     //const hash = this.props.cid;
 
     let links;

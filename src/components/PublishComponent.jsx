@@ -7,12 +7,15 @@ import Col from "react-bootstrap/Col";
 import "./styles/PublishComponent.css";
 
 import ImageUploader from "./ImageUploader";
+import ImageReader from "./ImageReader";
 
 import { getCode, getNames } from "country-list";
+import getCountryISO3 from "country-iso-2-to-3";
 
 import { IpfsConnection } from "wb-ipfs";
 
-import getCountryISO3 from "country-iso-2-to-3";
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 import {abi, bytecode} from "wb-contracts/build/contracts/Offer.json"; //"../contracts/Offer.json"
 import Web3 from "web3";
@@ -39,13 +42,12 @@ class PublishComponent extends Component {
     this.handlePriceChange = this.handlePriceChange.bind(this);
     this.handleCountryChange = this.handleCountryChange.bind(this);
     this.handleCheckChange = this.handleCheckChange.bind(this);
+    this.handleSubmit2 = this.handleSubmit2.bind(this);
     this.fileHandler = this.fileHandler.bind(this);
   }
 
   async getAccount() {
     const accounts = await window.ethereum.enable();
-
-    console.log("windows.ethereum: ", window.ethereum)
 
     this.setState({
       account: accounts[0],
@@ -124,14 +126,18 @@ class PublishComponent extends Component {
     return array;
   }
 
-  //IPFS library call
+  //PUBLISH handler
   async handleSubmit2(e) {
     e.preventDefault();
 
     //Check price is integer
     if (isNaN(parseInt(this.state.price, 10))) {
       console.log("Price is NaN!")
-      return "";
+
+      //Error notification
+      this.createNotification2('error', "El precio recibido no es válido.", "Precio inválido")
+
+      return;
     }
 
     //File description
@@ -184,31 +190,58 @@ class PublishComponent extends Component {
       .catch((ex) => {
         console.log("Exception catched");
         console.log(ex);
+
+        //Error notification
+        this.createNotification2('error', "Ha surgido un error al subir las imágenes.", "IPFS error")
       });
   }
 
 
 
   async createContract(account, price, title, category, country, cid, deposit) {
-    let myOffer = new myweb3.eth.Contract(abi, {
-      from: account,
-      gasPrice: 2,
-      gas: 6721975,
-    }); //, gasPrice: 2, gas: 6721975
-
-    let newContract = await myOffer
-      .deploy({
-        data: bytecode,
-        arguments: [price, title, category, country, cid],
-      })
-      .send({ value: deposit });
+    
 
 
-      //ElasticSearch
-      const addr = newContract.options.from;
-      const contract_addr = newContract._address;
-      console.log("Nuevo contrato.addr: ", addr);
-      this.createDBEntry(contract_addr, addr, title, this.state.price, category, this.state.country, cid)
+
+      try {
+
+        let myOffer = new myweb3.eth.Contract(abi, {
+          from: account,
+          gasPrice: 2,
+          gas: 6721975,
+        }); //, gasPrice: 2, gas: 6721975
+    
+        await myOffer
+          .deploy({
+            data: bytecode,
+            arguments: [price, title, category, country, cid],
+          })
+          .send({ value: deposit })
+          .then((response) => {
+            console.log("deploy response: ", response)
+
+            //ElasticSearch
+            const addr = response.options.from;
+            const contract_addr = response._address;
+            console.log("Nuevo contrato.addr: ", contract_addr);
+            this.createDBEntry(contract_addr, addr, title, this.state.price, category, this.state.country, cid)
+
+            //Success notification
+            this.createNotification2('success', "Su contrato ha sido creado correctmente.", "Contrato creado")
+          })
+          .catch((ex) => {
+            console.log("deploy error: ", ex)
+
+            //Error notification
+            this.createNotification2('error', "Ha surgido un error al crear el contrato.", "Blockchain error")
+          })
+
+      } catch(ex) {
+        console.log("Exception catched: ", ex)
+
+        //Error notification
+        this.createNotification2('error', "Ha surgido un error al crear el contrato.", "Blockchain error")
+      } 
   }
 
 
@@ -225,14 +258,43 @@ class PublishComponent extends Component {
       .then(res => res.json())
       .then (
         (result) => {
-          console.log("OK, count: ", result.count)
-          return result.count;
+          console.log("OK, result (dbcount): ", result)
+         
+          const count = result.count
+
+          console.log(" count: ", count)
+          return count;
         },
         (error) => {
           console.log("Error: ", error)
           return -1;
         }
       )
+  }
+
+  async getDBCount2(url) {
+    try {
+      const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Basic ' + new Buffer('webtest' + ":" + 'webtest').toString('base64')
+        }
+      })
+
+     // const res_js = res.json()
+     const rj = await res.json()
+      console.log("OK, result (dbcount): ", rj)
+         
+      const count = rj.count
+
+      console.log(" count: ", count)
+      return count;
+
+    } catch (ex) {
+      console.log("(count2) exception catched: ", ex)
+          return -1;
+    }
+
   }
 
   async callES(url, contract_addr, addr, title, price, category, country, cid) {
@@ -270,7 +332,12 @@ class PublishComponent extends Component {
   async createDBEntry(contract_addr, addr, title, price, category, country, cid) {
     const url = "https://ae4d7ff23f8e4bcea2feecefc1b2337a.eu-central-1.aws.cloud.es.io:9243/testweb/";
 
-    let n_entries = this.getDBCount(url + "_count") + 1;
+    const n_entries = await this.getDBCount2(url + "_count") + 1;
+
+   // console.log("n_entries: ", n_entries)
+
+    console.log("n_entries +1: ", n_entries)
+
 
     const res_ES = this.callES(url + "_doc/" + n_entries.toString(), contract_addr, addr, title, price, category, country, cid)
     console.log("result ES: ", res_ES)
@@ -279,11 +346,72 @@ class PublishComponent extends Component {
   /***********************/
   /***********************/
 
+  /*****NOTIFICATIONS*****/
+  createNotification (type, msg, title) {
+    console.log("CREATE NOTIFICATION()!!!")
+    return () => {
+      switch (type) {
+        case 'info':
+          NotificationManager.info(msg);
+          break;
+        case 'success':
+          NotificationManager.success(msg, title);
+          break;
+        case 'warning':
+          NotificationManager.warning(msg, 'Close after 3000ms', 3000);
+          break;
+        case 'error':
+          NotificationManager.error(msg, title, 5000, () => {
+            alert('callback');
+          });
+          break;
+        /*case 'error':
+          NotificationManager.error(msg, 'Click me!', 5000, () => {
+            alert('callback');
+          });
+          break;*/
+      }
+    }
+  }
+
+  createNotification2 (type, msg, title) {
+    console.log("CREATE NOTIFICATION()!!!")
+      switch (type) {
+        case 'info':
+          NotificationManager.info(msg);
+          break;
+        case 'success':
+          NotificationManager.success(msg, title);
+          break;
+        case 'warning':
+          NotificationManager.warning(msg, 'Close after 3000ms', 3000);
+          break;
+        case 'error':
+          NotificationManager.error(msg, title, 5000);
+          break;
+      }
+  }
+  /***********************/
+
+  async handleMyButton() {
+
+    const url = "https://ae4d7ff23f8e4bcea2feecefc1b2337a.eu-central-1.aws.cloud.es.io:9243/testweb/_count";
+
+   const n_entries = await this.getDBCount2(url)
+
+    //const n_entries = await this.getDBCount(url);
+    console.log("MY test, n_entries: ", n_entries)
+  }
+
   render() {
+    //            <ImageReader/>
     return (
       <div className="background">
         <div className="non-background">
           <div className="content">
+  
+            <button onClick={this.handleMyButton.bind(this)}>get count</button>
+
             <Form onSubmit={this.handleSubmit2.bind(this)}>
               <Form.Group controlId="TitleAndPrice">
                 <Row>
@@ -376,6 +504,8 @@ class PublishComponent extends Component {
 
               <Button type="submit">Publicar</Button>
             </Form>
+
+            <NotificationContainer/>
           </div>
         </div>
       </div>

@@ -11,6 +11,7 @@ import Form from "react-bootstrap/Form";
 
 import { getName } from "country-list";
 import ReactCountryFlag from "react-country-flag";
+import getCountryISO2 from "country-iso-3-to-2";
 
 import CustomSwitchWrapper from "./CustomSwitchWrapper";
 
@@ -59,7 +60,7 @@ class SearchFilters extends Component {
             <MultiDataList
               componentId="category"
               dataField="category"
-              showCount={true}
+              showCount={false}
               fielddata={true}
               URLParams={true}
               data={[
@@ -122,7 +123,7 @@ class SearchFilters extends Component {
             renderItem={(label, count, isSelected) => (
               <div className="flex">
                 <ReactCountryFlag
-                  countryCode={label}
+                  countryCode={getCountryISO2(label)}
                   style={{
                     fontSize: "1.5em",
                     lineHeight: "1.5em",
@@ -132,7 +133,7 @@ class SearchFilters extends Component {
                   svg
                 />
 
-                {getName(label)}
+                {getName(getCountryISO2(label))}
                 <span
                   style={{
                     marginLeft: 5,
