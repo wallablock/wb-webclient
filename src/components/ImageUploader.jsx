@@ -52,10 +52,25 @@ export default class MultipleImageUploadComponent extends Component {
     document.getElementById("selectImage").click();
   }
 
+  reset() {
+    console.log("ImageUploader reiniciamos!")
+
+    this.setState({
+      files: []
+    })
+
+
+    this.props.revertReset();
+  }
+
   render() {
     return (
       <div className="form-group">
         <Form.Label>Imágenes</Form.Label>
+        {this.props.reset ?
+          this.reset()
+          :null
+        }
 
         <div className="form-group multi-image-preview">
           {(this.state.files || []).map((file) => (
@@ -71,7 +86,7 @@ export default class MultipleImageUploadComponent extends Component {
                 <span aria-hidden="true">&times;</span>
               </button>
 
-              <div>{this.state.files[0] == file ? <p>Portada</p> : null}</div>
+              <div>{this.state.files[0] === file ? <p>Portada</p> : null}</div>
 
               <img
                 src={URL.createObjectURL(file)}

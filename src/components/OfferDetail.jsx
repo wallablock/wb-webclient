@@ -34,10 +34,12 @@ class OfferDetail extends Component {
             shipsFrom: null,
             cid: null,
             img_urls: null,
-            descr: null        
+            descr: null,
+            reset: false     
         }
 
         this.handleClick = this.handleClick.bind(this);
+        this.revertReset = this.revertReset.bind(this);
 
         this.getAccount();
         this.getOfferInfo();
@@ -57,15 +59,6 @@ class OfferDetail extends Component {
             abi,
             contract_addr
         );
-
-        console.log("contract");
-        console.log(contract);
-
-        //worth it guardar contrato en estado?
-        this.setState({
-            contract: contract
-        })
-
     
         const title = await contract.methods.title().call();
         const priceWeis = await contract.methods.price().call();
@@ -77,18 +70,12 @@ class OfferDetail extends Component {
         const priceEths = Web3.utils.fromWei(priceWeis)
 
 
-        console.log("Contract info");
-        console.log(title);
-        console.log(priceEths);
-        console.log(category);
-        console.log(shipsFrom);
-        console.log(cid);
-
         return {title, priceWeis, priceEths, category, shipsFrom, cid};
     }
 
     async getIPFSData(cid) {
         const ipfsConnection = new IpfsConnection("http://79.147.40.189:3000");
+        //const ipfsConnection = new IpfsConnection("http://127.0.0.1:4000");
        
         let img_urls = []
         let descr = null
@@ -99,11 +86,6 @@ class OfferDetail extends Component {
         } catch (err) {
            console.error("Error from IPFS.read:", err);
         }
-
-
-        console.log("IPFS info");
-        console.log(img_urls);
-        console.log(descr);
 
         return {img_urls, descr}    
     }
@@ -169,6 +151,11 @@ class OfferDetail extends Component {
 
                 //Success notification
                 this.createNotification2('success', "Su compra se ha tramitado satisfactoriamente.", "Compra aceptada")
+
+                //Reset
+                this.setState({
+                    reset: true
+                })
             })
             .catch((ex) => {
                 console.log("buy exception: ", ex)
@@ -190,46 +177,32 @@ class OfferDetail extends Component {
     }
 
     /*****NOTIFICATIONS*****/
-    createNotification (type, msg, title) {
-        console.log("CREATE NOTIFICATION()!!!")
-        return () => {
-        switch (type) {
-            case 'info':
-            NotificationManager.info(msg);
-            break;
-            case 'success':
-            NotificationManager.success(msg, title);
-            break;
-            case 'warning':
-            NotificationManager.warning(msg, 'Close after 3000ms', 3000);
-            break;
-            case 'error':
-            NotificationManager.error(msg, title, 5000, () => {
-                alert('callback');
-            });
-            break;
-        }
-        }
-    }
-
     createNotification2 (type, msg, title) {
         console.log("CREATE NOTIFICATION()!!!")
         switch (type) {
             case 'info':
-            NotificationManager.info(msg);
-            break;
+                NotificationManager.info(msg);
+                break;
             case 'success':
-            NotificationManager.success(msg, title);
-            break;
+                NotificationManager.success(msg, title);
+                break;
             case 'warning':
-            NotificationManager.warning(msg, 'Close after 3000ms', 3000);
-            break;
+                NotificationManager.warning(msg, 'Close after 3000ms', 3000);
+                break;
             case 'error':
-            NotificationManager.error(msg, title, 5000);
-            break;
+                NotificationManager.error(msg, title, 5000);
+                break;
+            default:
+                break; 
         }
     }
     /***********************/
+
+    revertReset() {
+        this.setState({
+            reset: false
+        })
+    }
 
     render() {
         
@@ -244,7 +217,7 @@ class OfferDetail extends Component {
                     <div className="buy-content">
 
                         {this.state.rdy ? 
-                            (<Buy title={this.state.title} desc={this.state.descr} price={this.state.priceEths} category={this.state.category} country={this.state.shipsFrom} imgs={this.state.img_urls} buy={this.handleClick.bind(this)}/>) 
+                            (<Buy title={this.state.title} desc={this.state.descr} price={this.state.priceEths} category={this.state.category} country={this.state.shipsFrom} imgs={this.state.img_urls} buy={this.handleClick.bind(this)} reset={this.state.reset} revertReset={this.revertReset}/>) 
                             : null
                         }       
 

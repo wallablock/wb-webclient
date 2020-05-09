@@ -7,7 +7,6 @@ import Col from "react-bootstrap/Col";
 import "./styles/PublishComponent.css";
 
 import ImageUploader from "./ImageUploader";
-import ImageReader from "./ImageReader";
 
 import { getCode, getNames } from "country-list";
 import getCountryISO3 from "country-iso-2-to-3";
@@ -16,6 +15,8 @@ import { IpfsConnection } from "wb-ipfs";
 
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
+
+import { Link } from "react-router-dom";
 
 import {abi, bytecode} from "wb-contracts/build/contracts/Offer.json"; //"../contracts/Offer.json"
 import Web3 from "web3";
@@ -26,15 +27,17 @@ class PublishComponent extends Component {
     super(props);
     this.state = {
       ipfs: "http://79.147.40.189:3000",
-      account: null,
-      title: null,
+      //ipfs: "http://127.0.0.1:4000",
+      
+      account: "",
+      title: "",
       price: "",
-      description: null,
-      category: null,
-      country: null,
-      checked: false,
+      description: "",
+      category: "",
+      country: "",
+      checked: null,
       files: [],
-      validated: false,
+      reset: false
     };
     this.getAccount();
 
@@ -44,6 +47,8 @@ class PublishComponent extends Component {
     this.handleCheckChange = this.handleCheckChange.bind(this);
     this.handleSubmit2 = this.handleSubmit2.bind(this);
     this.fileHandler = this.fileHandler.bind(this);
+    this.reset = this.reset.bind(this);
+    this.revertReset = this.revertReset.bind(this);
   }
 
   async getAccount() {
@@ -142,7 +147,7 @@ class PublishComponent extends Component {
 
     //File description
     let descr = null;
-    if (this.state.description != null && this.state.description != "") {
+    if (this.state.description !== null && this.state.description !== "") {
       const dsc_arr = this.stringToArray(this.state.description);
 
       descr = new File(dsc_arr, "desc.txt", {
@@ -170,7 +175,7 @@ class PublishComponent extends Component {
         const deposit = Web3.utils.toWei(p2);
         const hex_deposit = Web3.utils.toHex(deposit);
 
-        const hex_country = Web3.utils.toHex(this.state.country);
+        const hex_country = Web3.utils.toHex(getCountryISO3(getCode(this.state.country)));
 
         this.createContract(
           this.state.account,
@@ -226,6 +231,9 @@ class PublishComponent extends Component {
 
             //Success notification
             this.createNotification2('success', "Su contrato ha sido creado correctmente.", "Contrato creado")
+
+            //Reset form
+            this.reset()
           })
           .catch((ex) => {
             console.log("deploy error: ", ex)
@@ -246,36 +254,12 @@ class PublishComponent extends Component {
   /***************************/
   /*********** ES ************/
   /***************************/
-  async getDBCount(url) {
-    await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Basic ' + new Buffer('webtest' + ":" + 'webtest').toString('base64')
-      }
-    })
-      .then(res => res.json())
-      .then (
-        (result) => {
-          console.log("OK, result (dbcount): ", result)
-         
-          const count = result.count
-
-          console.log(" count: ", count)
-          return count;
-        },
-        (error) => {
-          console.log("Error: ", error)
-          return -1;
-        }
-      )
-  }
-
   async getDBCount2(url) {
     try {
       const res = await fetch(url, {
         method: 'GET',
         headers: {
-          'Authorization': 'Basic ' + new Buffer('webtest' + ":" + 'webtest').toString('base64')
+          'Authorization': 'Basic ' + new Buffer('webtest:webtest').toString('base64')
         }
       })
 
@@ -301,7 +285,7 @@ class PublishComponent extends Component {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': 'Basic ' + new Buffer('webtest' + ":" + 'webtest').toString('base64')
+        'Authorization': 'Basic ' + new Buffer('webtest:webtest').toString('base64')
       },
       body: JSON.stringify({
         offer: contract_addr, 
@@ -345,55 +329,56 @@ class PublishComponent extends Component {
   /***********************/
 
   /*****NOTIFICATIONS*****/
-  createNotification (type, msg, title) {
-    console.log("CREATE NOTIFICATION()!!!")
-    return () => {
-      switch (type) {
-        case 'info':
-          NotificationManager.info(msg);
-          break;
-        case 'success':
-          NotificationManager.success(msg, title);
-          break;
-        case 'warning':
-          NotificationManager.warning(msg, 'Close after 3000ms', 3000);
-          break;
-        case 'error':
-          NotificationManager.error(msg, title, 5000, () => {
-            alert('callback');
-          });
-          break;
-        /*case 'error':
-          NotificationManager.error(msg, 'Click me!', 5000, () => {
-            alert('callback');
-          });
-          break;*/
-      }
-    }
-  }
-
   createNotification2 (type, msg, title) {
     console.log("CREATE NOTIFICATION()!!!")
-      switch (type) {
+    switch (type) {
         case 'info':
-          NotificationManager.info(msg);
-          break;
+            NotificationManager.info(msg);
+            break;
         case 'success':
-          NotificationManager.success(msg, title);
-          break;
+            NotificationManager.success(msg, title);
+            break;
         case 'warning':
-          NotificationManager.warning(msg, 'Close after 3000ms', 3000);
-          break;
+            NotificationManager.warning(msg, 'Close after 3000ms', 3000);
+            break;
         case 'error':
-          NotificationManager.error(msg, title, 5000);
-          break;
-      }
+            NotificationManager.error(msg, title, 5000);
+            break;
+        default:
+            break; 
+    }
   }
   /***********************/
 
+  reset() {
+    console.log("publish reiniciamos!")
+
+    
+    
+    this.setState({
+      reset: true,
+      title: "",
+      price: "",
+      description: "",
+      category: "",
+      country: "",
+      checked: false,
+      files: [],
+
+
+    })
+  }
+
+  revertReset() {
+
+    this.setState({
+      reset: false
+    })
+
+  }
+
 
   render() {
-    //            <ImageReader/>
     return (
       <div className="background">
         <div className="non-background">
@@ -408,6 +393,7 @@ class PublishComponent extends Component {
                       name="title"
                       placeholder="Escribe un título para la oferta"
                       onChange={this.handleInputChange}
+                      value={this.state.title}
                       required
                     />
                   </Col>
@@ -432,6 +418,7 @@ class PublishComponent extends Component {
                   name="description"
                   rows="3"
                   placeholder="Descripción del producto"
+                  value={this.state.description}
                   onChange={this.handleInputChange}
                 />
               </Form.Group>
@@ -442,6 +429,7 @@ class PublishComponent extends Component {
                   as="select"
                   name="category"
                   onChange={this.handleInputChange}
+                  value={this.state.category}
                   required
                 >
                   <option></option>
@@ -461,7 +449,9 @@ class PublishComponent extends Component {
                   as="select"
                   placeholder=""
                   name="country"
-                  onChange={this.handleCountryChange}
+                  //onChange={this.handleCountryChange}
+                  onChange={this.handleInputChange}
+                  value={this.state.country}
                   required
                 >
                   <option></option>
@@ -478,16 +468,21 @@ class PublishComponent extends Component {
                   type="checkbox"
                   label="Acepto y comprendo los terminos de uso."
                   onChange={this.handleCheckChange}
+                  checked={this.state.checked}
                   required
                 />
               </Form.Group>
 
               <br />
 
-              <ImageUploader onChange={this.fileHandler} />
+              <ImageUploader onChange={this.fileHandler} reset={this.state.reset} revertReset={this.revertReset}/>
 
               <br />
               <br />
+
+              <Link to={'/'}>
+                <Button variant="secondary">Cancelar</Button>{' '}
+              </Link>
 
               <Button type="submit">Publicar</Button>
             </Form>

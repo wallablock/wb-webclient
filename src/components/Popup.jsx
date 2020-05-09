@@ -15,8 +15,6 @@ class Popup extends React.Component {
       imgs: tmp_imgs,
     };
 
-    console.log("after for en this.prepareImgs()");
-    console.log(this.state.imgs);
   }
 
   prepareImgs(imgs) {

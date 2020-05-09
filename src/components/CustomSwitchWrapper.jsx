@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import CustomSwitch from "./CustomSwitch";
 
-class CountryPickerWrapper extends Component {
+class CustomSwitchWrapper extends Component {
   resetFilter() {
     this.props.setQuery({
       q: null,
@@ -31,4 +31,4 @@ class CountryPickerWrapper extends Component {
   }
 }
 
-export default CountryPickerWrapper;
+export default CustomSwitchWrapper;

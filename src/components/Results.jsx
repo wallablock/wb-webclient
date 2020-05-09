@@ -47,6 +47,7 @@ class Results extends React.Component {
               "category",
               "myCustomSwitch",
               "filtroPais",
+              "myInvisiblFilter"
             ],
           }}
           render={({ loading, error, data }) => {

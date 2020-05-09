@@ -1,9 +1,7 @@
 import React, {Component} from "react";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import MyCarousel from "./MyCarousel";
+import { Link } from "react-router-dom";
 
 import "./styles/Buy.css";
 
@@ -14,7 +12,8 @@ class Buy extends Component {
         this.state = {
             contactInfo: ""
         }
-        this.handleContact = this.handleContact.bind(this)
+        this.handleContact = this.handleContact.bind(this);
+        this.reset = this.reset.bind(this);
     }
 
     handleContact(e) {
@@ -23,9 +22,21 @@ class Buy extends Component {
         })
     }
 
+    reset() {
+        this.setState({
+            contactInfo: ""
+        })
+
+        this.props.revertReset();
+    }
+
     render () {
         return (
             <div>
+                {this.props.reset ?
+                    this.reset()
+                    :null
+                }
                 <div className="buy-title-price">
                     <div className="buy-title">
                         <h2>{this.props.title}</h2>
@@ -59,12 +70,13 @@ class Buy extends Component {
 
                         <div className="buy-contact">
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Control type="email" placeholder="Enter email" onChange={this.handleContact} required/>
+                                <Form.Control type="email" placeholder="Enter email" onChange={this.handleContact} value={this.state.contactInfo} required/>
                             </Form.Group>
                         </div>
                     </div>
 
                     <div className="buy-butn-wrap">
+                        <div>
                         <button 
                             className="buy-butn" 
                             onClick={() => {
@@ -73,6 +85,13 @@ class Buy extends Component {
                         >
                             Comprar
                         </button>
+                        </div>
+                        
+                        <div className="buy-cancel-buton-wrap">
+                        <Link to={'/'}>
+                            <button className="buy-cancel-butn">Cancelar</button>
+                        </Link>
+                        </div>
                     </div>
                 </div>
 

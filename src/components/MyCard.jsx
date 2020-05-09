@@ -14,7 +14,10 @@ class MyCard extends Component {
       offer: null,
       imgs: [],
       desc: "",
+
       ipfs: new IpfsConnection("http://79.147.40.189:3000"),
+      //ipfs: new IpfsConnection("http://127.0.0.1:4000"), 
+
     };
 
     this.initImgs();
@@ -63,7 +66,7 @@ class MyCard extends Component {
           key={this.props.data.offer}
           onClick={this.cardClicked.bind(this, this.props.data)}
         >
-          <img className="card-img" src={this.state.imgs[0]} />
+          <img className="card-img" src={this.state.imgs[0]} alt=""/>
           <div className="flex column card-info">
             <div className="card-info-price">{this.props.data.price} Eth</div>
 

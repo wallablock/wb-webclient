@@ -12,7 +12,7 @@ class MyCarousel extends Component {
       <Carousel interval={null}>
         {this.props.imgs.map((img) => (
           <Carousel.Item key={img}>
-            <img className="my-carousel " src={img} />
+            <img className="my-carousel " src={img} alt=""/>
           </Carousel.Item>
         ))}
       </Carousel>

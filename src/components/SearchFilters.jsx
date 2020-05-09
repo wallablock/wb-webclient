@@ -7,13 +7,12 @@ import {
   ReactiveComponent,
 } from "@appbaseio/reactivesearch";
 
-import Form from "react-bootstrap/Form";
-
 import { getName } from "country-list";
 import ReactCountryFlag from "react-country-flag";
 import getCountryISO2 from "country-iso-3-to-2";
 
 import CustomSwitchWrapper from "./CustomSwitchWrapper";
+import CustomFilter from "./CustomFilter";
 
 import "./styles/SearchFilters.css";
 
@@ -31,25 +30,6 @@ class SearchFilters extends Component {
       countries: [],
       countries2: new Map(),
     };
-  }
-
-  halfOpts(data, handleChange) {
-    return data.map(
-      (item) => (
-        console.log("ITEM"),
-        console.log(item),
-        (
-          <div>
-            <Form.Check
-              type="checkbox"
-              id={`default-${item.label}`}
-              label={item.label}
-              onClick={() => handleChange(item.label)}
-            />
-          </div>
-        )
-      )
-    );
   }
 
   render() {
@@ -116,7 +96,6 @@ class SearchFilters extends Component {
             searchPlaceholder="Buscar país..."
             size={250}
             URLParams={true}
-            style={{ "max-height": "50px" }}
             innerClass={{
               list: "pfilt",
             }}
@@ -145,7 +124,10 @@ class SearchFilters extends Component {
               </div>
             )}
             sortBy="asc"
-            onError={(error) => (console.log("OnError"), console.log(error))}
+            onError={(error) => {
+              console.log("OnError")
+              console.log(error)
+            }}
           />
 
           <div className="separator2">
@@ -187,7 +169,7 @@ class SearchFilters extends Component {
           </div>
 
           <ReactiveComponent
-            componentId="myCustomSwitch" // a unique id we will refer to later
+            componentId="myCustomSwitch"
             showFilter={false}
             render={({ aggregations, setQuery }) => (
               <CustomSwitchWrapper
@@ -196,6 +178,20 @@ class SearchFilters extends Component {
               />
             )}
           />
+
+
+          <ReactiveComponent
+            componentId="myInvisiblFilter"
+            showFilter={false}
+            render={({ aggregations, setQuery }) => (
+              <CustomFilter
+                aggregations={aggregations}
+                setQuery={setQuery}
+              />
+            )}
+          />   
+          
+
         </div>
       </div>
     );
