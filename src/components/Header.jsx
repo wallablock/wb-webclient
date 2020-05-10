@@ -12,6 +12,9 @@ class Header extends Component {
     this.state = {
       visible: false,
     };
+
+
+
   }
 
   toggleVisibility() {
@@ -20,17 +23,34 @@ class Header extends Component {
     });
   }
 
+
+
   render() {
     return (
+      
       <nav className="mynavbar">
+       
+
         <div className="mytitle">WallaBlock</div>
 
-        <div className="flex row-reverse bts_content">
+
+       
+
+
+        <div className=" bts_content">
+          <div className="bts_wrap">
+              <input
+                type="button"
+                className="mybutton"
+                value="Ver tus ventas/compras"
+                onClick={this.props.open}
+              />
+          </div>
           <div className="bts_wrap">
             <Link to="/publish">
               <input
                 type="button"
-                className="button button1 mybutton"
+                className="  mybutton"
                 value="Publicar oferta"
               />
             </Link>

@@ -16,5 +16,13 @@
 }
 
 .mybutton {
-  width: 80%;
+  font-size: 16px;
+
+  border-radius: 4px;
+  width: 100%;
+  height: 40px;
+
+  background-color: white;
+  border: 2px solid Grey; /* rgb(230, 230, 230)*/
+  color: black;
 }

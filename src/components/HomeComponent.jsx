@@ -3,6 +3,7 @@ import { ReactiveBase, DataSearch } from "@appbaseio/reactivesearch";
 
 import Header from "./Header";
 import Results from "./Results";
+import YourOffers from "./YourOffers";
 
 import theme from "../theme";
 import "./styles/HomeComponent.css";
@@ -13,7 +14,11 @@ class HomeComponent extends Component {
     this.state = {
       currentTopics: [],
       resetCountryFilter: null,
+      showYourOffers: false
     };
+
+    this.openYourOffers = this.openYourOffers.bind(this);
+    this.closeYourOffers = this.closeYourOffers.bind(this);
   }
 
   sQ(func) {
@@ -43,9 +48,33 @@ class HomeComponent extends Component {
     });
   }
 
+
+  //Your offers
+  openYourOffers() {
+    console.log("clicked")
+
+    this.setState({
+      showYourOffers: true
+    })
+  }
+
+  closeYourOffers() {
+    this.setState({
+      showYourOffers: false
+    })
+  }
+  //
+
   render() {
     return (
       <section className="containererer">
+        {this.state.showYourOffers ? 
+          (<YourOffers
+              close={this.closeYourOffers}
+          />) 
+          : null
+        }
+
         <ReactiveBase
           app="testweb" //en un futuro: offers
           url="https://ae4d7ff23f8e4bcea2feecefc1b2337a.eu-central-1.aws.cloud.es.io:9243"
@@ -54,13 +83,13 @@ class HomeComponent extends Component {
           theme={theme}
         >
           <div className="flex app-container">
-            <Header sQ={this.sQ} />
+            <Header open={this.openYourOffers} sQ={this.sQ}/>
 
             <div className="results-container">
               <DataSearch
                 componentId="search"
                 filterLabel="Search"
-                dataField={["title", "title.completion", "category"]}
+                dataField={["title"]}
                 placeholder="Buscar..."
                 iconPosition="left"
                 autosuggest={true}
@@ -69,6 +98,25 @@ class HomeComponent extends Component {
                 innerClass={{
                   input: "search-input",
                 }}
+               // strictSelection={true}
+        
+                defaultQuery={
+                  function(value, props) {
+                    console.log("default query, props: ", props)
+                    return {
+                      query: {
+                        wildcard: {
+                            title: {
+                                value: value + "*",
+                                boost: 1.0,
+                                rewrite: "constant_score"
+                            }
+                        }
+                      }
+                    }
+                  }
+                }
+
               />
 
               <Results clearCFilter={this.clearCFilter} />
