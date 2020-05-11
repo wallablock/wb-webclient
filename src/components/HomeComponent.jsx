@@ -102,7 +102,7 @@ class HomeComponent extends Component {
         
                 defaultQuery={
                   function(value, props) {
-                    console.log("default query, props: ", props)
+                    //console.log("default query, props: ", props)
                     return {
                       query: {
                         wildcard: {

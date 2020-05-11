@@ -6,6 +6,10 @@ import { Link } from "react-router-dom";
 
 import "./styles/Header.css";
 
+import OfferRegistry from "wb-contracts/build/contracts/OfferRegistry.json"; //"../contracts/Offer.json"
+import Web3 from "web3";
+const myweb3 = new Web3(window.ethereum);
+
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -23,19 +27,36 @@ class Header extends Component {
     });
   }
 
+  async deploy() {
+    const accounts = await window.ethereum.enable();
+    const account = accounts[0]
+
+    console.log("account: ", account)
+
+    let myOfferRegistry = new myweb3.eth.Contract(OfferRegistry.abi, {
+      from: account
+    });
+
+    await myOfferRegistry.deploy({
+      data: OfferRegistry.bytecode,
+    })
+    .send()
+    .then((response) => {
+      console.log("response: ", response)
+    })
+
+    console.log("deployed")
+
+
+  }
+
 
 
   render() {
     return (
       
       <nav className="mynavbar">
-       
-
         <div className="mytitle">WallaBlock</div>
-
-
-       
-
 
         <div className=" bts_content">
           <div className="bts_wrap">
@@ -55,6 +76,13 @@ class Header extends Component {
               />
             </Link>
           </div>
+
+          {
+          /*
+          <button onClick={this.deploy}>Deploy registry</button>
+          */
+          }
+
         </div>
 
         <SearchFilters {...this.props} visible={this.state.visible} />

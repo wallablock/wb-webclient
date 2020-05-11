@@ -43,10 +43,23 @@ class MyCard extends Component {
   }
 
   async initImgs() {
-    this.setState({
-      imgs: await this.state.ipfs.getAllImagesUrl(this.props.data.cid),
-      desc: await this.state.ipfs.fetchDesc(this.props.data.cid)
-    });
+    try {
+      const imgs = await this.state.ipfs.getAllImagesUrl(this.props.data.cid)
+      this.setState({
+        imgs: imgs
+      })
+    } catch (ex) {
+      console.log("exception catched getting ipfs images")
+    }
+
+    try {
+      const dscr = await this.state.ipfs.fetchDesc(this.props.data.cid)
+      this.setState({
+        dscr: dscr
+      })
+    } catch (ex) {
+      console.log("exception catched getting ipfs description")
+    }
   }
 
   render() {

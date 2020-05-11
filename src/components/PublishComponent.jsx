@@ -28,7 +28,7 @@ class PublishComponent extends Component {
     this.state = {
       ipfs: "http://79.147.40.189:3000",
       //ipfs: "http://127.0.0.1:4000",
-      
+      registry: "0x6c4ea8aFFa12C061e5508Bd79fD616F10E6ce625",
       account: "",
       title: "",
       price: "",
@@ -105,7 +105,7 @@ class PublishComponent extends Component {
   async getContracts2() {
     const contract = new myweb3.eth.Contract(
       abi,
-      "0x436483DD9CEbe168d19D3Cb80E41Fe259F559d98"
+      "0x1F6f6DB45Cb287aC57B88C54743eb32a0df82f95"
     );
     console.log("readed contract");
     console.log(contract);
@@ -161,6 +161,8 @@ class PublishComponent extends Component {
     await myIpfs
       .uploadFiles(this.state.files, descr)
       .then((response) => {
+        console.log("images uploaded to ipfs")
+
         //Smart contract
 
         const cid = response;
@@ -217,7 +219,7 @@ class PublishComponent extends Component {
         await myOffer
           .deploy({
             data: bytecode,
-            arguments: [price, title, category, country, cid],
+            arguments: [this.state.registry, price, title, category, country, cid],
           })
           .send({ value: deposit })
           .then((response) => {
@@ -314,14 +316,14 @@ class PublishComponent extends Component {
   async createDBEntry(contract_addr, addr, title, price, category, country, cid) {
     const url = "https://ae4d7ff23f8e4bcea2feecefc1b2337a.eu-central-1.aws.cloud.es.io:9243/testweb/";
 
-    const n_entries = await this.getDBCount2(url + "_count") + 1;
+    //const n_entries = await this.getDBCount2(url + "_count") + 1;
 
    // console.log("n_entries: ", n_entries)
 
-    console.log("n_entries +1: ", n_entries)
+    //console.log("n_entries +1: ", n_entries)
 
 
-    const res_ES = this.callES(url + "_doc/" + n_entries.toString(), contract_addr, addr, title, price, category, country, cid)
+    const res_ES = this.callES(url + "_doc/" + contract_addr, contract_addr, addr, title, price, category, country, cid)
     console.log("result ES: ", res_ES)
   }
   /***********************/
@@ -383,6 +385,27 @@ class PublishComponent extends Component {
       <div className="background">
         <div className="non-background">
           <div className="content">
+            
+            {/*
+            <button onClick={() => {
+              const hex_country = Web3.utils.toHex("ESP");
+
+
+              const p1 = new Web3.utils.BN("10");
+              const price = Web3.utils.toWei(p1);
+              const hex_price = Web3.utils.toHex(price);
+
+              const p2 = new Web3.utils.BN("20");
+              const deposit = Web3.utils.toWei(p2);
+              const hex_deposit = Web3.utils.toHex(deposit);
+
+              this.createContract(this.state.account, hex_price, "titNewContract", "otros", hex_country, "cid inventat", hex_deposit)
+
+            }}>Create contract</button>
+          */}
+          {/*
+          <button onClick={this.getContracts2}> get contract info</button>
+          */}
             <Form onSubmit={this.handleSubmit2.bind(this)}>
               <Form.Group controlId="TitleAndPrice">
                 <Row>
