@@ -26,7 +26,7 @@ class PublishComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ipfs: "http://79.147.40.189:3000",
+      ipfs: "http://79.159.98.192:3000",
       //ipfs: "http://127.0.0.1:4000",
       registry: "0x6c4ea8aFFa12C061e5508Bd79fD616F10E6ce625",
       account: "",
@@ -322,8 +322,10 @@ class PublishComponent extends Component {
 
     //console.log("n_entries +1: ", n_entries)
 
+    const country_byte3 = getCountryISO3(getCode(country));
 
-    const res_ES = this.callES(url + "_doc/" + contract_addr, contract_addr, addr, title, price, category, country, cid)
+
+    const res_ES = this.callES(url + "_doc/" + contract_addr, contract_addr, addr, title, price, category, country_byte3, cid)
     console.log("result ES: ", res_ES)
   }
   /***********************/

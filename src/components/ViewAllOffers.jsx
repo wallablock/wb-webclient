@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import "./styles/YourOffers.css";
+import React, { Component } from "react";
+import "./styles/ViewAllOffers.css";
 
 import { IpfsConnection } from "wb-ipfs";
 
@@ -8,7 +8,7 @@ import OfferRegistry from "wb-contracts/build/contracts/OfferRegistry.json"; //"
 import Web3 from "web3";
 const myweb3 = new Web3(window.ethereum);
 
-class YourOffers extends Component {
+class ViewAllOffers extends Component {
     constructor(props) {
         super(props);
 
@@ -190,16 +190,14 @@ class YourOffers extends Component {
         
     }
 
+
     render() {
-        return (
-            <div className="offers_popup_background" onClick={this.props.close}>
-                <div
-                    className="offers_popup"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                    }}
-                >
-                    {!this.state.ready ?
+        return(
+            <div className="all-offers-background ">
+                <div className="all-offers-non-background">
+                    
+                    
+                {!this.state.ready ?
                         <div>
                             <h3>Loading...</h3>
                         </div>
@@ -279,12 +277,10 @@ class YourOffers extends Component {
 
 
 
-
-                    
                 </div>
             </div>
         )
     }
 }
 
-export default YourOffers;
+export default ViewAllOffers;

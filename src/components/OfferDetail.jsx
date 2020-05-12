@@ -74,7 +74,7 @@ class OfferDetail extends Component {
     }
 
     async getIPFSData(cid) {
-        const ipfsConnection = new IpfsConnection("http://79.147.40.189:3000");
+        const ipfsConnection = new IpfsConnection("http://79.159.98.192:3000");
         //const ipfsConnection = new IpfsConnection("http://127.0.0.1:4000");
        
         let img_urls = []

@@ -77,6 +77,12 @@ class Header extends Component {
             </Link>
           </div>
 
+
+
+          <Link to="/alloffers/">
+            <button>Go to page</button>
+          </Link>
+
           {
           /*
           <button onClick={this.deploy}>Deploy registry</button>

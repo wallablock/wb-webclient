@@ -9,6 +9,7 @@ import HomeComponent from "./components/HomeComponent";
 import NewAccount from "./components/NewAccount";
 import PublishComponent from "./components/PublishComponent";
 import OfferDetail from "./components/OfferDetail";
+import ViewAllOffers from "./components/ViewAllOffers";
 import NotFoundComponent from "./components/NotFoundComponent";
 
 class App extends Component {
@@ -20,6 +21,8 @@ class App extends Component {
           <Route exact path="/generate" component={NewAccount} />
           <Route exact path="/publish" component={PublishComponent} />
           <Route exact path="/offer/:offerId" component={OfferDetail} />
+          <Route exact path="/alloffers" component={ViewAllOffers} />
+
           <Route path="*" component={NotFoundComponent} />
         </Switch>
       </Router>
