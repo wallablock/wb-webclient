@@ -185,11 +185,45 @@ class ViewAllOffers extends Component {
         //Ready
         this.setState({
             ready: true
-        })
-
-        
+        })        
     }
 
+    cancel(contract_addr) {
+        console.log("cancel contract: ", contract_addr)
+        const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
+        contract.methods.cancel().send({from: this.state.account});
+    }
+
+    rejectBuyer(contract_addr) {
+        console.log("rejectBuyer contract: ", contract_addr)
+        const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
+        contract.methods.rejectBuyer().send({from: this.state.account});
+    }
+
+    confirm(contract_addr) {
+        console.log("confirm contract: ", contract_addr)
+        const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
+        contract.methods.confirm().send({from: this.state.account});
+    }
+
+    async getContactInfo(contract_addr) {
+        console.log("getContactInfo contract: ", contract_addr)
+        const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
+        const contactInfo = Web3.utils.hexToUtf8(await contract.methods.getContactInfo().call());
+        console.log("response contactInfo: ", contactInfo);
+    }
+
+    withdraw(contract_addr) {
+        console.log("withdraw contract: ", contract_addr)
+        const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
+        contract.methods.withdraw().send({from: this.state.account});
+    }
+
+    edit(contract_addr) {
+        console.log("edit contract: ", contract_addr)
+        const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
+
+    }
 
     render() {
         return(
@@ -210,7 +244,7 @@ class ViewAllOffers extends Component {
                                 <div className="offers_items_wrapper">
                                 {
                                     this.state.offers.map((offer) => (
-                                        <div className="offers_item" key={offer}>
+                                        <div className="offers_item" key={offer.contract_addr}>
                                             
                                             <img className="offers_img" src={offer.img}></img>
                                             <div className="offer_data">
@@ -218,38 +252,38 @@ class ViewAllOffers extends Component {
                                                     <p className="offer_first_tit">{offer.title}</p>
                                                     <p>{offer.price} Eth</p>
                                                 </div>
-                                                <div>
+                                                <div className="offers_state">
                                                     <p>{offer.type}: {offer.stateTranslation}</p>
                                                 </div>
                                             </div>
                                             <div className="offers_actions">
                                                 {offer.type === "Venta" && (offer.state === "0" || offer.state === "1") ?                                                
-                                                    <button className="offers_btns">Cancel</button>
+                                                    <button className="offers_btns" onClick={() => {this.cancel(offer.contract_addr)}}>Cancel</button>
                                                     :null
                                                 }
                                                
                                                 {offer.type === "Venta" && offer.state === "0" ?                                                
-                                                    <button className="offers_btns">Edit</button>
+                                                    <button className="offers_btns" onClick={() => {this.edit(offer.contract_addr)}}>Edit</button>
                                                     :null
                                                 }
 
                                                 {offer.type === "Venta" && offer.state === "1" ?                                                
-                                                    <button className="offers_btns">RejectBuyer</button>
+                                                    <button className="offers_btns" onClick={() => {this.rejectBuyer(offer.contract_addr)}}>RejectBuyer</button>
                                                     :null
                                                 }
 
                                                 {offer.type === "Compra" &&  offer.state === "1" ?                                                
-                                                    <button className="offers_btns">Confirm</button>
+                                                    <button className="offers_btns" onClick={() => {this.confirm(offer.contract_addr)}}>Confirm</button>
                                                     :null
                                                 }
 
                                                 {offer.state === "1" ?                                                
-                                                    <button className="offers_btns">getCotactInfo</button>
+                                                    <button className="offers_btns" onClick={() => {this.getContactInfo(offer.contract_addr)}}>getContactInfo</button>
                                                     :null
                                                 }
 
                                                 {offer.pendingWithdrawals > 0 ?                                                
-                                                    <button className="offers_btns">Withdraw</button>
+                                                    <button className="offers_btns" onClick={() => {this.withdraw(offer.contract_addr)}}>Withdraw</button>
                                                     :null
                                                 }
 
