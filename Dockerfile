@@ -19,18 +19,20 @@ COPY --from=builder /usr/src/app/build /usr/share/nginx/html
 COPY certificates/ /etc/nginx/ssl/
 RUN \
     cd /etc/nginx/conf.d && \
-    if [ -f ../ssl/ssl.crt ]; then \
-        if [ -f ../ssl/ssl.key ]; then \
+    if [ -f ../ssl/ssl.crt ] || [ -f ../ssl/ssl.key ]; then \
+        if [ -f ../ssl/ssl.crt ] && [ -f ../ssl/ssl.key ]; then \
             echo "Certificates found. HTTPS enabled" && \
-            rm default.conf &&
+            rm default.conf && \
             ln -s https.conf default.conf; \
         else \
-            echo "Error: Certificate exists but no key found" 1>&2 && \
+            echo "Error: Incomplete files found in certificates:" 1>&2 && \
+            echo "  ssl.crt and ssl.key must be both present" \
+                 " or both missing" 1>&2 && \
             exit 1; \
         fi; \
     else \
         echo "Certificates not found. HTTPS disabled" && \
-        rm default.conf &&
+        rm default.conf && \
         ln -s http.conf default.conf; \
     fi;
 COPY config/ /etc/wallablock/
