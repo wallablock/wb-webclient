@@ -1,5 +1,5 @@
 {
-  "blockchainUrl": "wb://localhost:8546",
+  "blockchainUrl": "ws://localhost:8546",
   "fileproxyUrl": "https://localhost:443",
   "elastic": {
     "url": "https://localhost:9200",
