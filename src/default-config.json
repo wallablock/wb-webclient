@@ -1,8 +1,8 @@
 {
-  "blockchainUrl": null,
-  "fileproxyUrl": null,
+  "blockchainUrl": "wb://localhost:8546",
+  "fileproxyUrl": "https://localhost:443",
   "elastic": {
-    "url": null,
-    "key": null
+    "url": "https://localhost:9200",
+    "key": ""
   }
 }
