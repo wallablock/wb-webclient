@@ -2,11 +2,20 @@ import DefaultConfig from "../default-config.json";
 import axios from "axios";
 
 /**
- * @typedef {Object.<string, *>} ConfigLike
+ * @typedef {Object} ElasticConfigLike
+ * @property {string} url
+ * @property {string} key
  */
 
 /**
- * @returns {Promise.<ConfigLike>}
+ * @typedef {Object} ConfigLike
+ * @property {string} blockchainUrl
+ * @property {string} fileproxyUrl
+ * @property {ElasticConfigLike} elastic
+ */
+
+/**
+ * @returns {Promise<ConfigLike>}
  */
 async function rawFetchConfig() {
   if (process.env.NODE_ENV === "development") {
@@ -27,9 +36,8 @@ async function rawFetchConfig() {
 }
 
 /**
- *
- * @param {ConfigLike} config
- * @param {ConfigLike} defaultConfig
+ * @param {Promise<ConfigLike>} config
+ * @param {Promise<ConfigLike>} defaultConfig
  * @param {string} field
  * @returns {*}
  */
@@ -39,7 +47,7 @@ function configGet(config, defaultConfig, field) {
 
 class ElasticSubConfig {
   /**
-   * @param {Promise.<ConfigLike>} promisedSubConfig
+   * @param {Promise<ConfigLike>} promisedSubConfig
    */
   constructor(promisedSubConfig) {
     this.subconfig = promisedSubConfig;
@@ -48,7 +56,7 @@ class ElasticSubConfig {
   /**
    * @private
    * @param {string} field
-   * @returns {Promise.<*>}
+   * @returns {Promise<*>}
    */
   cget(field) {
     return configGet(this.subconfig, DefaultConfig.elastic, field);
@@ -71,7 +79,7 @@ class ElasticSubConfig {
 
 class Config {
   /**
-   * @param {Promise.<ConfigLike>} promisedConfig
+   * @param {Promise<ConfigLike>} promisedConfig
    */
   constructor(promisedConfig) {
     this.config = promisedConfig;
@@ -111,6 +119,6 @@ class Config {
 /**
  * @returns {Config}
  */
-export async function fetchConfig() {
+export function fetchConfig() {
   return new Config(rawFetchConfig());
 }
