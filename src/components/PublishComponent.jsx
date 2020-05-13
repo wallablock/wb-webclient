@@ -448,8 +448,26 @@ class PublishComponent extends Component {
                 />
               </Form.Group>
 
+              <Form.Group controlId="Country">
+                <Form.Label>País de origen</Form.Label>
+                <Form.Control
+                  as="select"
+                  placeholder=""
+                  name="country"
+                  //onChange={this.handleCountryChange}
+                  onChange={this.handleInputChange}
+                  value={this.state.country}
+                  required
+                >
+                  <option></option>
+                  {getNames().map((country) => (
+                    <option key={country}>{country}</option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
+
               <Form.Group controlId="Category">
-                <Form.Label>Categoria</Form.Label>
+                <Form.Label>Categoría</Form.Label>
                 <Form.Control
                   as="select"
                   name="category"
@@ -468,23 +486,7 @@ class PublishComponent extends Component {
                 </Form.Control>
               </Form.Group>
 
-              <Form.Group controlId="Country">
-                <Form.Label>País de origen</Form.Label>
-                <Form.Control
-                  as="select"
-                  placeholder=""
-                  name="country"
-                  //onChange={this.handleCountryChange}
-                  onChange={this.handleInputChange}
-                  value={this.state.country}
-                  required
-                >
-                  <option></option>
-                  {getNames().map((country) => (
-                    <option key={country}>{country}</option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
+
 
               <br />
 

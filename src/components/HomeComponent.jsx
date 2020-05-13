@@ -68,11 +68,13 @@ class HomeComponent extends Component {
   render() {
     return (
       <section className="containererer">
-        {this.state.showYourOffers ? 
+        
+        {/*this.state.showYourOffers ? 
           (<YourOffers
               close={this.closeYourOffers}
           />) 
           : null
+          */
         }
 
         <ReactiveBase
@@ -83,7 +85,7 @@ class HomeComponent extends Component {
           theme={theme}
         >
           <div className="flex app-container">
-            <Header open={this.openYourOffers} sQ={this.sQ}/>
+            <Header /*open={this.openYourOffers}*/ sQ={this.sQ}/>
 
             <div className="results-container">
               <DataSearch
@@ -100,6 +102,9 @@ class HomeComponent extends Component {
                 }}
                // strictSelection={true}
         
+
+
+
                 defaultQuery={
                   function(value, props) {
                     //console.log("default query, props: ", props)

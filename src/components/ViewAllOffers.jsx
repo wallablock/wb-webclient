@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./styles/ViewAllOffers.css";
 
+import Edit from './Edit';
+
 import { IpfsConnection } from "wb-ipfs";
 
 import Offer from "wb-contracts/build/contracts/Offer.json"; //"../contracts/Offer.json"
@@ -19,9 +21,12 @@ class ViewAllOffers extends Component {
             registry: "0x6c4ea8aFFa12C061e5508Bd79fD616F10E6ce625",
             account: "",
             ipfs: new IpfsConnection("http://79.159.98.192:3000"),
-            offers: []
+            offers: [],
+            edit: false,
+            selected_edit: null
         }
         this.load = this.load.bind(this)
+        this.closeEdit = this.closeEdit.bind(this)
 
         this.load();
     }
@@ -223,13 +228,31 @@ class ViewAllOffers extends Component {
         console.log("edit contract: ", contract_addr)
         const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
 
+        this.setState({
+            edit: true,
+            selected_edit: contract_addr
+        })
+    }
+
+    closeEdit() {
+        console.log("closEdit()")
+        this.setState( {
+            edit: false,
+            selected_edit: null
+        })
     }
 
     render() {
         return(
+
+
             <div className="all-offers-background ">
                 <div className="all-offers-non-background">
-                    
+                
+                {this.state.edit && this.state.selected_edit != null ?
+                    <Edit close={this.closeEdit} contract={this.state.selected_edit}/>
+                    :null
+                }   
                     
                 {!this.state.ready ?
                         <div>

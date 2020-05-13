@@ -9,8 +9,7 @@ export default class MultipleImageUploadComponent extends Component {
     this.state = {
       files: [],
     };
-    this.fileObj = [];
-    this.fileArray = [];
+
     this.uploadMultipleFiles = this.uploadMultipleFiles.bind(this);
   }
 

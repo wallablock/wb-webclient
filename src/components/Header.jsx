@@ -60,6 +60,17 @@ class Header extends Component {
 
         <div className=" bts_content">
           <div className="bts_wrap">
+
+            <Link to="/alloffers/">
+              <input
+                type="button"
+                className="mybutton"
+                value="Ver tus ventas/compras"
+              />
+            </Link>
+          </div>
+          {/*
+            <div className="bts_wrap">
               <input
                 type="button"
                 className="mybutton"
@@ -67,6 +78,7 @@ class Header extends Component {
                 onClick={this.props.open}
               />
           </div>
+          */}
           <div className="bts_wrap">
             <Link to="/publish">
               <input
@@ -79,9 +91,7 @@ class Header extends Component {
 
 
 
-          <Link to="/alloffers/">
-            <button>Go to page</button>
-          </Link>
+         
 
           {
           /*
