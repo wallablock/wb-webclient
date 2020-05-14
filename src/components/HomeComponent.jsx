@@ -91,7 +91,7 @@ class HomeComponent extends Component {
               <DataSearch
                 componentId="search"
                 filterLabel="Search"
-                dataField={["title"]}
+                dataField={["title", "title.keyword"]}
                 placeholder="Buscar..."
                 iconPosition="left"
                 autosuggest={true}

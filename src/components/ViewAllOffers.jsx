@@ -175,7 +175,7 @@ class ViewAllOffers extends Component {
     async load() {
 
         await this.getAccount();
-        if (this.state.account == "") return;
+        if (this.state.account === "") return;
 
         const registry = new myweb3.eth.Contract(
             OfferRegistry.abi,
@@ -245,20 +245,27 @@ class ViewAllOffers extends Component {
     async getContactInfo(contract_addr) {
         console.log("getContactInfo contract: ", contract_addr)
         const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
-        
+
         const contactInfo = Web3.utils.hexToUtf8(await contract.methods.getContactInfo().call());
         console.log("response contactInfo: ", contactInfo);
     }
 
-    withdraw(contract_addr) {
+    async withdraw(contract_addr) {
         console.log("withdraw contract: ", contract_addr)
         const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
-        contract.methods.withdraw().send({from: this.state.account});
+        await contract.methods.withdraw().send({from: this.state.account})
+        .then((response) => {
+            //Success notification
+            NotificationManager.success("Acción realizada con éxito.", "Retiro de fondos");
+        })
+        .catch((ex) => {
+            //Error notification
+            NotificationManager.error("Ha surgido un error durante su ejecución.", "Retiro de fondos");
+        })
     }
 
     edit(contract_addr) {
         console.log("edit contract: ", contract_addr)
-        const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
 
         this.setState({
             edit: true,
@@ -309,7 +316,7 @@ class ViewAllOffers extends Component {
                                     this.state.offers.map((offer) => (
                                         <div className="offers_item" key={offer.contract_addr}>
                                             
-                                            <img className="offers_img" src={offer.img}></img>
+                                            <img className="offers_img" src={offer.img} alt=""></img>
                                             <div className="offer_data">
                                                 <div className="flex offer_first_line">
                                                     <p className="offer_first_tit">{offer.title}</p>

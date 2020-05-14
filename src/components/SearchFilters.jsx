@@ -90,7 +90,7 @@ class SearchFilters extends Component {
           <p className="m14 pfilt">País de origen</p>
           <MultiDropdownList
             componentId="filtroPais"
-            dataField="shipsFrom"
+            dataField="shipsFrom.keyword"            
             filterLabel="país"
             placeholder="Todos"
             searchPlaceholder="Buscar país..."

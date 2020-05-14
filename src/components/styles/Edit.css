@@ -26,6 +26,15 @@
     border: 0px;
 }
 
+.edit-btn:disabled {
+    width: 20%;
+    height: 30px;
+    opacity: 0.5;
+    background-color: #4188ff;
+    color: white;
+    border: 0px;
+}
+
 
 /**/
 

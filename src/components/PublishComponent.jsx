@@ -72,14 +72,19 @@ class PublishComponent extends Component {
   }
 
   handlePriceChange(event) {
-    let n = parseInt(event.target.value, 10)
-    if (isNaN(n)) {
-        n = ""
+    if (event.target.value === "") {
+      this.setState({
+        price: ""
+      })
     }
-
-    this.setState({
-        price: n
-    })
+    else {
+      let n = parseInt(event.target.value, 10)
+      if (!isNaN(n) && n >= 0) {
+        this.setState({
+          price: n
+        })
+      }
+    }  
   }
 
   handleCountryChange(event) {

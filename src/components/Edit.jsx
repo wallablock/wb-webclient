@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
 
 import ImageUploader2 from "./ImageUploader2";
 
-import { getCode, getNames } from "country-list";
+import { getName, getCode, getNames } from "country-list";
 import getCountryISO3 from "country-iso-2-to-3";
+import getCountryISO2 from "country-iso-3-to-2";
 
 import { IpfsConnection } from "wb-ipfs";
 
-import {NotificationContainer, NotificationManager} from 'react-notifications';
+import {NotificationManager} from 'react-notifications';
 
 import Offer from "wb-contracts/build/contracts/Offer.json"; //"../contracts/Offer.json"
 
@@ -33,6 +32,8 @@ class Edit extends Component {
             category: "",
             title_ph: "",
             price_ph: "",
+            country_ph: "",
+            category_ph: "",
             reset: false,
             files: [],
             cid: ""
@@ -40,6 +41,7 @@ class Edit extends Component {
 
         this.changeFiles = this.changeFiles.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handlePriceChange = this.handlePriceChange.bind(this);
         this.setTitle = this.setTitle.bind(this);
         this.setPrice = this.setPrice.bind(this);
         this.setCountry = this.setCountry.bind(this);
@@ -64,14 +66,22 @@ class Edit extends Component {
         const title_ph = await contract.methods.title().call()
         const price_weis = await contract.methods.price().call()
         const price_ph = Web3.utils.fromWei(price_weis)
+        const country_ph = getName(getCountryISO2(Web3.utils.hexToAscii(await contract.methods.shipsFrom().call())))
+        const category_ph = await contract.methods.category().call()
 
         //Contemplar cas quan no hi ha cid, hauriem de posarlo undefined o null o algo
         const cid = await contract.methods.attachedFiles().call();        
 
         this.setState({
+            title: title_ph,
             title_ph: title_ph,
+            price: price_ph,
             price_ph: price_ph,
             price_weis: price_weis,
+            country: country_ph,
+            country_ph: country_ph,
+            category: category_ph,
+            category_ph: category_ph,
             cid: cid
         })
     }
@@ -96,6 +106,22 @@ class Edit extends Component {
           [name]: value,
         });
     }
+
+    handlePriceChange(event) {
+        if (event.target.value === "") {
+          this.setState({
+            price: ""
+          })
+        }
+        else {
+          let n = parseInt(event.target.value, 10)
+          if (!isNaN(n) && n >= 0) {
+            this.setState({
+              price: n
+            })
+          }
+        }  
+      }
 
     async setTitle(e) {
         e.preventDefault();
@@ -252,7 +278,7 @@ class Edit extends Component {
                                             required
                                         />
                                     </div>
-                                    <button type="submit" className="edit-btn">Cambiar título</button>
+                                    <button type="submit" className="edit-btn" disabled={this.state.title === "" || this.state.title === this.state.title_ph}>Cambiar título</button>
                                 </div>
                             </div>
                         </Form>
@@ -266,12 +292,12 @@ class Edit extends Component {
                                             type="text"
                                             name="price"
                                             placeholder={this.state.price_ph}
-                                            onChange={this.handleInputChange}
+                                            onChange={this.handlePriceChange}
                                             value={this.state.price}
                                             required
                                         />
                                     </div>
-                                    <button type="submit" className="edit-btn">Cambiar precio</button>
+                                    <button type="submit" className="edit-btn" disabled={this.state.price.toString() === "" || this.state.price === this.state.price_ph}>Cambiar precio</button>
                                 </div>
                             </div>
                         </Form>
@@ -293,7 +319,6 @@ class Edit extends Component {
 
                                         required
                                     >
-                                        <option></option>
                                         {getNames().map((country) => (
                                             <option key={country}>{country}</option>
                                         ))}
@@ -301,7 +326,7 @@ class Edit extends Component {
 
 
                                     </div>
-                                    <button type="submit" className="edit-btn">Cambiar país</button>
+                                    <button type="submit" className="edit-btn" disabled={this.state.country === "" || this.state.country === this.state.country_ph}>Cambiar país</button>
                                 </div>
                             </div>
                         </Form>
@@ -321,7 +346,6 @@ class Edit extends Component {
                                         value={this.state.category}
                                         required
                                     >
-                                        <option></option>
                                         <option>Electrodomesticos</option>
                                         <option>Inmobiliaria</option>
                                         <option>Moviles</option>
@@ -332,12 +356,12 @@ class Edit extends Component {
                                     </Form.Control>
 
                                     </div>
-                                    <button type="submit" className="edit-btn">Cambiar categoría</button>
+                                    <button type="submit" className="edit-btn" disabled={this.state.category === "" || this.state.category === this.state.category_ph}>Cambiar categoría</button>
                                 </div>
                             </div>
                         </Form>
 
-                        {this.state.cid != "" ?
+                        {this.state.cid !== "" ?
                             <div className="edit-field-wrapper">
                                 <div className="edit-field-input">
                                     <ImageUploader2 cid={this.state.cid} onChange={this.changeFiles} reset={this.state.reset} revertReset={this.revertReset}/>
