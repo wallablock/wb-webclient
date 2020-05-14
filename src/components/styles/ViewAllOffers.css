@@ -22,3 +22,110 @@
     width: 60%;
     height: 90%;
   }
+
+  .offers_popup_content {
+    
+    padding: 10px;
+    max-height: 100%;
+    overflow: auto;
+  }
+  
+  .offersHeader {
+    display: flex;
+    flex-direction: row;
+    height: 50px;
+  }
+
+  .offersTitle{
+    margin-bottom: 15px;
+    width: 50%;
+  }
+
+  .offersGoBack {
+    width: 50%;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  .goBack-btn {
+    width: auto;
+    height: 35px;
+  }
+
+  .offers_items_wrapper {
+    padding-left: 15%;
+    padding-right: 15%;
+
+    max-height: 100%;
+    overflow: auto;
+  }
+
+
+  .offers_item {
+    display: flex;
+    width: 100%;
+    height: 80px;
+    border: 1px solid Black;
+    margin-bottom: 10px;
+  }
+
+  .offers_img {
+    width: 15%;
+    height: auto;
+  }
+
+  .offer_data {
+    position: relative;
+    padding: 5px;
+    width: 30%;
+  }
+
+  .offer_first_line {
+    display: flex;
+    font-size: 16px;
+  }
+
+  .offer_first_tit {
+    padding-right: 20px;
+  }
+
+  .offers_state {
+    position: absolute;
+    bottom: 10px;
+  }
+
+  .offers_actions {
+    display: flex;
+    flex-direction: row-reverse;
+
+    width: 55%;
+
+    padding-top:20px;
+    padding-bottom:20px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .offers_btn_actions {
+    background-color: grey;
+    color: white;
+    border: 2px solid grey;
+    padding: 8px 50px;
+
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+
+    font-size: 16px;
+  }
+
+  .offers_btns {
+    font-size: 14px;
+  
+    background-color: grey;
+    color: white;
+    border: 2px solid grey;
+  
+    margin-right: 10px;
+  }
+  

@@ -26,61 +26,34 @@ class ImageUploader2 extends Component {
     }
 
     async test() {
-        //Init ipfs
-        const myIpfs = new IpfsConnection("http://79.159.98.192:3000");
+        if (this.props.cid != null) { //CHECKEAR q quan no hi hagi cid predefinid, passam un cid amb null.
+            //Init ipfs
+            const myIpfs = new IpfsConnection("http://79.159.98.192:3000");
 
-        //Get imgs
-        const imgs = await myIpfs.getAllImagesUrl(this.props.cid);
 
-        let files = []
 
-        //Init files with IPFS images
-        for (let i = 0; i < imgs.length; i++) {
-            const name = this.extractName(imgs[i])
+            const imgs = await myIpfs.getAllImagesUrl(this.props.cid);
 
-            const file = await fetch(imgs[i])
-            .then(r => r.blob())
-            .then(blobFile => new File([blobFile], name, { type: blobFile.type }))
-
-            files.push(file)
+            let files = []
+    
+            //Init files with IPFS images
+            for (let i = 0; i < imgs.length; i++) {
+                const name = this.extractName(imgs[i])
+    
+                const file = await fetch(imgs[i])
+                .then(r => r.blob())
+                .then(blobFile => new File([blobFile], name, { type: blobFile.type }))
+    
+                files.push(file)
+            }
+    
+            this.setState({
+                files: files
+            })
+    
+            this.props.onChange(files);
         }
-
-        this.setState({
-            files: files
-        })
-
-        this.props.onChange(files);
-
-        /*
-        const img = imgs[0];
-        const name = this.extractName(img)
-
-        const file_direct = await fetch(img)
-        .then(r => r.blob())
-        .then(blobFile => new File([blobFile], name, { type: blobFile.type }))
-        console.log("TESTING, file_direct: ", file_direct)*/
-
-/*
-        const blob1 = await fetch(img).then(r => r.blob());
-        console.log("TESTING, blob1: ", blob1)
-
-        const name = this.extractName(img)
-        const file1 = new File([blob1], name, {type: blob1.type});
-        console.log("TESTING, file1: ", file1)
-        */
-
-
-        /*const blob2 = new Blob(
-            [
-              img
-            ],
-            { type: "image/*" }
-        );
-        console.log("TESTING, blob2: ", blob2)
-
-        const file2 = new File([blob2], "test.jpg");
-
-        console.log("TESTING, file2: ", file2)*/
+        
     }
 
     removeImage(img) {

@@ -10,6 +10,8 @@ import getCountryISO3 from "country-iso-2-to-3";
 
 import { IpfsConnection } from "wb-ipfs";
 
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+
 import Offer from "wb-contracts/build/contracts/Offer.json"; //"../contracts/Offer.json"
 
 import "./styles/Edit.css";
@@ -63,20 +65,14 @@ class Edit extends Component {
         const price_weis = await contract.methods.price().call()
         const price_ph = Web3.utils.fromWei(price_weis)
 
-
-        //TESTING
-        const cid = await contract.methods.attachedFiles().call();
-        console.log("Edit, cid: ", cid)
-        this.setState({
-            cid: cid
-        })
-
-        
+        //Contemplar cas quan no hi ha cid, hauriem de posarlo undefined o null o algo
+        const cid = await contract.methods.attachedFiles().call();        
 
         this.setState({
             title_ph: title_ph,
             price_ph: price_ph,
             price_weis: price_weis,
+            cid: cid
         })
     }
 
@@ -101,11 +97,19 @@ class Edit extends Component {
         });
     }
 
-    setTitle(e) {
+    async setTitle(e) {
         e.preventDefault();
 
         const contract = new myweb3.eth.Contract(Offer.abi, this.props.contract);
-        contract.methods.setTitle(this.state.title).send({from: this.state.account})
+        await contract.methods.setTitle(this.state.title).send({from: this.state.account})
+        .then((response) => {
+            //Success notification
+            NotificationManager.success("Acción realizada con éxito.", "Cambio de titulo");
+        })
+        .catch((ex) => {
+            //Error notification
+            NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de titulo");
+        })
     }
 
     async setPrice(e) {
@@ -118,45 +122,109 @@ class Edit extends Component {
             const deposit = await contract.methods.depositChangeForNewPrice(price_weis).call();
             console.log("deposit needed: ", Web3.utils.fromWei(deposit))
     
-            contract.methods.setPrice(price_weis).send({from: this.state.account, value: deposit})
+            await contract.methods.setPrice(price_weis).send({from: this.state.account, value: deposit})
+            .then((response) => {
+                //Success notification
+                NotificationManager.success("Acción realizada con éxito.", "Cambio de precio");
+            })
+            .catch((ex) => {
+                //Error notification
+                NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de precio");
+            })
         }
         else {
             console.log("NO deposit needed")
-            contract.methods.setPrice(price_weis).send({from: this.state.account})
+            await contract.methods.setPrice(price_weis).send({from: this.state.account})
+            .then((response) => {
+                //Success notification
+                NotificationManager.success("Acción realizada con éxito.", "Cambio de precio");
+            })
+            .catch((ex) => {
+                //Error notification
+                NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de precio");
+            })
         }
     }
 
-    setCountry(e) {
+    async setCountry(e) {
         e.preventDefault();
 
         const contract = new myweb3.eth.Contract(Offer.abi, this.props.contract)
         const alpha3_hex = Web3.utils.toHex(getCountryISO3(getCode(this.state.country)))
-        contract.methods.setShipsFrom(alpha3_hex).send({from: this.state.account})
+        await contract.methods.setShipsFrom(alpha3_hex).send({from: this.state.account})
+        .then((response) => {
+            //Success notification
+            NotificationManager.success("Acción realizada con éxito.", "Cambio de país");
+        })
+        .catch((ex) => {
+            //Error notification
+            NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de país");
+        })
     }
 
-    setCategory(e) {
+    async setCategory(e) {
         e.preventDefault();
 
         const contract = new myweb3.eth.Contract(Offer.abi, this.props.contract);
-        contract.methods.setCategory(this.state.category).send({from: this.state.account})
+        await contract.methods.setCategory(this.state.category).send({from: this.state.account})
+        .then((response) => {
+            //Success notification
+            NotificationManager.success("Acción realizada con éxito.", "Cambio de categoría");
+        })
+        .catch((ex) => {
+            //Error notification
+            NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de categoría");
+        })
     }
 
     async setImages() {
         let cid = ""
-        if (this.state.files.length > 0) {
-            //Init ipfs
-            const myIpfs = new IpfsConnection("http://79.159.98.192:3000");
 
+        //Init ipfs
+        const myIpfs = new IpfsConnection("http://79.159.98.192:3000");
+
+        if (this.state.files.length > 0) {
             //Get description
-            const descr = myIpfs.fetchDesc(this.state.cid)
+            let fail = false
+            const descr = await myIpfs.fetchDesc(this.state.cid)
+            .catch((ex) => {
+                //console.log("exception catched fetching descr, ex: ", ex)
+
+                //fail = true
+                //Error notification
+                //NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");
+                return ;
+            })
+            if (fail) return; //Check si no hi ha descripcio
+            console.log("descr: ", descr)
+
 
             //Upload imgs
             cid = await myIpfs.uploadFiles(this.state.files, descr)
+            .catch((ex) => {
+                console.log("exception catched fetching descr, ex: ", ex)
+                fail = true
+                //Error notification
+                NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");
+                return ;
+            })
+            if (fail) return; 
         }
 
         //Update attachedFiles on contract
         const contract = new myweb3.eth.Contract(Offer.abi, this.props.contract);
-        contract.methods.setAttachedFiles(cid).send({from: this.state.account})
+        await contract.methods.setAttachedFiles(cid).send({from: this.state.account})
+        .then(response => {
+            //Delete old cid
+            myIpfs.delete(this.state.cid);
+
+            //Success notification
+            NotificationManager.success("Acción realizada con éxito.", "Cambio de imágenes");
+        })
+        .catch((ex) => {
+            //Error notification
+            NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");
+        })                
     }
 
     render() {
@@ -242,7 +310,7 @@ class Edit extends Component {
 
                         <Form onSubmit={this.setCategory}>
                             <div className="edit-field-group">
-                                <Form.Label>Categoria</Form.Label>
+                                <Form.Label>Categoría</Form.Label>
                                 <div className="edit-field-wrapper">
                                     <div className="edit-field-input">
 

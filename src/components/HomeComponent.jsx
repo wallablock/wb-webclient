@@ -3,7 +3,7 @@ import { ReactiveBase, DataSearch } from "@appbaseio/reactivesearch";
 
 import Header from "./Header";
 import Results from "./Results";
-import YourOffers from "./YourOffers";
+//import YourOffers from "./YourOffers";
 
 import theme from "../theme";
 import "./styles/HomeComponent.css";

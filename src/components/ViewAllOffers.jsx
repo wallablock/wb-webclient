@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 import "./styles/ViewAllOffers.css";
 
+import { IpfsConnection } from "wb-ipfs";
+
+import { Link } from "react-router-dom";
+
 import Edit from './Edit';
 
-import { IpfsConnection } from "wb-ipfs";
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 import Offer from "wb-contracts/build/contracts/Offer.json"; //"../contracts/Offer.json"
 import OfferRegistry from "wb-contracts/build/contracts/OfferRegistry.json"; //"../contracts/Offer.json"
@@ -32,11 +36,13 @@ class ViewAllOffers extends Component {
     }
 
     async getAccount() {
-        const accounts = await window.ethereum.enable();
-    
-        this.setState({
-          account: accounts[0],
-        });
+        if (typeof window.ethereum !== 'undefined') {
+            const accounts = await window.ethereum.enable();
+        
+            this.setState({
+                account: accounts[0],
+            });
+        }
     }
 
     async loadBuys(registry) {
@@ -167,8 +173,9 @@ class ViewAllOffers extends Component {
     }
 
     async load() {
-        await this.getAccount();
 
+        await this.getAccount();
+        if (this.state.account == "") return;
 
         const registry = new myweb3.eth.Contract(
             OfferRegistry.abi,
@@ -193,27 +200,52 @@ class ViewAllOffers extends Component {
         })        
     }
 
-    cancel(contract_addr) {
+    async cancel(contract_addr) {
         console.log("cancel contract: ", contract_addr)
         const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
-        contract.methods.cancel().send({from: this.state.account});
+        await contract.methods.cancel().send({from: this.state.account})
+        .then((response) => {
+            //Success notification
+            NotificationManager.success("Acción realizada con éxito.", "Cancelar oferta");
+        })
+        .catch((ex) => {
+            //Error notification
+            NotificationManager.error("Ha surgido un error durante su ejecución.", "Cancelar oferta");
+        })
     }
 
-    rejectBuyer(contract_addr) {
+    async rejectBuyer(contract_addr) {
         console.log("rejectBuyer contract: ", contract_addr)
         const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
-        contract.methods.rejectBuyer().send({from: this.state.account});
+        await contract.methods.rejectBuyer().send({from: this.state.account})
+        .then((response) => {
+            //Success notification
+            NotificationManager.success("Acción realizada con éxito.", "Rechazar comprador");
+        })
+        .catch((ex) => {
+            //Error notification
+            NotificationManager.error("Ha surgido un error durante su ejecución.", "Rechazar comprador");
+        })
     }
 
-    confirm(contract_addr) {
+    async confirm(contract_addr) {
         console.log("confirm contract: ", contract_addr)
         const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
-        contract.methods.confirm().send({from: this.state.account});
+        await contract.methods.confirm().send({from: this.state.account})
+        .then((response) => {
+            //Success notification
+            NotificationManager.success("Acción realizada con éxito.", "Confirmar oferta");
+        })
+        .catch((ex) => {
+            //Error notification
+            NotificationManager.error("Ha surgido un error durante su ejecución.", "Confirmar oferta");
+        })
     }
 
     async getContactInfo(contract_addr) {
         console.log("getContactInfo contract: ", contract_addr)
         const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
+        
         const contactInfo = Web3.utils.hexToUtf8(await contract.methods.getContactInfo().call());
         console.log("response contactInfo: ", contactInfo);
     }
@@ -260,8 +292,16 @@ class ViewAllOffers extends Component {
                         </div>
                         :(
                             <div className="offers_popup_content"> 
-                                <div className="offersTitle">
-                                    <h3>Tus compras y ventas</h3>
+                                <div className="offersHeader">
+                                    <div className="offersTitle">
+                                        <h3>Tus compras y ventas</h3>
+                                    </div>
+
+                                    <div className="offersGoBack">
+                                        <Link to={'/'}>
+                                            <button className="goBack-btn">Volver atrás</button>
+                                        </Link>
+                                    </div>
                                 </div>
 
                                 <div className="offers_items_wrapper">
@@ -326,6 +366,7 @@ class ViewAllOffers extends Component {
                                     ))
                                 }
                                 </div>
+                                <NotificationContainer/>
                             </div>
                            
                         )
