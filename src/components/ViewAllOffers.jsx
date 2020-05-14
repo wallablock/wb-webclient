@@ -6,6 +6,7 @@ import { IpfsConnection } from "wb-ipfs";
 import { Link } from "react-router-dom";
 
 import Edit from './Edit';
+import PopupContactInfo from './PopupContactInfo';
 
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 
@@ -18,8 +19,6 @@ class ViewAllOffers extends Component {
     constructor(props) {
         super(props);
 
-        console.log("constructor your offers")
-
         this.state = {
             ready: false,
             registry: "0x6c4ea8aFFa12C061e5508Bd79fD616F10E6ce625",
@@ -27,10 +26,13 @@ class ViewAllOffers extends Component {
             ipfs: new IpfsConnection("http://79.159.98.192:3000"),
             offers: [],
             edit: false,
-            selected_edit: null
+            selected_edit: null,
+            showContact: false,
+            contactInfo: "",
         }
         this.load = this.load.bind(this)
         this.closeEdit = this.closeEdit.bind(this)
+        this.coseContactInfo = this.coseContactInfo.bind(this);
 
         this.load();
     }
@@ -46,8 +48,6 @@ class ViewAllOffers extends Component {
     }
 
     async loadBuys(registry) {
-        console.log("load buys, account to filer: ", this.state.account)
-
         const buy_events = await registry.getPastEvents('Bought', {
             filter: {buyer: this.state.account},
             fromBlock: 0
@@ -58,7 +58,6 @@ class ViewAllOffers extends Component {
             }            
         });*/
 
-        console.log("buy_events: ", buy_events)
 
         let buys = []
         for (let i= 0; i < buy_events.length; i++) {
@@ -69,8 +68,6 @@ class ViewAllOffers extends Component {
     }
 
     async loadSells(registry) {
-        console.log("load sells, account to filer: ", this.state.account)
-
         const sell_events = await registry.getPastEvents('Created', {
             filter: {seller: this.state.account},
             fromBlock: 0
@@ -83,7 +80,6 @@ class ViewAllOffers extends Component {
             return slls;            
         });*/
 
-        console.log("sell_events: ", sell_events)
 
         let sells = []
         for (let i= 0; i < sell_events.length; i++) {
@@ -118,10 +114,9 @@ class ViewAllOffers extends Component {
 
     async prepareData(sells, buys) {
         //Sells
-        console.log("prepareData, sells.length: ", sells.length)
         let sells_offer = []
         for (let i = 0; i < sells.length; i++) {
-            console.log("contract addr: ", sells[i])
+            //console.log("contract addr: ", sells[i])
             const contract = new myweb3.eth.Contract(Offer.abi, sells[i]);
             const st = await contract.methods.currentStatus().call();
             const offer = {
@@ -132,23 +127,26 @@ class ViewAllOffers extends Component {
                 state: st,
                 stateTranslation: this.stateTranslator(st),
                 pendingWithdrawals: await contract.methods.pendingWithdrawals(this.state.account).call(),
-                img: this.state.ipfs.coverUrl(await contract.methods.attachedFiles().call())
+                img: this.state.ipfs.coverUrl(await contract.methods.attachedFiles().call()) //Check q fer if no imgs
             } 
-            console.log("contract: ", contract)
-            console.log("offer: ", offer)
+           // console.log("contract: ", contract)
+           // console.log("offer: ", offer)
 
             sells_offer.push(offer)
         }
 
+        
         this.setState({
-            offers: this.state.offers.concat(sells_offer)
+            //offers: this.state.offers.concat(sells_offer)
+            offers: sells_offer
         })
 
+        
+
         //Buys
-        console.log("prepareData, buys.length: ", buys.length)
         let buys_offer = []
         for (let i = 0; i < buys.length; i++) {
-            console.log("contract addr: ", buys[i])
+            //console.log("contract addr: ", buys[i])
             const contract = new myweb3.eth.Contract(Offer.abi, buys[i]);
             const st = await contract.methods.currentStatus().call();
             const offer = {
@@ -159,10 +157,10 @@ class ViewAllOffers extends Component {
                 state: st,
                 stateTranslation: this.stateTranslator(st),
                 pendingWithdrawals: await contract.methods.pendingWithdrawals(this.state.account).call(),
-                img: this.state.ipfs.coverUrl(await contract.methods.attachedFiles().call())
+                img: this.state.ipfs.coverUrl(await contract.methods.attachedFiles().call()) //Check q fer if no imgs
             } 
-            console.log("contract: ", contract)
-            console.log("offer: ", offer)
+            //console.log("contract: ", contract)
+            //console.log("offer: ", offer)
 
             buys_offer.push(offer)
         }
@@ -170,9 +168,16 @@ class ViewAllOffers extends Component {
         this.setState({
             offers: this.state.offers.concat(buys_offer)
         })
+        
     }
 
     async load() {
+        //No Ready
+        if (this.state.ready) {
+            this.setState({
+                ready: false
+            })   
+        }
 
         await this.getAccount();
         if (this.state.account === "") return;
@@ -184,20 +189,16 @@ class ViewAllOffers extends Component {
 
         
         const sells = await this.loadSells(registry)
-        console.log("loadSells ha tornat, sells: ", sells)
-
-
         const buys = await this.loadBuys(registry)
-        console.log("loadBuys ha tornat, buys: ", buys)
 
         await this.prepareData(sells, buys)
-
         
 
         //Ready
         this.setState({
             ready: true
         })        
+        
     }
 
     async cancel(contract_addr) {
@@ -248,6 +249,12 @@ class ViewAllOffers extends Component {
 
         const contactInfo = Web3.utils.hexToUtf8(await contract.methods.getContactInfo().call());
         console.log("response contactInfo: ", contactInfo);
+
+        //Popup
+        this.setState({
+            showContact: true,
+            contactInfo: contactInfo
+        })
     }
 
     async withdraw(contract_addr) {
@@ -265,8 +272,6 @@ class ViewAllOffers extends Component {
     }
 
     edit(contract_addr) {
-        console.log("edit contract: ", contract_addr)
-
         this.setState({
             edit: true,
             selected_edit: contract_addr
@@ -274,10 +279,15 @@ class ViewAllOffers extends Component {
     }
 
     closeEdit() {
-        console.log("closEdit()")
         this.setState( {
             edit: false,
             selected_edit: null
+        })
+    }
+
+    coseContactInfo() {
+        this.setState({
+            showContact: false
         })
     }
 
@@ -289,9 +299,14 @@ class ViewAllOffers extends Component {
                 <div className="all-offers-non-background">
                 
                 {this.state.edit && this.state.selected_edit != null ?
-                    <Edit close={this.closeEdit} contract={this.state.selected_edit}/>
+                    <Edit close={this.closeEdit} contract={this.state.selected_edit} reload={this.load}/>
                     :null
                 }   
+
+                {this.state.showContact && this.state.contactInfo !== "" ?
+                    <PopupContactInfo contactInfo={this.state.contactInfo} close={this.coseContactInfo}/>
+                    :null
+                }
                     
                 {!this.state.ready ?
                         <div>
@@ -328,32 +343,32 @@ class ViewAllOffers extends Component {
                                             </div>
                                             <div className="offers_actions">
                                                 {offer.type === "Venta" && (offer.state === "0" || offer.state === "1") ?                                                
-                                                    <button className="offers_btns" onClick={() => {this.cancel(offer.contract_addr)}}>Cancel</button>
+                                                    <button className="offers_btns" onClick={() => {this.cancel(offer.contract_addr)}}>Cancelar</button>
                                                     :null
                                                 }
                                                
                                                 {offer.type === "Venta" && offer.state === "0" ?                                                
-                                                    <button className="offers_btns" onClick={() => {this.edit(offer.contract_addr)}}>Edit</button>
+                                                    <button className="offers_btns" onClick={() => {this.edit(offer.contract_addr)}}>Editar</button>
                                                     :null
                                                 }
 
                                                 {offer.type === "Venta" && offer.state === "1" ?                                                
-                                                    <button className="offers_btns" onClick={() => {this.rejectBuyer(offer.contract_addr)}}>RejectBuyer</button>
+                                                    <button className="offers_btns" onClick={() => {this.rejectBuyer(offer.contract_addr)}}>Rechazar comprador</button>
                                                     :null
                                                 }
 
                                                 {offer.type === "Compra" &&  offer.state === "1" ?                                                
-                                                    <button className="offers_btns" onClick={() => {this.confirm(offer.contract_addr)}}>Confirm</button>
+                                                    <button className="offers_btns" onClick={() => {this.confirm(offer.contract_addr)}}>Confirmar</button>
                                                     :null
                                                 }
 
                                                 {offer.state === "1" ?                                                
-                                                    <button className="offers_btns" onClick={() => {this.getContactInfo(offer.contract_addr)}}>getContactInfo</button>
+                                                    <button className="offers_btns" onClick={() => {this.getContactInfo(offer.contract_addr)}}>Contacto</button>
                                                     :null
                                                 }
 
                                                 {offer.pendingWithdrawals > 0 ?                                                
-                                                    <button className="offers_btns" onClick={() => {this.withdraw(offer.contract_addr)}}>Withdraw</button>
+                                                    <button className="offers_btns" onClick={() => {this.withdraw(offer.contract_addr)}}>Retirar fondos</button>
                                                     :null
                                                 }
 
@@ -373,7 +388,6 @@ class ViewAllOffers extends Component {
                                     ))
                                 }
                                 </div>
-                                <NotificationContainer/>
                             </div>
                            
                         )
@@ -381,6 +395,7 @@ class ViewAllOffers extends Component {
 
 
 
+                    <NotificationContainer/>
 
                 </div>
             </div>

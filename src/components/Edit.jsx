@@ -131,6 +131,8 @@ class Edit extends Component {
         .then((response) => {
             //Success notification
             NotificationManager.success("Acción realizada con éxito.", "Cambio de titulo");
+
+            this.props.reload();
         })
         .catch((ex) => {
             //Error notification
@@ -142,7 +144,7 @@ class Edit extends Component {
         e.preventDefault();
 
         const contract = new myweb3.eth.Contract(Offer.abi, this.props.contract);
-        const price_weis = Web3.utils.toWei(this.state.price);
+        const price_weis = Web3.utils.toWei(this.state.price.toString());
 
         if (this.state.price_weis < price_weis) {
             const deposit = await contract.methods.depositChangeForNewPrice(price_weis).call();
@@ -152,6 +154,8 @@ class Edit extends Component {
             .then((response) => {
                 //Success notification
                 NotificationManager.success("Acción realizada con éxito.", "Cambio de precio");
+                
+                this.props.reload();
             })
             .catch((ex) => {
                 //Error notification
@@ -164,6 +168,8 @@ class Edit extends Component {
             .then((response) => {
                 //Success notification
                 NotificationManager.success("Acción realizada con éxito.", "Cambio de precio");
+
+                this.props.reload();
             })
             .catch((ex) => {
                 //Error notification
@@ -181,6 +187,8 @@ class Edit extends Component {
         .then((response) => {
             //Success notification
             NotificationManager.success("Acción realizada con éxito.", "Cambio de país");
+
+            this.props.reload();
         })
         .catch((ex) => {
             //Error notification
@@ -196,6 +204,8 @@ class Edit extends Component {
         .then((response) => {
             //Success notification
             NotificationManager.success("Acción realizada con éxito.", "Cambio de categoría");
+
+            this.props.reload();
         })
         .catch((ex) => {
             //Error notification
@@ -214,15 +224,15 @@ class Edit extends Component {
             let fail = false
             const descr = await myIpfs.fetchDesc(this.state.cid)
             .catch((ex) => {
-                //console.log("exception catched fetching descr, ex: ", ex)
+                console.log("exception catched fetching descr, ex: ", ex)
 
-                //fail = true
+                fail = true
                 //Error notification
-                //NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");
+                NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");
                 return ;
             })
             if (fail) return; //Check si no hi ha descripcio
-            console.log("descr: ", descr)
+            console.log("!!!!!!!!!!!!!!!!!descr: ", descr)
 
 
             //Upload imgs
@@ -242,10 +252,12 @@ class Edit extends Component {
         await contract.methods.setAttachedFiles(cid).send({from: this.state.account})
         .then(response => {
             //Delete old cid
-            myIpfs.delete(this.state.cid);
+           // myIpfs.delete(this.state.cid);
 
             //Success notification
             NotificationManager.success("Acción realizada con éxito.", "Cambio de imágenes");
+
+            this.props.reload();
         })
         .catch((ex) => {
             //Error notification
@@ -297,7 +309,7 @@ class Edit extends Component {
                                             required
                                         />
                                     </div>
-                                    <button type="submit" className="edit-btn" disabled={this.state.price.toString() === "" || this.state.price === this.state.price_ph}>Cambiar precio</button>
+                                    <button type="submit" className="edit-btn" disabled={this.state.price.toString() === "" || this.state.price.toString() === this.state.price_ph}>Cambiar precio</button>
                                 </div>
                             </div>
                         </Form>
