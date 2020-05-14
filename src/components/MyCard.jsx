@@ -55,7 +55,7 @@ class MyCard extends Component {
     try {
       const dscr = await this.state.ipfs.fetchDesc(this.props.data.cid)
       this.setState({
-        dscr: dscr
+        desc: dscr
       })
     } catch (ex) {
       console.log("exception catched getting ipfs description")
