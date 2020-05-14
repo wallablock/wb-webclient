@@ -3,14 +3,14 @@ import axios from "axios";
 
 /**
  * @typedef {Object} ElasticConfigLike
- * @property {string} url
- * @property {string} key
+ * @property {string | null} url
+ * @property {string | null} key
  */
 
 /**
  * @typedef {Object} ConfigLike
- * @property {string} blockchainUrl
- * @property {string} fileproxyUrl
+ * @property {string | null} registryAddress
+ * @property {string | null} fileproxyUrl
  * @property {ElasticConfigLike} elastic
  */
 
@@ -39,10 +39,11 @@ async function rawFetchConfig() {
  * @param {Promise<ConfigLike>} config
  * @param {Promise<ConfigLike>} defaultConfig
  * @param {string} field
- * @returns {*}
+ * @returns {Promise<*>}
  */
-function configGet(config, defaultConfig, field) {
-  return config.then((cfg) => cfg[field] ?? defaultConfig[field]);
+async function configGet(config, defaultConfig, field) {
+  const cfg = await config;
+  return cfg[field] ?? defaultConfig[field];
 }
 
 class ElasticSubConfig {
@@ -97,8 +98,8 @@ class Config {
   /**
    * @returns {Promise<string>}
    */
-  get blockchainUrl() {
-    return this.cget("blockchainUrl");
+  get registryAddress() {
+    return this.cget("registryAddress");
   }
 
   /**
