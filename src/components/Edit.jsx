@@ -213,6 +213,14 @@ class Edit extends Component {
         })
     }
 
+    stringToArray(str) {
+        let array = [];
+        for (let i = 0; i < str.length; i++) {
+          array.push(str[i]);
+        }
+        return array;
+    }
+    
     async setImages() {
         let cid = ""
 
@@ -222,7 +230,7 @@ class Edit extends Component {
         if (this.state.files.length > 0) {
             //Get description
             let fail = false
-            const descr = await myIpfs.fetchDesc(this.state.cid)
+            const descr_s = await myIpfs.fetchDesc(this.state.cid)
             .catch((ex) => {
                 console.log("exception catched fetching descr, ex: ", ex)
 
@@ -232,8 +240,16 @@ class Edit extends Component {
                 return ;
             })
             if (fail) return; //Check si no hi ha descripcio
-            console.log("!!!!!!!!!!!!!!!!!descr: ", descr)
+            console.log("!!!!!!!!!!!!!!!!!descr: ", descr_s)
 
+            let descr = null;
+            if (descr_s != null) {
+                const dsc_arr = this.stringToArray(descr_s);
+                descr = new File(dsc_arr, "desc.txt", {
+                    type: "text/plain",
+                });
+            }
+      
 
             //Upload imgs
             cid = await myIpfs.uploadFiles(this.state.files, descr)

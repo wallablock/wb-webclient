@@ -513,7 +513,7 @@ class PublishComponent extends Component {
               <br />
 
               <Link to={'/'}>
-                <Button variant="secondary">Cancelar</Button>{' '}
+                <Button variant="secondary">Volver</Button>{' '}
               </Link>
 
               <Button type="submit">Publicar</Button>
