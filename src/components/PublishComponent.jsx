@@ -37,7 +37,8 @@ class PublishComponent extends Component {
       country: "",
       checked: null,
       files: [],
-      reset: false
+      reset: false,
+      plan_b: false,
     };
     this.getAccount();
 
@@ -188,10 +189,6 @@ class PublishComponent extends Component {
           cid,
           hex_deposit
         );
-        
-        
-        //ElasticSearch
-       //this.createDBEntry()
 
       })
       .catch((ex) => {
@@ -225,11 +222,14 @@ class PublishComponent extends Component {
           .then((response) => {
             console.log("deploy response: ", response)
 
-            //ElasticSearch
-            const addr = response.options.from;
-            const contract_addr = response._address;
-            console.log("Nuevo contrato.addr: ", contract_addr);
-            this.createDBEntry(contract_addr, addr, title, this.state.price, category, this.state.country, cid)
+            if (this.state.plan_b) {
+              //ElasticSearch
+              const addr = response.options.from;
+              const contract_addr = response._address;
+              console.log("Nuevo contrato.addr: ", contract_addr);
+              this.createDBEntry(contract_addr, addr, title, this.state.price, category, this.state.country, cid)
+            }
+           
 
             //Success notification
             this.createNotification2('success', "Su contrato ha sido creado correctmente.", "Contrato creado")
