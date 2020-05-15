@@ -102,28 +102,4 @@ class Buy extends Component {
     }
 }
 
-/*
-                <div className="buy-contact-butn">
-
-                    <div className="flex buy-contact-wrap">
-                        <p className="buy-contact-label">Correo de contacto: </p>
-
-                        <div className="buy-contact">
-
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Control type="email" placeholder="Enter email" />
-                            </Form.Group>
-
-                        </div>
-                    </div>
-
-                    <div className="buy-butn">
-                        <Button>Comprar</Button>
-                    </div>
-
-         
-
-                </div>
-*/
-
 export default Buy;

@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 
 import "./styles/Header.css";
 
-import OfferRegistry from "wb-contracts/build/contracts/OfferRegistry.json"; //"../contracts/Offer.json"
-import Web3 from "web3";
-const myweb3 = new Web3(window.ethereum);
+//import OfferRegistry from "wb-contracts/build/contracts/OfferRegistry.json"; //"../contracts/Offer.json"
+//import Web3 from "web3";
+//const myweb3 = new Web3(window.ethereum);
 
 class Header extends Component {
   constructor(props) {
@@ -16,9 +16,6 @@ class Header extends Component {
     this.state = {
       visible: false,
     };
-
-
-
   }
 
   toggleVisibility() {
@@ -27,6 +24,7 @@ class Header extends Component {
     });
   }
 
+  /*
   async deploy() {
     const accounts = await window.ethereum.enable();
     const account = accounts[0]
@@ -49,12 +47,10 @@ class Header extends Component {
 
 
   }
-
-
+*/
 
   render() {
     return (
-      
       <nav className="mynavbar">
         <div className="mytitle">WallaBlock</div>
 
@@ -69,16 +65,7 @@ class Header extends Component {
               />
             </Link>
           </div>
-          {/*
-            <div className="bts_wrap">
-              <input
-                type="button"
-                className="mybutton"
-                value="Ver tus ventas/compras"
-                onClick={this.props.open}
-              />
-          </div>
-          */}
+  
           <div className="bts_wrap">
             <Link to="/publish">
               <input
@@ -87,11 +74,7 @@ class Header extends Component {
                 value="Publicar oferta"
               />
             </Link>
-          </div>
-
-
-
-         
+          </div>       
 
           {
           /*
@@ -108,27 +91,3 @@ class Header extends Component {
 }
 
 export default Header;
-
-
-/**
- <div className="flex row-reverse bts_content">
-          <div className="bts_wrap">
-            <Link to="/publish">
-              <input
-                type="button"
-                className="button button1"
-                value="Publicar oferta"
-              />
-            </Link>
-          </div>
-          <div className="bts_wrap">
-            <Link to="/generate">
-              <input
-                type="button"
-                className="button button1"
-                value="Generar cuenta"
-              />
-            </Link>
-          </div>
-        </div>
- */

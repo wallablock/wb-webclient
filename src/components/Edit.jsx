@@ -123,6 +123,7 @@ class Edit extends Component {
         else {
           let n = parseInt(event.target.value, 10)
           if (!isNaN(n) && n >= 0) {
+            if (n > 5000) n = 5000;
             this.setState({
               price: n
             })
@@ -294,7 +295,7 @@ class Edit extends Component {
         let cid = ""
 
         //Init ipfs
-        const myIpfs = new IpfsConnection("http://79.159.98.192:3000");
+        const myIpfs = new IpfsConnection(this.props.config.ipfs);
 
         //if (files.length > 0) {
             //Get description
@@ -462,7 +463,7 @@ class Edit extends Component {
 
                         {this.state.cid !== "" ?
                             <div className="edit-field-wrapper">
-                                    <ImageUploader2 upload={this.setImages} cid={this.state.cid} /*files={this.state.files_ph} onChange={this.changeFiles}*//>
+                                    <ImageUploader2 upload={this.setImages} cid={this.state.cid} config={this.props.config} /*files={this.state.files_ph} onChange={this.changeFiles}*//>
                             </div>
                             :null
                         }

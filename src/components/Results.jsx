@@ -2,30 +2,32 @@ import React from "react";
 import { SelectedFilters, ReactiveList } from "@appbaseio/reactivesearch";
 import PropTypes from "prop-types";
 
-import Popup from "./Popup";
+//import Popup from "./Popup";
 
 import MyCard from "./MyCard";
 
 import "./styles/Results.css";
 
 class Results extends React.Component {
-  constructor(props) {
+  /*constructor(props) {
     super(props);
     this.state = {
       showPopup: false,
       offer: null,
     };
-  }
+  }*/
 
   render() {
     return (
       <div className="result-list">
-        {this.state.showPopup ? (
+        {/*
+        this.state.showPopup ? (
           <Popup
             offer={this.state.offer}
             closePopup={this.togglePopup.bind(this)}
           />
-        ) : null}
+        ) : null
+        */}
 
         <SelectedFilters
           className="m1"
@@ -62,6 +64,7 @@ class Results extends React.Component {
                       key={item.offer}
                       data={item}
                       onClack={this.cardClicked}
+                      config={this.props.config}
                     />
                   ))}
                 </ReactiveList.ResultCardsWrapper>

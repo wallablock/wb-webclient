@@ -15,7 +15,8 @@ class MyCard extends Component {
       imgs: [],
       desc: "",
 
-      ipfs: new IpfsConnection("http://79.159.98.192:3000"),
+      ipfs: new IpfsConnection(this.props.config.ipfs)
+      //ipfs: new IpfsConnection("http://79.159.98.192:3000"),
       //ipfs: new IpfsConnection("http://127.0.0.1:4000"), 
 
     };

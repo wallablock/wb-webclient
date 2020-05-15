@@ -35,7 +35,10 @@ class Popup extends React.Component {
             e.stopPropagation();
           }}
         >
-          <MyCarousel imgs={this.props.imgs} />
+          {this.props.imgs.length > 0 ?
+            <MyCarousel imgs={this.props.imgs} />
+            :null
+          }
 
           <div className="popup-data">
             <h2>{this.props.offer.title}</h2>
@@ -44,7 +47,7 @@ class Popup extends React.Component {
           </div>
 
           <div className="buy-btn-wrap">
-            <Link to={`/offer/${this.props.offer.offer}`}>
+            <Link to={`/buy/${this.props.offer.offer}`}>
               <input type="button" className="button button1 buy-btn" value="Comprar" />
             </Link>
           </div>

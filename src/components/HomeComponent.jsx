@@ -11,16 +11,21 @@ import "./styles/HomeComponent.css";
 class HomeComponent extends Component {
   constructor(props) {
     super(props);
+
+    const config = this.props.config
+
     this.state = {
       currentTopics: [],
       resetCountryFilter: null,
-      showYourOffers: false
+      showYourOffers: false,
+      config: config,
     };
 
     this.openYourOffers = this.openYourOffers.bind(this);
-    this.closeYourOffers = this.closeYourOffers.bind(this);
+    this.closeYourOffers = this.closeYourOffers.bind(this); 
   }
 
+  //Hem de borrar segurament
   sQ(func) {
     this.setState({
       resetCountryFilter: func,
@@ -68,22 +73,13 @@ class HomeComponent extends Component {
   render() {
     return (
       <section className="containererer">
-        
-        {/*this.state.showYourOffers ? 
-          (<YourOffers
-              close={this.closeYourOffers}
-          />) 
-          : null
-          */
-        }
-
         <ReactiveBase
-          app="testweb" //en un futuro: offers
-          url="https://ae4d7ff23f8e4bcea2feecefc1b2337a.eu-central-1.aws.cloud.es.io:9243"
+          app="testweb"
+          url={this.state.config.url}
           credentials="webtest:webtest"
-          //headers={{Authorization: `ApiKey MWxYb3BuRUJxeXpfeTlwQW1jUVY6S09PdDhqNDRTaGlSVEdadFFaRXZ5dw==`}}
+          //headers={{Authorization: `ApiKey ${this.state.config.key}`}}
           theme={theme}
-        >
+          >
           <div className="flex app-container">
             <Header /*open={this.openYourOffers}*/ sQ={this.sQ}/>
 
@@ -100,14 +96,9 @@ class HomeComponent extends Component {
                 innerClass={{
                   input: "search-input",
                 }}
-               // strictSelection={true}
-        
-
-
 
                 defaultQuery={
                   function(value, props) {
-                    //console.log("default query, props: ", props)
                     return {
                       query: {
                         wildcard: {
@@ -121,13 +112,13 @@ class HomeComponent extends Component {
                     }
                   }
                 }
-
               />
 
-              <Results clearCFilter={this.clearCFilter} />
+              <Results clearCFilter={this.clearCFilter} config={this.props.config}/>
             </div>
           </div>
         </ReactiveBase>
+       
       </section>
     );
   }

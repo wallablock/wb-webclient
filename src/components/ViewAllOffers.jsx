@@ -21,9 +21,9 @@ class ViewAllOffers extends Component {
 
         this.state = {
             ready: false,
-            registry: "0xBEdE95C1e94434cF2F2897Bbf67EFE91F636E6D1", //"0xb7BdB8b9Dd170501A2EF12ff46F3E70c28A84D28",
+            registry: this.props.config.registry,
             account: "",
-            ipfs: new IpfsConnection("http://79.159.98.192:3000"),
+            ipfs: new IpfsConnection(this.props.config.ipfs),
             offers: [],
             edit: false,
             selected_edit: null,
@@ -333,7 +333,7 @@ class ViewAllOffers extends Component {
                 <div className="all-offers-non-background">
                 
                 {this.state.edit && this.state.selected_edit != null ?
-                    <Edit close={this.closeEdit} contract={this.state.selected_edit} reload={this.load}/>
+                    <Edit close={this.closeEdit} contract={this.state.selected_edit} reload={this.load} config={this.props.config}/>
                     :null
                 }   
 
@@ -404,18 +404,7 @@ class ViewAllOffers extends Component {
                                                 {offer.pendingWithdrawals > 0 ?                                                
                                                     <button className="offers_btns" onClick={() => {this.withdraw(offer.contract_addr)}}>Retirar fondos</button>
                                                     :null
-                                                }
-
-                                               {
-                                               /* 
-                                               <button>RejectBuyer</button>
-                                                <button>Confirm</button>
-                                                <button>GetContactInfo</button>
-                                                <button>Cancel</button>
-                                                <button>Edit</button>
-                                                */
-                                                }
-                                                
+                                                }                                               
 
                                             </div>
                                         </div>

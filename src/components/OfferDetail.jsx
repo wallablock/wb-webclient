@@ -74,8 +74,7 @@ class OfferDetail extends Component {
     }
 
     async getIPFSData(cid) {
-        const ipfsConnection = new IpfsConnection("http://79.159.98.192:3000");
-        //const ipfsConnection = new IpfsConnection("http://127.0.0.1:4000");
+        const ipfsConnection = new IpfsConnection(this.props.config.ipfs);
        
         let img_urls = []
         let descr = null
@@ -229,83 +228,5 @@ class OfferDetail extends Component {
         );
     }
 }
-
-/*
-                        <div className="buy-title-price">
-                            <div className="buy-title">
-                                <h2>{this.state.title}</h2>
-                            </div>
-                            <div className="buy-price">
-                                <h2>{this.state.priceEths} Eths</h2>
-                            </div>
-                        </div>
-    
-                        <div className="buy-carrousel">
-                            <MyCarousel imgs={this.state.img_urls}/>
-                        </div>
-
-
-
-                        <div className="categoria i shipsfrom">
-
-                        </div>
-
-                        <div className="descripcio">
-
-                        </div>
-
-                        <div className="boton">
-
-                        </div>
-
-*/
-
-
-
-
-       /*
-        <div>
-            <h1>Comprar</h1>
-
-            <p>Title</p>
-
-            {this.state.title ?
-                <p>{this.state.title}</p>
-                :null
-            }
-
-            <p>Descripcion</p>
-
-            {this.state.title ?
-                <p>{this.state.descr}</p>
-                :null
-            }
-
-            <p>Categoria</p>
-
-            {this.state.title ?
-                <p>{this.state.category}</p>
-                :null
-            }
-
-            <p>Pais de origen</p>
-
-            {this.state.title ?
-                <p>{this.state.shipsFrom}</p>
-                :null
-            }
-
-            <p>Precio</p>
-
-            {this.state.title ?
-                <p>{this.state.priceEths}</p>
-                :null
-            }
-
-            <button onClick={this.handleClick}>Comprar</button>
-            
-            <NotificationContainer/>
-        </div>
-        */
 
 export default withRouter(OfferDetail);

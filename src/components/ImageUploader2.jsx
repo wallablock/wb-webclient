@@ -33,7 +33,7 @@ class ImageUploader2 extends Component {
     async initFiles() {
         if (this.props.cid != null) { //CHECKEAR q quan no hi hagi cid predefinid, passam un cid amb null.
             //Init ipfs
-            const myIpfs = new IpfsConnection("http://79.159.98.192:3000");
+            const myIpfs = new IpfsConnection(this.props.config.ipfs);
 
             const imgs = await myIpfs.getAllImagesUrl(this.props.cid);
 

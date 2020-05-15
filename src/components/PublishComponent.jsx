@@ -26,9 +26,11 @@ class PublishComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ipfs: "http://79.159.98.192:3000",
+      ipfs: this.props.config.ipfs,
+      //ipfs: "http://79.159.98.192:3000",
       //ipfs: "http://127.0.0.1:4000",
-      registry: "0xBEdE95C1e94434cF2F2897Bbf67EFE91F636E6D1", //"0xb7BdB8b9Dd170501A2EF12ff46F3E70c28A84D28",
+      registry: this.props.config.registry,
+      //registry: "0xb7BdB8b9Dd170501A2EF12ff46F3E70c28A84D28", //"0xBEdE95C1e94434cF2F2897Bbf67EFE91F636E6D1",
       account: "",
       title: "",
       price: "",
@@ -38,7 +40,7 @@ class PublishComponent extends Component {
       checked: null,
       files: [],
       reset: false,
-      plan_b: false,
+      plan_b: true,
     };
     this.getAccount();
 
@@ -80,6 +82,7 @@ class PublishComponent extends Component {
     else {
       let n = parseInt(event.target.value, 10)
       if (!isNaN(n) && n >= 0) {
+        if (n > 5000) n = 5000;
         this.setState({
           price: n
         })
@@ -319,16 +322,9 @@ class PublishComponent extends Component {
   }
 
   async createDBEntry(contract_addr, addr, title, price, category, country, cid) {
-    const url = "https://ae4d7ff23f8e4bcea2feecefc1b2337a.eu-central-1.aws.cloud.es.io:9243/testweb/";
-
-    //const n_entries = await this.getDBCount2(url + "_count") + 1;
-
-   // console.log("n_entries: ", n_entries)
-
-    //console.log("n_entries +1: ", n_entries)
+    const url = this.props.config.url + "/testweb/";
 
     const country_byte3 = getCountryISO3(getCode(country));
-
 
     const res_ES = this.callES(url + "_doc/" + contract_addr, contract_addr, addr, title, price, category, country_byte3, cid)
     console.log("result ES: ", res_ES)
