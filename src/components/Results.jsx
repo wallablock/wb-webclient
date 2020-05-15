@@ -30,9 +30,6 @@ class Results extends React.Component {
         <SelectedFilters
           className="m1"
           showClearAll={"default"}
-          onClear={(component, value) => {
-            console.log(`${component} has been removed with value as ${value}`);
-          }}
         />
 
         <ReactiveList

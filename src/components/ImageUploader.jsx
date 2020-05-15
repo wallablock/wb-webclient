@@ -37,6 +37,8 @@ export default class MultipleImageUploadComponent extends Component {
       this.setState({ files: array });
     }
 
+    this.props.onChange(array);
+
     if (array.length === 0) {
       document.getElementById("selectImage").value = null;
     }

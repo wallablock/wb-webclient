@@ -21,7 +21,7 @@ class ViewAllOffers extends Component {
 
         this.state = {
             ready: false,
-            registry: "0xb28bb545aCef6c7C7E81B66AA0c49f4c2F0D4639",
+            registry: "0xb7BdB8b9Dd170501A2EF12ff46F3E70c28A84D28",
             account: "",
             ipfs: new IpfsConnection("http://79.159.98.192:3000"),
             offers: [],
@@ -47,6 +47,31 @@ class ViewAllOffers extends Component {
         }
     }
 
+    async checkBuyer(contract_addr, buyer) {
+        //console.log("checkBuyer(), buyer: ", buyer);
+
+        const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
+
+        //Check pending withdraws
+        const pendingWithdrawals = await contract.methods.pendingWithdrawals(buyer).call()
+       // console.log("checkBuyer(), contract_addr: ", contract_addr);
+        //console.log("checkBuyer(), pendingWithdrawals: ", pendingWithdrawals);
+        if (pendingWithdrawals > 0) return true;
+
+        //Check buyer & state
+        const state = await contract.methods.currentStatus().call();
+        let contract_buyer = await contract.methods.buyer().call();
+        contract_buyer = contract_buyer.toLowerCase();
+       // console.log("checkBuyer(), contract_addr: ", contract_addr);
+      //  console.log("checkBuyer(), contract_buyer: ", contract_buyer);
+        //console.log("checkBuyer(), state: ", state);
+        if (contract_buyer === buyer && (state === "1" || state === "2")) return true;
+
+       // console.log("checkBuyer() gonna return false, contract: ", contract_addr)
+        return false;
+
+    }
+
     async loadBuys(registry) {
         const buy_events = await registry.getPastEvents('Bought', {
             filter: {buyer: this.state.account},
@@ -61,7 +86,8 @@ class ViewAllOffers extends Component {
 
         let buys = []
         for (let i= 0; i < buy_events.length; i++) {
-            buys.push(buy_events[i].returnValues.offer)
+            const offer = buy_events[i].returnValues.offer;
+            if (!buys.includes(offer) && await this.checkBuyer(offer, this.state.account))buys.push(offer)
         }
 
         return buys
@@ -99,7 +125,7 @@ class ViewAllOffers extends Component {
                 translation = "Esperando confirmación"
                 break;
             case "2":
-                translation = "Completada"
+                translation = "Finalizada"
                 break;
             case "3":
                 translation = "Cancelada"
@@ -208,6 +234,8 @@ class ViewAllOffers extends Component {
         .then((response) => {
             //Success notification
             NotificationManager.success("Acción realizada con éxito.", "Cancelar oferta");
+
+            this.load();
         })
         .catch((ex) => {
             //Error notification
@@ -222,6 +250,8 @@ class ViewAllOffers extends Component {
         .then((response) => {
             //Success notification
             NotificationManager.success("Acción realizada con éxito.", "Rechazar comprador");
+
+            this.load();
         })
         .catch((ex) => {
             //Error notification
@@ -236,6 +266,8 @@ class ViewAllOffers extends Component {
         .then((response) => {
             //Success notification
             NotificationManager.success("Acción realizada con éxito.", "Confirmar oferta");
+
+            this.load();
         })
         .catch((ex) => {
             //Error notification
@@ -264,6 +296,8 @@ class ViewAllOffers extends Component {
         .then((response) => {
             //Success notification
             NotificationManager.success("Acción realizada con éxito.", "Retiro de fondos");
+
+            this.load();
         })
         .catch((ex) => {
             //Error notification

@@ -28,7 +28,7 @@ class PublishComponent extends Component {
     this.state = {
       ipfs: "http://79.159.98.192:3000",
       //ipfs: "http://127.0.0.1:4000",
-      registry: "0xb28bb545aCef6c7C7E81B66AA0c49f4c2F0D4639",
+      registry: "0xb7BdB8b9Dd170501A2EF12ff46F3E70c28A84D28",
       account: "",
       title: "",
       price: "",

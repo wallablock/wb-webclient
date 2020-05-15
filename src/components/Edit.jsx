@@ -36,6 +36,7 @@ class Edit extends Component {
             category_ph: "",
             reset: false,
             files: [],
+            //files_ph: [],
             cid: ""
         }
 
@@ -70,7 +71,11 @@ class Edit extends Component {
         const category_ph = await contract.methods.category().call()
 
         //Contemplar cas quan no hi ha cid, hauriem de posarlo undefined o null o algo
-        const cid = await contract.methods.attachedFiles().call();        
+        let cid = await contract.methods.attachedFiles().call();      
+        if (cid === "") cid = null;
+
+        //const imgs_ph = await this.initImgs(cid);
+        //console.log("returned by initImgs, imgs_ph: ", imgs_ph)
 
         this.setState({
             title: title_ph,
@@ -82,7 +87,9 @@ class Edit extends Component {
             country_ph: country_ph,
             category: category_ph,
             category_ph: category_ph,
-            cid: cid
+            cid: cid,
+            //files: imgs_ph,
+            //files_ph: imgs_ph,
         })
     }
 
@@ -220,7 +227,7 @@ class Edit extends Component {
         }
         return array;
     }
-    
+/*    
     async setImages() {
         let cid = ""
 
@@ -280,6 +287,70 @@ class Edit extends Component {
             NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");
         })                
     }
+*/
+
+
+    async setImages(files) {
+        let cid = ""
+
+        //Init ipfs
+        const myIpfs = new IpfsConnection("http://79.159.98.192:3000");
+
+        if (files.length > 0) {
+            //Get description
+            let fail = false
+            const descr_s = await myIpfs.fetchDesc(this.state.cid)
+            .catch((ex) => {
+                console.log("exception catched fetching descr, ex: ", ex)
+
+                fail = true
+                //Error notification
+                NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");
+                return ;
+            })
+            if (fail) return; //Check si no hi ha descripcio
+            console.log("!!!!!!!!!!!!!!!!!descr: ", descr_s)
+
+            let descr = null;
+            if (descr_s != null) {
+                const dsc_arr = this.stringToArray(descr_s);
+                descr = new File(dsc_arr, "desc.txt", {
+                    type: "text/plain",
+                });
+            }
+    
+
+            //Upload imgs
+            cid = await myIpfs.uploadFiles(files, descr)
+            .catch((ex) => {
+                console.log("exception catched fetching descr, ex: ", ex)
+                fail = true
+                //Error notification
+                NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");
+                return ;
+            })
+            if (fail) return; 
+        }
+
+        //Update attachedFiles on contract
+        const contract = new myweb3.eth.Contract(Offer.abi, this.props.contract);
+        console.log("gonna update attachedFiles, cid: ", cid)
+        await contract.methods.setAttachedFiles(cid).send({from: this.state.account})
+        .then(response => {
+            //Delete old cid
+        // myIpfs.delete(this.state.cid);
+
+            //Success notification
+            NotificationManager.success("Acción realizada con éxito.", "Cambio de imágenes");
+
+            this.props.reload();
+        })
+        .catch((ex) => {
+            //Error notification
+            NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");
+        })                
+    }
+
 
     render() {
         return (
@@ -391,10 +462,7 @@ class Edit extends Component {
 
                         {this.state.cid !== "" ?
                             <div className="edit-field-wrapper">
-                                <div className="edit-field-input">
-                                    <ImageUploader2 cid={this.state.cid} onChange={this.changeFiles} reset={this.state.reset} revertReset={this.revertReset}/>
-                                </div>
-                                <button onClick={this.setImages} className="edit-btn">Cambiar imágenes</button>
+                                    <ImageUploader2 upload={this.setImages} cid={this.state.cid} /*files={this.state.files_ph} onChange={this.changeFiles}*//>
                             </div>
                             :null
                         }

@@ -4,6 +4,8 @@ import Form from "react-bootstrap/Form";
 //TESTING
 import { IpfsConnection } from "wb-ipfs";
 
+import "./styles/ImageUploader2.css";
+
 
 class ImageUploader2 extends Component {
     constructor(props) {
@@ -11,26 +13,27 @@ class ImageUploader2 extends Component {
 
         this.state = {
             files: [],
+            imgs_ph: []
 
         };
 
         this.uploadMultipleFiles = this.uploadMultipleFiles.bind(this);
 
-        this.test();
+        console.log("constructo iu2")
+        this.initFiles();
     }
 
+    
     extractName(url) {
         const index = url.lastIndexOf('/')
         const name = url.substring(index + 1, url.length)
         return name
     }
 
-    async test() {
+    async initFiles() {
         if (this.props.cid != null) { //CHECKEAR q quan no hi hagi cid predefinid, passam un cid amb null.
             //Init ipfs
             const myIpfs = new IpfsConnection("http://79.159.98.192:3000");
-
-
 
             const imgs = await myIpfs.getAllImagesUrl(this.props.cid);
 
@@ -48,13 +51,17 @@ class ImageUploader2 extends Component {
             }
     
             this.setState({
-                files: files
+                imgs_ph: files,
+                files: files,
+                
             })
     
-            this.props.onChange(files);
+            //this.props.onChange(files);
         }
+        else console.log("cid es null")
         
     }
+    
 
     removeImage(img) {
         var array = [...this.state.files];
@@ -66,7 +73,7 @@ class ImageUploader2 extends Component {
           this.setState({ files: array });
         }
 
-        this.props.onChange(array);
+        //this.props.onChange(array);
 
     
         if (array.length === 0) {
@@ -74,34 +81,35 @@ class ImageUploader2 extends Component {
         }
     }
 
-    reset() {
-        console.log("ImageUploader2 reiniciamos!")
-    
-        this.setState({
-          files: []
-        })
-    
-        this.props.revertReset();
-    }
-
     upload(e) {
-        e.preventDefault();
+        //e.preventDefault();
         document.getElementById("selectImage").click();
     }
 
     uploadMultipleFiles(e) {
-        let tmp_files = this.state.files;
+        let tmp_files = [];
     
         for (let i = 0; i < e.target.files.length; i++) {
           tmp_files.push(e.target.files[i]);
           console.log("it files uploaded, file: ", e.target.files[i])
         }
-    
+
+
         this.setState({
-          files: tmp_files,
+          files: this.state.files.concat(tmp_files),
         });
 
-        this.props.onChange(tmp_files);
+
+
+        //this.props.onChange(tmp_files);
+    }
+
+    checkDifferent() {
+        if (this.state.files.length !== this.state.imgs_ph.length) return false;
+        for (let i = 0; i < this.state.files.length ; i++) {
+            if (this.state.files[i] !== this.state.imgs_ph[i]) return false;
+        }
+        return true;
     }
     
 
@@ -109,10 +117,6 @@ class ImageUploader2 extends Component {
         return (
         <div className="form-group">
             <Form.Label>Imágenes</Form.Label>
-            {this.props.reset ?
-                this.reset()
-                :null
-            }
 
             <div className="form-group multi-image-preview">
                 {(this.state.files).map((file) => (
@@ -139,10 +143,20 @@ class ImageUploader2 extends Component {
                     </div>
                 ))}
             </div>
+            
+            <div className="iu2-btns-wrapper">
+                <button id="plus" onClick={this.upload}>
+                    Subir imágenes
+                </button>
 
-            <button id="plus" onClick={this.upload}>
-                Subir imágenes
-            </button>
+                <div className="iu2-btn-upload">
+                    <button className="iu2-btn" onClick={() => {this.props.upload(this.state.files)}} disabled={this.checkDifferent()}>
+                        Cambiar imágenes
+                    </button>
+                </div>
+
+            </div>
+       
             
             <input
                 id="selectImage"

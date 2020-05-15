@@ -89,7 +89,7 @@ class Buy extends Component {
                         
                         <div className="buy-cancel-buton-wrap">
                         <Link to={'/'}>
-                            <button className="buy-cancel-butn">Cancelar</button>
+                            <button className="buy-cancel-butn">Volver</button>
                         </Link>
                         </div>
                     </div>
