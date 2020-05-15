@@ -21,7 +21,7 @@ class ViewAllOffers extends Component {
 
         this.state = {
             ready: false,
-            registry: "0xb7BdB8b9Dd170501A2EF12ff46F3E70c28A84D28",
+            registry: "0xBEdE95C1e94434cF2F2897Bbf67EFE91F636E6D1", //"0xb7BdB8b9Dd170501A2EF12ff46F3E70c28A84D28",
             account: "",
             ipfs: new IpfsConnection("http://79.159.98.192:3000"),
             offers: [],

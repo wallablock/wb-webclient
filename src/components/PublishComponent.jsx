@@ -28,7 +28,7 @@ class PublishComponent extends Component {
     this.state = {
       ipfs: "http://79.159.98.192:3000",
       //ipfs: "http://127.0.0.1:4000",
-      registry: "0xb7BdB8b9Dd170501A2EF12ff46F3E70c28A84D28",
+      registry: "0xBEdE95C1e94434cF2F2897Bbf67EFE91F636E6D1", //"0xb7BdB8b9Dd170501A2EF12ff46F3E70c28A84D28",
       account: "",
       title: "",
       price: "",
@@ -38,7 +38,7 @@ class PublishComponent extends Component {
       checked: null,
       files: [],
       reset: false,
-      plan_b: true,
+      plan_b: false,
     };
     this.getAccount();
 

@@ -296,7 +296,7 @@ class Edit extends Component {
         //Init ipfs
         const myIpfs = new IpfsConnection("http://79.159.98.192:3000");
 
-        if (files.length > 0) {
+        //if (files.length > 0) {
             //Get description
             let fail = false
             const descr_s = await myIpfs.fetchDesc(this.state.cid)
@@ -330,7 +330,7 @@ class Edit extends Component {
                 return ;
             })
             if (fail) return; 
-        }
+        //}
 
         //Update attachedFiles on contract
         const contract = new myweb3.eth.Contract(Offer.abi, this.props.contract);
