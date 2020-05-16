@@ -63,6 +63,12 @@ class Buy extends Component {
                     <p>Descripción: {this.props.desc}</p>
                 </div>
 
+                <Form onSubmit={(e) => {
+                    e.preventDefault();
+
+                    this.props.buy(this.state.contactInfo)
+                    }}>
+
                 <div className="buy-contact-butn">
 
                     <div className="flex buy-contact-wrap">
@@ -77,14 +83,15 @@ class Buy extends Component {
 
                     <div className="buy-butn-wrap">
                         <div>
-                        <button 
-                            className="buy-butn" 
-                            onClick={() => {
-                                this.props.buy(this.state.contactInfo)
-                            }}
-                        >
-                            Comprar
-                        </button>
+                            <button 
+                                className="buy-butn" 
+                                type="submit"
+                                /*onClick={() => {
+                                    this.props.buy(this.state.contactInfo)
+                                }}*/
+                            >
+                                Comprar
+                            </button>
                         </div>
                         
                         <div className="buy-cancel-buton-wrap">
@@ -93,7 +100,9 @@ class Buy extends Component {
                         </Link>
                         </div>
                     </div>
+
                 </div>
+                </Form>
 
 
 
@@ -101,5 +110,50 @@ class Buy extends Component {
         );
     }
 }
+
+/*
+
+
+                <Form onSubmit={this.props.buy(this.state.contactInfo)}>
+
+                <div className="buy-contact-butn">
+
+                    <div className="flex buy-contact-wrap">
+                        <p className="buy-contact-label">Correo de contacto: </p>
+
+                        <div className="buy-contact">
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label>test</Form.Label>
+
+                                <Form.Control type="email" placeholder="Enter email" onChange={this.handleContact} value={this.state.contactInfo} required/>
+                            </Form.Group>
+                        </div>
+                    </div>
+
+                    <div className="buy-butn-wrap">
+                        <div>
+                            <button 
+                                className="buy-butn" 
+                                type="submit"
+                                onClick={() => {
+                                    this.props.buy(this.state.contactInfo)
+                                }}
+                                >
+                                Comprar
+                            </button>
+                        </div>
+                        
+                        <div className="buy-cancel-buton-wrap">
+                        <Link to={'/'}>
+                            <button className="buy-cancel-butn">Volver</button>
+                        </Link>
+                        </div>
+                    </div>
+
+                </div>
+                </Form>
+
+
+*/
 
 export default Buy;

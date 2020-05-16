@@ -70,9 +70,8 @@
   }
   
   .buy-butn  {
-    background-color: white;
+    background-color: #4188ff;
     color: black;
-    border: 2px solid #4188ff;
     padding: 8px 50px;
     text-align: center;
     text-decoration: none;
@@ -81,9 +80,10 @@
     transition-duration: 0.4s;
   }
 
-  .buy-butn:hover  {
-    background-color: #4188ff; /* Green */
+  .buy-butn  {
+    background-color: #4188ff;
     color: white;
+    border: 0px;
   }
 
   .buy-cancel-buton-wrap {

@@ -114,6 +114,14 @@ class Edit extends Component {
         });
     }
 
+
+    countDecimals(num) {
+        const arr = num.toString().split(".");
+        if (arr.length === 1) return 0;
+
+        return parseInt(arr[1].length);
+    }
+
     handlePriceChange(event) {
         if (event.target.value === "") {
           this.setState({
@@ -121,8 +129,9 @@ class Edit extends Component {
           })
         }
         else {
-          let n = parseInt(event.target.value, 10)
-          if (!isNaN(n) && n >= 0) {
+            let n = event.target.value;
+          //let n = parseInt(event.target.value, 10)
+          if (!isNaN(n) && n >= 0 && this.countDecimals(n) < 13) {
             if (n > 5000) n = 5000;
             this.setState({
               price: n
@@ -152,7 +161,8 @@ class Edit extends Component {
         e.preventDefault();
 
         const contract = new myweb3.eth.Contract(Offer.abi, this.props.contract);
-        const price_weis = Web3.utils.toWei(this.state.price.toString());
+        const price_weis = Web3.utils.toWei(this.state.price);
+        //const price_weis = Web3.utils.toWei(this.state.price.toString());
 
         if (this.state.price_weis < price_weis) {
             const deposit = await contract.methods.depositChangeForNewPrice(price_weis).call();
@@ -397,7 +407,7 @@ class Edit extends Component {
                                             required
                                         />
                                     </div>
-                                    <button type="submit" className="edit-btn" disabled={this.state.price.toString() === "" || this.state.price.toString() === this.state.price_ph}>Cambiar precio</button>
+                                    <button type="submit" className="edit-btn" disabled={this.state.price.toString() === "" || Web3.utils.toWei(this.state.price.toString()) === Web3.utils.toWei(this.state.price_ph)}>Cambiar precio</button>
                                 </div>
                             </div>
                         </Form>

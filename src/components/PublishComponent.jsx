@@ -33,7 +33,7 @@ class PublishComponent extends Component {
       //registry: "0xb7BdB8b9Dd170501A2EF12ff46F3E70c28A84D28", //"0xBEdE95C1e94434cF2F2897Bbf67EFE91F636E6D1",
       account: "",
       title: "",
-      price: "",
+      price: null,
       description: "",
       category: "",
       country: "",
@@ -73,6 +73,13 @@ class PublishComponent extends Component {
     });
   }
 
+  countDecimals(num) {
+    const arr = num.toString().split(".");
+    if (arr.length === 1) return 0;
+
+    return parseInt(arr[1].length);
+  }
+
   handlePriceChange(event) {
     if (event.target.value === "") {
       this.setState({
@@ -80,8 +87,8 @@ class PublishComponent extends Component {
       })
     }
     else {
-      let n = parseInt(event.target.value, 10)
-      if (!isNaN(n) && n >= 0) {
+      let n = event.target.value;
+      if (!isNaN(n) && n >= 0 && this.countDecimals(n) < 13) {
         if (n > 5000) n = 5000;
         this.setState({
           price: n
@@ -144,6 +151,8 @@ class PublishComponent extends Component {
   async handleSubmit2(e) {
     e.preventDefault();
 
+    console.log("handleSubmit2")
+
     //Check price is integer
     if (isNaN(parseInt(this.state.price, 10))) {
       console.log("Price is NaN!")
@@ -178,13 +187,13 @@ class PublishComponent extends Component {
         console.log("cid");
         console.log(cid);
 
-        const p1 = new Web3.utils.BN(this.state.price);
-        const price = Web3.utils.toWei(p1);
-        const hex_price = Web3.utils.toHex(price);
 
-        const p2 = new Web3.utils.BN(this.state.price * 2);
-        const deposit = Web3.utils.toWei(p2);
-        const hex_deposit = Web3.utils.toHex(deposit);
+        const price_weis = Web3.utils.toWei(this.state.price);
+        const hex_price = Web3.utils.toHex(price_weis);
+
+        const deposit_weis = Web3.utils.toBN(price_weis).mul(new Web3.utils.BN(2))
+        const hex_deposit = Web3.utils.toHex(deposit_weis);
+
 
         const hex_country = Web3.utils.toHex(getCountryISO3(getCode(this.state.country)));
 
@@ -197,7 +206,6 @@ class PublishComponent extends Component {
           cid,
           hex_deposit
         );
-
       })
       .catch((ex) => {
         console.log("Exception catched");
@@ -211,7 +219,7 @@ class PublishComponent extends Component {
 
 
   async createContract(account, price, title, category, country, cid, deposit) {
-    
+    console.log("createContract()")
 
 
 
@@ -220,7 +228,8 @@ class PublishComponent extends Component {
         let myOffer = new myweb3.eth.Contract(abi, {
           from: account
         }); //, gasPrice: 2, gas: 6721975
-    
+        console.log("createContract(), gonna deploy")
+
         await myOffer
           .deploy({
             data: bytecode,
@@ -326,7 +335,10 @@ class PublishComponent extends Component {
 
     const country_byte3 = getCountryISO3(getCode(country));
 
-    const res_ES = this.callES(url + "_doc/" + contract_addr, contract_addr, addr, title, price, category, country_byte3, cid)
+    const price_eth = Web3.utils.fromWei(Web3.utils.toWei(this.state.price));
+
+    const res_ES = this.callES(url + "_doc/" + contract_addr, contract_addr, addr, title, price_eth, category, country_byte3, cid)
+    //const res_ES = this.callES(url + "_doc/" + contract_addr, contract_addr, addr, title, Web3.utils.toWei(price.toString()), category, country_byte3, cid)
     console.log("result ES: ", res_ES)
   }
   /***********************/

@@ -14,6 +14,8 @@ import getCountryISO2 from "country-iso-3-to-2";
 import CustomSwitchWrapper from "./CustomSwitchWrapper";
 import CustomFilter from "./CustomFilter";
 
+//import Web3 from "web3";
+
 import "./styles/SearchFilters.css";
 
 // TODO: Switch to https://github.com/palmerhq/the-platform#stylesheet when it will be stable
@@ -139,7 +141,8 @@ class SearchFilters extends Component {
               componentId="price"
               title="Precio"
               dataField="price"
-              range={{ start: 0, end: 5000 }}
+              //range={{ start: parseInt(Web3.utils.toWei("0"), 10), end: parseInt(Web3.utils.toWei("5000"), 10) }}
+              range={{ start: 0, end: 5000}}
               showHistogram={false}
               URLParams={true}
               rangeLabels={{

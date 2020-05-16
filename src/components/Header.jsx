@@ -5,11 +5,11 @@ import SearchFilters from "./SearchFilters";
 import { Link } from "react-router-dom";
 
 import "./styles/Header.css";
-
-//import OfferRegistry from "wb-contracts/build/contracts/OfferRegistry.json"; //"../contracts/Offer.json"
-//import Web3 from "web3";
-//const myweb3 = new Web3(window.ethereum);
-
+/*
+import OfferRegistry from "wb-contracts/build/contracts/OfferRegistry.json"; //"../contracts/Offer.json"
+import Web3 from "web3"
+const myweb3 = new Web3(window.ethereum);
+*/
 class Header extends Component {
   constructor(props) {
     super(props);
