@@ -330,7 +330,7 @@ class ViewAllOffers extends Component {
                 <div className="all-offers-non-background">
                 
                 {this.state.edit && this.state.selected_edit != null ?
-                    <Edit close={this.closeEdit} contract={this.state.selected_edit} reload={this.load} ipfs={this.props.ipfs} web3={this.props.web3}/>
+                    <Edit account={this.state.account} close={this.closeEdit} contract={this.state.selected_edit} reload={this.load} ipfs={this.props.ipfs} web3={this.props.web3}/>
                     :null
                 }   
 

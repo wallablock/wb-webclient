@@ -45,13 +45,16 @@ class OfferDetail extends Component {
     }
 
 
+
     async getAccount() {
-        const accounts = await window.ethereum.enable();
-    
-        this.setState({
-          account: accounts[0],
-        });
-      }
+        if (typeof window.ethereum !== 'undefined') {
+            const accounts = await window.ethereum.enable();
+        
+            this.setState({
+                account: accounts[0],
+            });
+        }
+    }
 
     async getContractData(contract_addr) {
         const contract = new this.props.web3.eth.Contract(

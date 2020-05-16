@@ -21,7 +21,7 @@ class Edit extends Component {
         super(props);
 
         this.state = {
-            account: "",
+            account: this.props.account,
             title: "",
             price: "",
             price_weis: "",
@@ -46,17 +46,9 @@ class Edit extends Component {
         this.setCategory = this.setCategory.bind(this);
         this.setImages = this.setImages.bind(this);
 
-        this.getAccount();
         this.preparePlaceHolders();
     }
 
-    async getAccount() {
-        const accounts = await window.ethereum.enable();
-    
-        this.setState({
-          account: accounts[0],
-        });
-    }
 
     async preparePlaceHolders() {
         const contract = new this.props.web3.eth.Contract(Offer.abi, this.props.contract);

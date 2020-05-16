@@ -48,12 +48,15 @@ class PublishComponent extends Component {
     this.revertReset = this.revertReset.bind(this);
   }
 
-  async getAccount() {
-    const accounts = await window.ethereum.enable();
 
-    this.setState({
-      account: accounts[0],
-    });
+  async getAccount() {
+    if (typeof window.ethereum !== 'undefined') {
+        const accounts = await window.ethereum.enable();
+    
+        this.setState({
+            account: accounts[0],
+        });
+    }
   }
 
   /** INPUT HANDLERS **/

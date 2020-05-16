@@ -10,16 +10,16 @@ class CustomSwitch extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  async getAccount() {
-    try {
-      const accounts = await window.ethereum.enable();
-      const account = accounts[0];
 
-      return account;
-    } catch (e) {
-      return null;
+  async getAccount() {
+    if (typeof window.ethereum !== 'undefined') {
+        const accounts = await window.ethereum.enable();
+    
+        this.setState({
+            account: accounts[0],
+        });
     }
-  }
+}
 
   async handleChange(checked) {
     let account = null;
