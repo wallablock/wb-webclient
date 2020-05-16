@@ -194,6 +194,9 @@ class PublishComponent extends Component {
         const deposit_weis = Web3.utils.toBN(price_weis).mul(new Web3.utils.BN(2))
         const hex_deposit = Web3.utils.toHex(deposit_weis);
 
+        //Testing
+        console.log("Testing, code: ", getCode(this.state.country))
+        console.log("Testing, ISO3: ", getCountryISO3(getCode(this.state.country)))
 
         const hex_country = Web3.utils.toHex(getCountryISO3(getCode(this.state.country)));
 
@@ -367,6 +370,13 @@ class PublishComponent extends Component {
   }
   /***********************/
 
+  getMyName() {
+    const names = getNames();
+    const index = names.indexOf("Curaçao");
+    if (index) names.splice(index, 1);
+    return names;
+  }
+
   reset() {
     console.log("publish reiniciamos!")
 
@@ -473,7 +483,8 @@ class PublishComponent extends Component {
                   required
                 >
                   <option></option>
-                  {getNames().map((country) => (
+                  {this.getMyName().map((country) => (
+                    
                     <option key={country}>{country}</option>
                   ))}
                 </Form.Control>
