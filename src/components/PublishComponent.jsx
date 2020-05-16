@@ -11,7 +11,6 @@ import ImageUploader from "./ImageUploader";
 import { getCode, getNames } from "country-list";
 import getCountryISO3 from "country-iso-2-to-3";
 
-import { IpfsConnection } from "wb-ipfs";
 
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
@@ -20,17 +19,12 @@ import { Link } from "react-router-dom";
 
 import {abi, bytecode} from "wb-contracts/build/contracts/Offer.json"; //"../contracts/Offer.json"
 import Web3 from "web3";
-const myweb3 = new Web3(window.ethereum);
 
 class PublishComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ipfs: this.props.config.ipfs,
-      //ipfs: "http://79.159.98.192:3000",
-      //ipfs: "http://127.0.0.1:4000",
       registry: this.props.config.registry,
-      //registry: "0xb7BdB8b9Dd170501A2EF12ff46F3E70c28A84D28", //"0xBEdE95C1e94434cF2F2897Bbf67EFE91F636E6D1",
       account: "",
       title: "",
       price: null,
@@ -119,7 +113,7 @@ class PublishComponent extends Component {
 
   /****TESTING****/
   async getContracts2() {
-    const contract = new myweb3.eth.Contract(
+    const contract = new this.props.web3.eth.Contract(
       abi,
       "0x1F6f6DB45Cb287aC57B88C54743eb32a0df82f95"
     );
@@ -173,10 +167,7 @@ class PublishComponent extends Component {
       });
     }
 
-    //IPFS image upload
-    const myIpfs = new IpfsConnection(this.state.ipfs);
-
-    await myIpfs
+    await this.props.ipfs
       .uploadFiles(this.state.files, descr)
       .then((response) => {
         console.log("images uploaded to ipfs")
@@ -224,7 +215,7 @@ class PublishComponent extends Component {
 
       try {
 
-        let myOffer = new myweb3.eth.Contract(abi, {
+        let myOffer = new this.props.web3.eth.Contract(abi, {
           from: account
         }); //, gasPrice: 2, gas: 6721975
         console.log("createContract(), gonna deploy")
@@ -479,7 +470,7 @@ class PublishComponent extends Component {
                   required
                 >
                   <option></option>
-                  {this.myGetName().map((country) => (
+                  {this.myGetNames().map((country) => (
                     
                     <option key={country}>{country}</option>
                   ))}

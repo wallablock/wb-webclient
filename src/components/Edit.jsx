@@ -7,8 +7,6 @@ import { getName, getCode, getNames } from "country-list";
 import getCountryISO3 from "country-iso-2-to-3";
 import getCountryISO2 from "country-iso-3-to-2";
 
-import { IpfsConnection } from "wb-ipfs";
-
 import {NotificationManager} from 'react-notifications';
 
 import Offer from "wb-contracts/build/contracts/Offer.json"; //"../contracts/Offer.json"
@@ -16,7 +14,6 @@ import Offer from "wb-contracts/build/contracts/Offer.json"; //"../contracts/Off
 import "./styles/Edit.css";
 
 import Web3 from "web3";
-const myweb3 = new Web3(window.ethereum);
 
 //Props: close, contract
 class Edit extends Component {
@@ -62,7 +59,7 @@ class Edit extends Component {
     }
 
     async preparePlaceHolders() {
-        const contract = new myweb3.eth.Contract(Offer.abi, this.props.contract);
+        const contract = new this.props.web3.eth.Contract(Offer.abi, this.props.contract);
 
         const title_ph = await contract.methods.title().call()
         const price_weis = await contract.methods.price().call()
@@ -143,7 +140,7 @@ class Edit extends Component {
     async setTitle(e) {
         e.preventDefault();
 
-        const contract = new myweb3.eth.Contract(Offer.abi, this.props.contract);
+        const contract = new this.props.web3.eth.Contract(Offer.abi, this.props.contract);
         await contract.methods.setTitle(this.state.title).send({from: this.state.account})
         .then((response) => {
             //Success notification
@@ -160,7 +157,7 @@ class Edit extends Component {
     async setPrice(e) {
         e.preventDefault();
 
-        const contract = new myweb3.eth.Contract(Offer.abi, this.props.contract);
+        const contract = new this.props.web3.eth.Contract(Offer.abi, this.props.contract);
         const price_weis = Web3.utils.toWei(this.state.price);
         //const price_weis = Web3.utils.toWei(this.state.price.toString());
 
@@ -199,7 +196,7 @@ class Edit extends Component {
     async setCountry(e) {
         e.preventDefault();
 
-        const contract = new myweb3.eth.Contract(Offer.abi, this.props.contract)
+        const contract = new this.props.web3.eth.Contract(Offer.abi, this.props.contract)
         const alpha3_hex = Web3.utils.toHex(getCountryISO3(getCode(this.state.country)))
         await contract.methods.setShipsFrom(alpha3_hex).send({from: this.state.account})
         .then((response) => {
@@ -217,7 +214,7 @@ class Edit extends Component {
     async setCategory(e) {
         e.preventDefault();
 
-        const contract = new myweb3.eth.Contract(Offer.abi, this.props.contract);
+        const contract = new this.props.web3.eth.Contract(Offer.abi, this.props.contract);
         await contract.methods.setCategory(this.state.category).send({from: this.state.account})
         .then((response) => {
             //Success notification
@@ -238,118 +235,51 @@ class Edit extends Component {
         }
         return array;
     }
-/*    
-    async setImages() {
-        let cid = ""
-
-        //Init ipfs
-        const myIpfs = new IpfsConnection("http://79.159.98.192:3000");
-
-        if (this.state.files.length > 0) {
-            //Get description
-            let fail = false
-            const descr_s = await myIpfs.fetchDesc(this.state.cid)
-            .catch((ex) => {
-                console.log("exception catched fetching descr, ex: ", ex)
-
-                fail = true
-                //Error notification
-                NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");
-                return ;
-            })
-            if (fail) return; //Check si no hi ha descripcio
-            console.log("!!!!!!!!!!!!!!!!!descr: ", descr_s)
-
-            let descr = null;
-            if (descr_s != null) {
-                const dsc_arr = this.stringToArray(descr_s);
-                descr = new File(dsc_arr, "desc.txt", {
-                    type: "text/plain",
-                });
-            }
-      
-
-            //Upload imgs
-            cid = await myIpfs.uploadFiles(this.state.files, descr)
-            .catch((ex) => {
-                console.log("exception catched fetching descr, ex: ", ex)
-                fail = true
-                //Error notification
-                NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");
-                return ;
-            })
-            if (fail) return; 
-        }
-
-        //Update attachedFiles on contract
-        const contract = new myweb3.eth.Contract(Offer.abi, this.props.contract);
-        await contract.methods.setAttachedFiles(cid).send({from: this.state.account})
-        .then(response => {
-            //Delete old cid
-           // myIpfs.delete(this.state.cid);
-
-            //Success notification
-            NotificationManager.success("Acción realizada con éxito.", "Cambio de imágenes");
-
-            this.props.reload();
-        })
-        .catch((ex) => {
-            //Error notification
-            NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");
-        })                
-    }
-*/
-
 
     async setImages(files) {
         let cid = ""
 
-        //Init ipfs
-        const myIpfs = new IpfsConnection(this.props.config.ipfs);
+        //Get description
+        let fail = false
+        const descr_s = await this.props.ipfs.fetchDesc(this.state.cid)
+        .catch((ex) => {
+            console.log("exception catched fetching descr, ex: ", ex)
+            fail = true
 
-        //if (files.length > 0) {
-            //Get description
-            let fail = false
-            const descr_s = await myIpfs.fetchDesc(this.state.cid)
-            .catch((ex) => {
-                console.log("exception catched fetching descr, ex: ", ex)
+            //Error notification
+            NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");
+            return;
+        })
+        if (fail) return;
 
-                fail = true
-                //Error notification
-                NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");
-                return ;
-            })
-            if (fail) return; //Check si no hi ha descripcio
-            console.log("!!!!!!!!!!!!!!!!!descr: ", descr_s)
+        let descr = null;
+        if (descr_s != null) {
+            const dsc_arr = this.stringToArray(descr_s);
+            descr = new File(dsc_arr, "desc.txt", {
+                type: "text/plain",
+            });
+        }
 
-            let descr = null;
-            if (descr_s != null) {
-                const dsc_arr = this.stringToArray(descr_s);
-                descr = new File(dsc_arr, "desc.txt", {
-                    type: "text/plain",
-                });
-            }
-    
-
-            //Upload imgs
-            cid = await myIpfs.uploadFiles(files, descr)
-            .catch((ex) => {
-                console.log("exception catched fetching descr, ex: ", ex)
-                fail = true
-                //Error notification
-                NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");
-                return ;
-            })
-            if (fail) return; 
-        //}
+        //Upload imgs
+        cid = await this.props.ipfs.uploadFiles(files, descr)
+        .catch((ex) => {
+            console.log("exception catched fetching descr, ex: ", ex)
+            fail = true
+            
+            //Error notification
+            NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");
+            return ;
+        })
+        if (fail) return; 
+       
 
         //Update attachedFiles on contract
-        const contract = new myweb3.eth.Contract(Offer.abi, this.props.contract);
+        const contract = new this.props.web3.eth.Contract(Offer.abi, this.props.contract);
         console.log("gonna update attachedFiles, cid: ", cid)
         await contract.methods.setAttachedFiles(cid).send({from: this.state.account})
         .then(response => {
             //Delete old cid
-        // myIpfs.delete(this.state.cid);
+            //this.props.ipfs.delete(this.state.cid);
 
             //Success notification
             NotificationManager.success("Acción realizada con éxito.", "Cambio de imágenes");
@@ -357,6 +287,9 @@ class Edit extends Component {
             this.props.reload();
         })
         .catch((ex) => {
+            //Borrar cid creado
+            //if (cid !== "") this.props.ipfs.delete(cid);
+
             //Error notification
             NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");
         })                
@@ -473,7 +406,7 @@ class Edit extends Component {
 
                         {this.state.cid !== "" ?
                             <div className="edit-field-wrapper">
-                                    <ImageUploader2 upload={this.setImages} cid={this.state.cid} config={this.props.config} /*files={this.state.files_ph} onChange={this.changeFiles}*//>
+                                    <ImageUploader2 upload={this.setImages} cid={this.state.cid} ipfs={this.props.ipfs} /*files={this.state.files_ph} onChange={this.changeFiles}*//>
                             </div>
                             :null
                         }

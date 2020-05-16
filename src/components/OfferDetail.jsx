@@ -1,8 +1,6 @@
 import React, {Component} from "react";
 import { withRouter } from "react-router-dom";
 
-import { IpfsConnection } from "wb-ipfs";
-
 import getCountryISO2 from "country-iso-3-to-2";
 import {getName} from "country-list";
 
@@ -15,7 +13,6 @@ import "./styles/OfferDetail.css";
 
 import {abi} from "wb-contracts/build/contracts/Offer.json";
 import Web3 from "web3";
-const myweb3 = new Web3(window.ethereum);
 
 class OfferDetail extends Component {
     constructor(props) {
@@ -57,7 +54,7 @@ class OfferDetail extends Component {
       }
 
     async getContractData(contract_addr) {
-        const contract = new myweb3.eth.Contract(
+        const contract = new this.props.web3.eth.Contract(
             abi,
             contract_addr
         );
@@ -78,15 +75,13 @@ class OfferDetail extends Component {
         return {title, priceWeis, priceEths, category, shipsFrom, cid, state, seller};
     }
 
-    async getIPFSData(cid) {
-        const ipfsConnection = new IpfsConnection(this.props.config.ipfs);
-       
+    async getIPFSData(cid) {       
         let img_urls = []
         let descr = null
         try {    
-            img_urls = await ipfsConnection.getAllImagesUrl(cid);
+            img_urls = await this.props.ipfs.getAllImagesUrl(cid);
 
-            descr = await ipfsConnection.fetchDesc(cid);
+            descr = await this.props.ipfs.fetchDesc(cid);
         } catch (err) {
            console.error("Error from IPFS.read:", err);
         }
@@ -131,7 +126,7 @@ class OfferDetail extends Component {
 
 
 
-        const contract = new myweb3.eth.Contract(
+        const contract = new this.props.web3.eth.Contract(
             abi,
             this.state.contract_addr,
             {

@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-
-import { IpfsConnection } from "wb-ipfs";
-
 import Popup from "./Popup";
-
-//import Web3 from "web3";
-
 
 import "./styles/MyCard.css";
 
@@ -17,11 +11,6 @@ class MyCard extends Component {
       offer: null,
       imgs: [],
       desc: "",
-
-      ipfs: new IpfsConnection(this.props.config.ipfs)
-      //ipfs: new IpfsConnection("http://79.159.98.192:3000"),
-      //ipfs: new IpfsConnection("http://127.0.0.1:4000"), 
-
     };
 
     this.initImgs();
@@ -48,7 +37,7 @@ class MyCard extends Component {
 
   async initImgs() {
     try {
-      const imgs = await this.state.ipfs.getAllImagesUrl(this.props.data.cid)
+      const imgs = await this.props.ipfs.getAllImagesUrl(this.props.data.cid)
       this.setState({
         imgs: imgs
       })
@@ -57,7 +46,7 @@ class MyCard extends Component {
     }
 
     try {
-      const dscr = await this.state.ipfs.fetchDesc(this.props.data.cid)
+      const dscr = await this.props.ipfs.fetchDesc(this.props.data.cid)
       this.setState({
         desc: dscr
       })

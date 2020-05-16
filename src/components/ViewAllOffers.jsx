@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import "./styles/ViewAllOffers.css";
 
-import { IpfsConnection } from "wb-ipfs";
-
 import { Link } from "react-router-dom";
 
 import Edit from './Edit';
@@ -13,7 +11,6 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 import Offer from "wb-contracts/build/contracts/Offer.json"; //"../contracts/Offer.json"
 import OfferRegistry from "wb-contracts/build/contracts/OfferRegistry.json"; //"../contracts/Offer.json"
 import Web3 from "web3";
-const myweb3 = new Web3(window.ethereum);
 
 class ViewAllOffers extends Component {
     constructor(props) {
@@ -23,7 +20,7 @@ class ViewAllOffers extends Component {
             ready: false,
             registry: this.props.config.registry,
             account: "",
-            ipfs: new IpfsConnection(this.props.config.ipfs),
+            ipfs: this.props.ipfs,
             offers: [],
             edit: false,
             selected_edit: null,
@@ -50,7 +47,7 @@ class ViewAllOffers extends Component {
     async checkBuyer(contract_addr, buyer) {
         //console.log("checkBuyer(), buyer: ", buyer);
 
-        const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
+        const contract = new this.props.web3.eth.Contract(Offer.abi, contract_addr);
 
         //Check pending withdraws
         const pendingWithdrawals = await contract.methods.pendingWithdrawals(buyer).call()
@@ -143,7 +140,7 @@ class ViewAllOffers extends Component {
         let sells_offer = []
         for (let i = 0; i < sells.length; i++) {
             //console.log("contract addr: ", sells[i])
-            const contract = new myweb3.eth.Contract(Offer.abi, sells[i]);
+            const contract = new this.props.web3.eth.Contract(Offer.abi, sells[i]);
             const st = await contract.methods.currentStatus().call();
             const offer = {
                 contract_addr: sells[i],
@@ -173,7 +170,7 @@ class ViewAllOffers extends Component {
         let buys_offer = []
         for (let i = 0; i < buys.length; i++) {
             //console.log("contract addr: ", buys[i])
-            const contract = new myweb3.eth.Contract(Offer.abi, buys[i]);
+            const contract = new this.props.web3.eth.Contract(Offer.abi, buys[i]);
             const st = await contract.methods.currentStatus().call();
             const offer = {
                 contract_addr: buys[i],
@@ -208,7 +205,7 @@ class ViewAllOffers extends Component {
         await this.getAccount();
         if (this.state.account === "") return;
 
-        const registry = new myweb3.eth.Contract(
+        const registry = new this.props.web3.eth.Contract(
             OfferRegistry.abi,
             this.state.registry
         );
@@ -229,7 +226,7 @@ class ViewAllOffers extends Component {
 
     async cancel(contract_addr) {
         console.log("cancel contract: ", contract_addr)
-        const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
+        const contract = new this.props.web3.eth.Contract(Offer.abi, contract_addr);
         await contract.methods.cancel().send({from: this.state.account})
         .then((response) => {
             //Success notification
@@ -245,7 +242,7 @@ class ViewAllOffers extends Component {
 
     async rejectBuyer(contract_addr) {
         console.log("rejectBuyer contract: ", contract_addr)
-        const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
+        const contract = new this.props.web3.eth.Contract(Offer.abi, contract_addr);
         await contract.methods.rejectBuyer().send({from: this.state.account})
         .then((response) => {
             //Success notification
@@ -261,7 +258,7 @@ class ViewAllOffers extends Component {
 
     async confirm(contract_addr) {
         console.log("confirm contract: ", contract_addr)
-        const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
+        const contract = new this.props.web3.eth.Contract(Offer.abi, contract_addr);
         await contract.methods.confirm().send({from: this.state.account})
         .then((response) => {
             //Success notification
@@ -277,7 +274,7 @@ class ViewAllOffers extends Component {
 
     async getContactInfo(contract_addr) {
         console.log("getContactInfo contract: ", contract_addr)
-        const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
+        const contract = new this.props.web3.eth.Contract(Offer.abi, contract_addr);
 
         const contactInfo = Web3.utils.hexToUtf8(await contract.methods.getContactInfo().call());
         console.log("response contactInfo: ", contactInfo);
@@ -291,7 +288,7 @@ class ViewAllOffers extends Component {
 
     async withdraw(contract_addr) {
         console.log("withdraw contract: ", contract_addr)
-        const contract = new myweb3.eth.Contract(Offer.abi, contract_addr);
+        const contract = new this.props.web3.eth.Contract(Offer.abi, contract_addr);
         await contract.methods.withdraw().send({from: this.state.account})
         .then((response) => {
             //Success notification
@@ -333,7 +330,7 @@ class ViewAllOffers extends Component {
                 <div className="all-offers-non-background">
                 
                 {this.state.edit && this.state.selected_edit != null ?
-                    <Edit close={this.closeEdit} contract={this.state.selected_edit} reload={this.load} config={this.props.config}/>
+                    <Edit close={this.closeEdit} contract={this.state.selected_edit} reload={this.load} ipfs={this.props.ipfs} web3={this.props.web3}/>
                     :null
                 }   
 

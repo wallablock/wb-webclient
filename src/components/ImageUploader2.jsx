@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 
-//TESTING
-import { IpfsConnection } from "wb-ipfs";
-
 import "./styles/ImageUploader2.css";
-
 
 class ImageUploader2 extends Component {
     constructor(props) {
@@ -19,7 +15,6 @@ class ImageUploader2 extends Component {
 
         this.uploadMultipleFiles = this.uploadMultipleFiles.bind(this);
 
-        console.log("constructo iu2")
         this.initFiles();
     }
 
@@ -31,11 +26,9 @@ class ImageUploader2 extends Component {
     }
 
     async initFiles() {
-        if (this.props.cid != null) { //CHECKEAR q quan no hi hagi cid predefinid, passam un cid amb null.
-            //Init ipfs
-            const myIpfs = new IpfsConnection(this.props.config.ipfs);
+        if (this.props.cid != null) {
 
-            const imgs = await myIpfs.getAllImagesUrl(this.props.cid);
+            const imgs = await this.props.ipfs.getAllImagesUrl(this.props.cid);
 
             let files = []
     

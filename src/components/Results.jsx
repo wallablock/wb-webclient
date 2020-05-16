@@ -64,7 +64,7 @@ class Results extends React.Component {
                       key={item.offer}
                       data={item}
                       onClack={this.cardClicked}
-                      config={this.props.config}
+                      ipfs={this.props.ipfs}
                     />
                   ))}
                 </ReactiveList.ResultCardsWrapper>

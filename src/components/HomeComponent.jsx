@@ -114,7 +114,7 @@ class HomeComponent extends Component {
                 }
               />
 
-              <Results clearCFilter={this.clearCFilter} config={this.props.config}/>
+              <Results clearCFilter={this.clearCFilter} ipfs={this.props.ipfs}/>
             </div>
           </div>
         </ReactiveBase>

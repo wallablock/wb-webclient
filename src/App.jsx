@@ -13,16 +13,32 @@ import NotFoundComponent from "./components/NotFoundComponent";
 
 import {fetchConfig} from './components/WbConfig';
 
+import { IpfsConnection } from "wb-ipfs";
+
+import Web3 from "web3";
+
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      config: null
+      config: null,
+      ipfs: null,
+      myweb3: new Web3(window.ethereum),
     }
 
     this.getConfig();
+
   }
+
+
+
+  initIPFS(ipfs) {
+    this.setState({
+      ipfs: new IpfsConnection(ipfs)
+    })
+  }
+
 
 
   /****CONFIG****/
@@ -31,6 +47,8 @@ class App extends Component {
     const key = await this.getElasticKey();
     const ipfs = await this.getIPFSProxy();
     const registry = await this.getRegistry();
+
+    this.initIPFS(ipfs);
 
     this.setState({
       config: {
@@ -71,13 +89,13 @@ class App extends Component {
     return (
       <div>
         {
-          this.state.config !== null ?
+          this.state.config !== null && this.state.ipfs !== null?
           <Router>
             <Switch>
-              <Route exact path="/" /*component={HomeComponent}*/ render={(props) => <HomeComponent {...props} config={this.state.config} />} />
-              <Route exact path="/publish" /*component={PublishComponent}*/ render={(props) => <PublishComponent {...props} config={this.state.config} />} />
-              <Route exact path="/buy/:offerId" /*component={OfferDetail}*/ render={(props) => <OfferDetail {...props} config={this.state.config} />} />
-              <Route exact path="/alloffers" /*component={ViewAllOffers}*/ render={(props) => <ViewAllOffers {...props} config={this.state.config} />} />
+              <Route exact path="/" /*component={HomeComponent}*/ render={(props) => <HomeComponent {...props} config={this.state.config} ipfs={this.state.ipfs} />} />
+              <Route exact path="/publish" /*component={PublishComponent}*/ render={(props) => <PublishComponent {...props} config={this.state.config} ipfs={this.state.ipfs} web3={this.state.myweb3} />} />
+              <Route exact path="/buy/:offerId" /*component={OfferDetail}*/ render={(props) => <OfferDetail {...props} ipfs={this.state.ipfs} web3={this.state.myweb3} />} />
+              <Route exact path="/alloffers" /*component={ViewAllOffers}*/ render={(props) => <ViewAllOffers {...props} config={this.state.config} ipfs={this.state.ipfs} web3={this.state.myweb3} />} />
 
               <Route path="*" component={NotFoundComponent} />
             </Switch>
