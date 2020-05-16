@@ -71,19 +71,17 @@
   
   .buy-butn  {
     background-color: #4188ff;
-    color: black;
+    color: white;
     padding: 8px 50px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    transition-duration: 0.4s;
+    border: 0px;
   }
 
-  .buy-butn  {
-    background-color: #4188ff;
-    color: white;
-    border: 0px;
+  .buy-butn:disabled  {
+    opacity: 50%;
   }
 
   .buy-cancel-buton-wrap {

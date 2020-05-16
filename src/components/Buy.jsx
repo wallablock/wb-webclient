@@ -86,6 +86,7 @@ class Buy extends Component {
                             <button 
                                 className="buy-butn" 
                                 type="submit"
+                                disabled={this.props.seller === this.props.account || this.props.state !== "0"}
                                 /*onClick={() => {
                                     this.props.buy(this.state.contactInfo)
                                 }}*/

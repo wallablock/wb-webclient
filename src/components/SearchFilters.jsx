@@ -38,6 +38,56 @@ class SearchFilters extends Component {
     return (
       <div className={`flex column`}>
         <div className="m13">
+
+
+        <p className="m14 pfilt">País de origen</p>
+          <MultiDropdownList
+            componentId="filtroPais"
+            dataField="shipsFrom.keyword"            
+            filterLabel="país"
+            placeholder="Todos"
+            searchPlaceholder="Buscar país..."
+            URLParams={true}
+            innerClass={{
+              list: "pfilt",
+            }}
+            renderItem={(label, count, isSelected) => (
+              <div className="flex">
+                <ReactCountryFlag
+                  countryCode={getCountryISO2(label)}
+                  style={{
+                    fontSize: "1.5em",
+                    lineHeight: "1.5em",
+                    marginRight: 7,
+                    marginTop: 2,
+                  }}
+                  svg
+                />
+
+                {getName(getCountryISO2(label))}
+                <span
+                  style={{
+                    marginLeft: 5,
+                    color: isSelected ? "red" : "dodgerblue",
+                  }}
+                >
+                  {count}
+                </span>
+              </div>
+            )}
+            sortBy="asc"
+            onError={(error) => {
+              console.log("OnError")
+              console.log(error)
+            }}
+          />
+
+          <div className="separator2">
+            <hr className="solid" />
+          </div>
+
+
+
           <div className="child m10">
             <MultiDataList
               componentId="category"
@@ -89,52 +139,7 @@ class SearchFilters extends Component {
             <hr className="solid" />
           </div>
 
-          <p className="m14 pfilt">País de origen</p>
-          <MultiDropdownList
-            componentId="filtroPais"
-            dataField="shipsFrom.keyword"            
-            filterLabel="país"
-            placeholder="Todos"
-            searchPlaceholder="Buscar país..."
-            size={250}
-            URLParams={true}
-            innerClass={{
-              list: "pfilt",
-            }}
-            renderItem={(label, count, isSelected) => (
-              <div className="flex">
-                <ReactCountryFlag
-                  countryCode={getCountryISO2(label)}
-                  style={{
-                    fontSize: "1.5em",
-                    lineHeight: "1.5em",
-                    marginRight: 7,
-                    marginTop: 2,
-                  }}
-                  svg
-                />
-
-                {getName(getCountryISO2(label))}
-                <span
-                  style={{
-                    marginLeft: 5,
-                    color: isSelected ? "red" : "dodgerblue",
-                  }}
-                >
-                  {count}
-                </span>
-              </div>
-            )}
-            sortBy="asc"
-            onError={(error) => {
-              console.log("OnError")
-              console.log(error)
-            }}
-          />
-
-          <div className="separator2">
-            <hr className="solid" />
-          </div>
+         
 
           <div className="child m11">
             <RangeSlider

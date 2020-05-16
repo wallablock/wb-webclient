@@ -33,6 +33,8 @@ class OfferDetail extends Component {
             category: null,
             shipsFrom: null,
             cid: null,
+            state: null,
+            seller: null,
             img_urls: null,
             descr: null,
             reset: false     
@@ -65,12 +67,15 @@ class OfferDetail extends Component {
         const category = await contract.methods.category().call();
         let shipsFrom = await contract.methods.shipsFrom().call();
         const cid = await contract.methods.attachedFiles().call();
+        const state = await contract.methods.currentStatus().call();
+        const seller = (await contract.methods.seller().call()).toLowerCase();
+
 
         shipsFrom = getName(getCountryISO2(Web3.utils.hexToUtf8(shipsFrom)))
         const priceEths = Web3.utils.fromWei(priceWeis)
 
 
-        return {title, priceWeis, priceEths, category, shipsFrom, cid};
+        return {title, priceWeis, priceEths, category, shipsFrom, cid, state, seller};
     }
 
     async getIPFSData(cid) {
@@ -90,14 +95,16 @@ class OfferDetail extends Component {
     }
 
     async getOfferInfo() {
-        const {title, priceWeis, priceEths, category, shipsFrom, cid} = await this.getContractData(this.state.contract_addr)
+        const {title, priceWeis, priceEths, category, shipsFrom, cid, state, seller} = await this.getContractData(this.state.contract_addr)
         this.setState({
             title: title,
             priceWeis: priceWeis,
             priceEths: priceEths,
             category: category,
             shipsFrom: shipsFrom,
-            cid: cid
+            cid: cid,
+            state: state,
+            seller: seller
         })
 
         const {img_urls, descr} = await this.getIPFSData(cid)
@@ -216,7 +223,7 @@ class OfferDetail extends Component {
                     <div className="buy-content">
 
                         {this.state.rdy ? 
-                            (<Buy title={this.state.title} desc={this.state.descr} price={this.state.priceEths} category={this.state.category} country={this.state.shipsFrom} imgs={this.state.img_urls} buy={this.handleClick.bind(this)} reset={this.state.reset} revertReset={this.revertReset}/>) 
+                            (<Buy title={this.state.title} desc={this.state.descr} price={this.state.priceEths} category={this.state.category} country={this.state.shipsFrom} state={this.state.state} seller={this.state.seller} account={this.state.account} imgs={this.state.img_urls} buy={this.handleClick.bind(this)} reset={this.state.reset} revertReset={this.revertReset}/>) 
                             : null
                         }       
 
