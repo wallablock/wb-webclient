@@ -9,12 +9,12 @@ import 'react-notifications/lib/notifications.css';
 
 import Buy from "./Buy";
 
-import "./styles/OfferDetail.css";
+import "./styles/OfferComponent.css";
 
 import {abi} from "wb-contracts/build/contracts/Offer.json";
 import Web3 from "web3";
 
-class OfferDetail extends Component {
+class OfferComponent extends Component {
     constructor(props) {
         super(props);
         const offerId = this.props.match.params.offerId;
@@ -235,4 +235,4 @@ class OfferDetail extends Component {
     }
 }
 
-export default withRouter(OfferDetail);
+export default withRouter(OfferComponent);

@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import HomeComponent from "./components/HomeComponent";
 import PublishComponent from "./components/PublishComponent";
-import OfferDetail from "./components/OfferDetail";
+import OfferComponent from "./components/OfferComponent";
 import ViewAllOffers from "./components/ViewAllOffers";
 import NotFoundComponent from "./components/NotFoundComponent";
 
@@ -94,10 +94,10 @@ class App extends Component {
           this.state.config !== null && this.state.ipfs !== null?
           <Router>
             <Switch>
-              <Route exact path="/" /*component={HomeComponent}*/ render={(props) => <HomeComponent {...props} config={this.state.config} ipfs={this.state.ipfs} />} />
-              <Route exact path="/publish" /*component={PublishComponent}*/ render={(props) => <PublishComponent {...props} config={this.state.config} ipfs={this.state.ipfs} web3={this.state.myweb3} />} />
-              <Route exact path="/buy/:offerId" /*component={OfferDetail}*/ render={(props) => <OfferDetail {...props} ipfs={this.state.ipfs} web3={this.state.myweb3} />} />
-              <Route exact path="/alloffers" /*component={ViewAllOffers}*/ render={(props) => <ViewAllOffers {...props} config={this.state.config} ipfs={this.state.ipfs} web3={this.state.myweb3} />} />
+              <Route exact path="/" render={(props) => <HomeComponent {...props} config={this.state.config} ipfs={this.state.ipfs} />} />
+              <Route exact path="/publish" render={(props) => <PublishComponent {...props} config={this.state.config} ipfs={this.state.ipfs} web3={this.state.myweb3} />} />
+              <Route exact path="/buy/:offerId" render={(props) => <OfferComponent {...props} ipfs={this.state.ipfs} web3={this.state.myweb3} />} />
+              <Route exact path="/alloffers" render={(props) => <ViewAllOffers {...props} config={this.state.config} ipfs={this.state.ipfs} web3={this.state.myweb3} />} />
 
               <Route path="*" component={NotFoundComponent} />
             </Switch>
