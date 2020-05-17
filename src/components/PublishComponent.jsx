@@ -12,7 +12,7 @@ import { getCode, getNames } from "country-list";
 import getCountryISO3 from "country-iso-2-to-3";
 
 
-import {NotificationContainer, NotificationManager} from 'react-notifications';
+import {NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
 import { Link } from "react-router-dom";
@@ -27,7 +27,7 @@ class PublishComponent extends Component {
       registry: this.props.config.registry,
       account: "",
       title: "",
-      price: null,
+      price: "",
       description: "",
       category: "",
       country: "",
@@ -536,7 +536,6 @@ class PublishComponent extends Component {
               <Button type="submit">Publicar</Button>
             </Form>
 
-            <NotificationContainer/>
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import getCountryISO2 from "country-iso-3-to-2";
 import {getName} from "country-list";
 
-import {NotificationContainer, NotificationManager} from 'react-notifications';
+import { NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
 import Buy from "./Buy";
@@ -227,7 +227,6 @@ class OfferDetail extends Component {
                             </div>
                         }       
 
-                        <NotificationContainer/>
                     </div>
                 </div>
             </div>

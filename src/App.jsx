@@ -11,6 +11,8 @@ import OfferDetail from "./components/OfferDetail";
 import ViewAllOffers from "./components/ViewAllOffers";
 import NotFoundComponent from "./components/NotFoundComponent";
 
+import {NotificationContainer} from 'react-notifications';
+
 import {fetchConfig} from './components/WbConfig';
 
 import { IpfsConnection } from "wb-ipfs";
@@ -102,7 +104,7 @@ class App extends Component {
           </Router>
           :null
         }
-      
+        <NotificationContainer/>
       </div>
 
     );

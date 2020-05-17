@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Edit from './Edit';
 import PopupContactInfo from './PopupContactInfo';
 
-import {NotificationContainer, NotificationManager} from 'react-notifications';
+import { NotificationManager} from 'react-notifications';
 
 import Offer from "wb-contracts/build/contracts/Offer.json"; //"../contracts/Offer.json"
 import OfferRegistry from "wb-contracts/build/contracts/OfferRegistry.json"; //"../contracts/Offer.json"
@@ -412,10 +412,6 @@ class ViewAllOffers extends Component {
                            
                         )
                     }
-
-
-
-                    <NotificationContainer/>
 
                 </div>
             </div>
