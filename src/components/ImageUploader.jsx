@@ -106,6 +106,7 @@ export default class MultipleImageUploadComponent extends Component {
           id="selectImage"
           type="file"
           onChange={this.uploadMultipleFiles}
+          accept="image/*"
           multiple
           hidden
         />

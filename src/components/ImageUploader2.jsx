@@ -155,6 +155,7 @@ class ImageUploader2 extends Component {
                 id="selectImage"
                 type="file"
                 onChange={this.uploadMultipleFiles}
+                accept="image/*"
                 multiple
                 hidden
             />
