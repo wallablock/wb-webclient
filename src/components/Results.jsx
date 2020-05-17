@@ -37,7 +37,7 @@ class Results extends React.Component {
         <ReactiveList
           componentId="results"
           dataField="title"
-          size={18}
+          size={15}
           pagination={true}
           react={{
             and: [

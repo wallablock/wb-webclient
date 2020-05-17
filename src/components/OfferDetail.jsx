@@ -216,13 +216,15 @@ class OfferDetail extends Component {
 
 
 
-            <div className="buy-background">
-                <div className="buy-non-background">
+            <div className="buy2-background">
+                <div className="buy2-non-background">
                     <div className="buy-content">
 
                         {this.state.rdy ? 
                             (<Buy title={this.state.title} desc={this.state.descr} price={this.state.priceEths} category={this.state.category} country={this.state.shipsFrom} state={this.state.state} seller={this.state.seller} account={this.state.account} imgs={this.state.img_urls} buy={this.handleClick.bind(this)} reset={this.state.reset} revertReset={this.revertReset}/>) 
-                            : null
+                            :<div>
+                                <h3>Loading...</h3>
+                            </div>
                         }       
 
                         <NotificationContainer/>

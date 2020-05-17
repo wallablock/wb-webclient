@@ -1,4 +1,4 @@
-.background {
+.publish-background {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -13,7 +13,7 @@
   z-index: 4;
 }
 
-.non-background {
+.publish-non-background {
   position: fixed;
   left: 12%;
   right: 12%;
@@ -28,6 +28,41 @@
   max-height: 95%;
 }
 
-.content {
+.publish2-background {
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 30px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  z-index: 3;
+}
+
+.publish2-non-background {
+  background-color: #fefefe;
+  margin: auto;
+  width: 75%;
+  height: 95%;
+
+  border-radius: 7px;
+  overflow: auto;
+}
+
+
+
+
+.publish-content {
   padding: 30px;
+  overflow: auto;
+
+}
+
+.publish-img-uploader {
+  overflow: auto;
+  height: 220px;
+
 }

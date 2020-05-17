@@ -1,0 +1,79 @@
+.popup2-background {
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    z-index: 3;
+}
+
+.popup2-content {
+    background-color: #fefefe;
+    margin: auto;
+    width: 50%;
+    height: 80vh;
+
+    border-radius: 7px;
+    overflow: auto;
+}
+
+.popup2-carousel {
+    height: 50vh;
+    width: 100%;
+}
+
+.popup2-carouse-img{
+    width: 100%;
+    height: 50vh;
+}
+
+.popup2-under {
+    height:30vh;
+    padding-left: 10px;
+    padding-right: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+.popup2-data {
+   /* height: 25vh;*/
+   height: 23vh;
+  
+}
+
+.popup2-title {
+    font-size: 20px;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+ }
+  
+.popup2-price {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.popup2-description {
+  max-height: 60%;
+  font-size: 16px;
+
+}
+
+.popup2-btn {
+    height: 5vh;
+    text-align: center;
+    width: 100%;
+    padding-bottom: 5px;
+
+}
+
+.popup2-buy-btn {
+    /*margin-top: 30px;*/
+    width: 80%;
+  }

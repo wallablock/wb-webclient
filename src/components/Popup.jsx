@@ -6,7 +6,7 @@ import MyCarousel from "./MyCarousel";
 import { Link } from "react-router-dom";
 
 class Popup extends React.Component {
-  constructor(props) {
+ /* constructor(props) {
     super(props);
 
     let tmp_imgs = this.prepareImgs(this.props.imgs);
@@ -24,7 +24,7 @@ class Popup extends React.Component {
     }
 
     return newImgs;
-  }
+  }*/
 
   render() {
     return (
@@ -35,15 +35,20 @@ class Popup extends React.Component {
             e.stopPropagation();
           }}
         >
-          {this.props.imgs.length > 0 ?
-            <MyCarousel imgs={this.props.imgs} />
-            :null
-          }
+          <div className="popup-carousel">
+            {this.props.imgs.length > 0 ?
+              <MyCarousel imgs={this.props.imgs} />
+              :null
+            }
+          </div>
 
           <div className="popup-data">
-            <h2>{this.props.offer.title}</h2>
-            <h2>{this.props.offer.price} Eths</h2>
-            <p className="popup-descr">{this.props.desc}</p>
+            <p className="popup-title">{this.props.offer.title}</p>
+            <p className="popup-price">{this.props.offer.price} Eths</p>
+            <div className="popup-descrasao">
+              <p >{this.props.desc}</p>
+
+            </div>
           </div>
 
           <div className="buy-btn-wrap">

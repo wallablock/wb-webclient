@@ -20,23 +20,53 @@
   margin: auto;
   border-radius: 7px;
   background-color: rgb(255, 255, 255);
+  
+  max-width: 50%;
+  max-height:770px; /*80%*/
 }
 
+.popup-carousel {
+  height: 63%;
+  max-height: 63%;
+}
+
+.popup-data {
+  margin: 0px;
+  padding: 0px;
+  height: 28%;
+  /*margin-top: 10px;*/
+  padding-left: 10px;
+
+
+}
+
+.popup-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.popup-price {
+  font-size: 18px;
+  font-weight: bold;
+}
+.popup-descrasao {
+  max-height: 45%;
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+
+}
+
+
+
 .buy-btn-wrap {
+  height: 7%;
   width: 100%;
   text-align: center;
 }
 
 .buy-btn {
-  margin-top: 30px;
+  /*margin-top: 30px;*/
   width: 80%;
 }
 
-.popup-descr {
-  font-size: 18px;
-}
-
-.popup-data{
-  margin-top: 10px;
-  padding-left: 10px;
-}

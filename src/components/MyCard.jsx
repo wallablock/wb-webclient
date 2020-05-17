@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import Popup from "./Popup";
+//import Popup from "./Popup";
+import Popup2 from "./Popup2";
 
 import "./styles/MyCard.css";
 
@@ -11,9 +12,19 @@ class MyCard extends Component {
       offer: null,
       imgs: [],
       desc: "",
+      rdy: false
     };
+  }
 
-    this.initImgs();
+  async componentDidMount() {
+    await this.initImgs2()
+    .then (res => {
+      this.setState({
+        rdy: true
+      })
+    })
+
+
   }
 
   togglePopup() {
@@ -35,9 +46,39 @@ class MyCard extends Component {
     });
   }
 
+  async init() {
+    const res = await this.initImgs2();
+    return res;
+    //this.estado();
+
+  }
+
+  estado() {
+    this.setState({
+      rdy: true
+    })
+  }
+
+  async initImgs2() {
+    let imgs;
+    let desc;
+      //let imgs;
+      if (this.props.data.cid !== "") {
+        imgs = await this.props.ipfs.getAllImagesUrl(this.props.data.cid)
+        desc = await this.props.ipfs.fetchDesc(this.props.data.cid)
+        this.setState({
+          imgs: imgs,
+          desc: desc,
+        })
+
+      }    
+  }
+
   async initImgs() {
+
     try {
-      const imgs = await this.props.ipfs.getAllImagesUrl(this.props.data.cid)
+      let imgs;
+      if (this.props.data.cid !== "") imgs = await this.props.ipfs.getAllImagesUrl(this.props.data.cid)
       this.setState({
         imgs: imgs
       })
@@ -46,13 +87,15 @@ class MyCard extends Component {
     }
 
     try {
-      const dscr = await this.props.ipfs.fetchDesc(this.props.data.cid)
+      const desc = await this.props.ipfs.fetchDesc(this.props.data.cid)
       this.setState({
-        desc: dscr
+        desc: desc
       })
     } catch (ex) {
       console.log("exception catched getting ipfs description")
     }
+
+
   }
 
   countDecimals(num) {
@@ -78,32 +121,46 @@ class MyCard extends Component {
   render() {
     return (
       <div>
-        {this.state.showPopup ? (
-          <Popup
-            offer={this.state.offer}
+
+        {this.state.showPopup ? 
+          (
+         /* <Popup
             closePopup={this.togglePopup.bind(this)}
+            offer={this.state.offer}
+            imgs={this.state.imgs}
+            desc={this.state.desc}
+          />*/
+          <Popup2
+            closePopup={this.togglePopup.bind(this)}
+            offer={this.state.offer}
             imgs={this.state.imgs}
             desc={this.state.desc}
           />
-        ) : null}
+          ) 
+          :null
+        }
 
-        <div
-          className="result-item"
+        {this.state.rdy ?
+          <div
+          className="result-card"
           key={this.props.data.offer}
           onClick={this.cardClicked.bind(this, this.props.data)}
-        >
-          <img className="card-img" src={this.state.imgs[0]} alt=""/>
-          <div className="flex column card-info">
-            {/*
-                        <div className="card-info-price">{this.removeCientificNotation(this.props.data.price)} Eth</div>
+          >
+            <img className="card-img" src={this.state.imgs[0]} alt=""/>
+            <div className="flex column card-info">
+              {/*
+                          <div className="card-info-price">{this.removeCientificNotation(this.props.data.price)} Eth</div>
 
-            */}
+              */}
 
-            <div className="card-info-price">{this.props.data.price} Eth</div>
+              <div className="card-info-price">{this.props.data.price} Eth</div>
 
-            <div className="card-info-title">{this.props.data.title}</div>
+              <div className="card-info-title">{this.props.data.title}</div>
+            </div>
           </div>
-        </div>
+          :null
+        }
+
       </div>
     );
   }

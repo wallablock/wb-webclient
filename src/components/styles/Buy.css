@@ -1,4 +1,10 @@
 
+.buy-container {
+  width: 100%;
+  /*height: 100%;*/
+  height: 80vh;
+}
+
   .buy-title-price {
     display: flex;
     width: 100%;
@@ -17,6 +23,9 @@
 
   .buy-carousel {
       padding-top: 20px;
+     /* height: 70%;*/
+     height: 53vh;
+      width: 100%;
   }
 
 
@@ -43,6 +52,7 @@
   .buy-descr {
     font-size: 17px;
     padding-top: 30px;
+    height: 12vh;
   }
 
   .buy-contact-butn {

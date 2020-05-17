@@ -14,10 +14,7 @@ class CustomSwitch extends Component {
   async getAccount() {
     if (typeof window.ethereum !== 'undefined') {
         const accounts = await window.ethereum.enable();
-    
-        this.setState({
-            account: accounts[0],
-        });
+        return accounts[0];
     }
 }
 

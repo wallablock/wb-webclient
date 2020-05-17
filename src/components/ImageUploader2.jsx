@@ -108,10 +108,10 @@ class ImageUploader2 extends Component {
 
     render() {
         return (
-        <div className="form-group">
+        <div className="iu2-wrapper">
             <Form.Label>Imágenes</Form.Label>
 
-            <div className="form-group multi-image-preview">
+            <div className="iu2-multi-image-preview">
                 {(this.state.files).map((file) => (
                     <div className="image-preview" key={URL.createObjectURL(file)}>
                         <button

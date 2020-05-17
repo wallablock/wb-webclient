@@ -233,15 +233,18 @@ class Edit extends Component {
 
         //Get description
         let fail = false
-        const descr_s = await this.props.ipfs.fetchDesc(this.state.cid)
-        .catch((ex) => {
-            console.log("exception catched fetching descr, ex: ", ex)
-            fail = true
-
-            //Error notification
-            NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");
-            return;
-        })
+        let descr_s = null;
+        if (this.state.cid !== "" && this.state.cid !== null) {
+            descr_s = await this.props.ipfs.fetchDesc(this.state.cid)
+            .catch((ex) => {
+                console.log("exception catched fetching descr, ex: ", ex)
+                fail = true
+    
+                //Error notification
+                NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");
+                return;
+            })
+        } 
         if (fail) return;
 
         let descr = null;
@@ -271,7 +274,7 @@ class Edit extends Component {
         await contract.methods.setAttachedFiles(cid).send({from: this.state.account})
         .then(response => {
             //Delete old cid
-            //this.props.ipfs.delete(this.state.cid);
+            //if (this.state.cid !== "" && this.state.cid !== null) this.props.ipfs.delete(this.state.cid);
 
             //Success notification
             NotificationManager.success("Acción realizada con éxito.", "Cambio de imágenes");
@@ -398,7 +401,7 @@ class Edit extends Component {
 
                         {this.state.cid !== "" ?
                             <div className="edit-field-wrapper">
-                                    <ImageUploader2 upload={this.setImages} cid={this.state.cid} ipfs={this.props.ipfs} /*files={this.state.files_ph} onChange={this.changeFiles}*//>
+                                <ImageUploader2 upload={this.setImages} cid={this.state.cid} ipfs={this.props.ipfs} /*files={this.state.files_ph} onChange={this.changeFiles}*//>
                             </div>
                             :null
                         }

@@ -30,9 +30,18 @@ class Buy extends Component {
         this.props.revertReset();
     }
 
+    truncDescription(descr) {
+        if (descr === null || descr === "") return "";
+        if (descr.length > 560) {
+            const trunc = descr.substring(0,560) + "...";
+            return trunc;
+        }
+        return descr;
+    }
+
     render () {
         return (
-            <div>
+            <div className="buy-container">
                 {this.props.reset ?
                     this.reset()
                     :null
@@ -60,7 +69,7 @@ class Buy extends Component {
                 </div>
 
                 <div className="buy-descr">
-                    <p>Descripción: {this.props.desc}</p>
+                    <p> Descripción: {this.truncDescription(this.props.desc)}</p>
                 </div>
 
                 <Form onSubmit={(e) => {

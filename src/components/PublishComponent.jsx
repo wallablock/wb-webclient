@@ -212,7 +212,7 @@ class PublishComponent extends Component {
 
 
   async createContract(account, price, title, category, country, cid, deposit) {
-    console.log("createContract()")
+    console.log("createContract(), cid: ", cid)
 
 
 
@@ -239,7 +239,6 @@ class PublishComponent extends Component {
               console.log("Nuevo contrato.addr: ", contract_addr);
               this.createDBEntry(contract_addr, addr, title, this.state.price, category, this.state.country, cid)
             }
-           
 
             //Success notification
             this.createNotification2('success', "Su contrato ha sido creado correctmente.", "Contrato creado")
@@ -250,12 +249,18 @@ class PublishComponent extends Component {
           .catch((ex) => {
             console.log("deploy error: ", ex)
 
+            //Delete uploaded cid
+            //if (cid !== "") this.props.ipfs.delete(cid)
+
             //Error notification
             this.createNotification2('error', "Ha surgido un error al crear el contrato.", "Blockchain error")
           })
 
       } catch(ex) {
         console.log("Exception catched: ", ex)
+
+         //Delete uploaded cid
+         //if (cid !== "") this.props.ipfs.delete(cid)
 
         //Error notification
         this.createNotification2('error', "Ha surgido un error al crear el contrato.", "Blockchain error")
@@ -397,9 +402,9 @@ class PublishComponent extends Component {
 
   render() {
     return (
-      <div className="background">
-        <div className="non-background">
-          <div className="content">
+      <div className="publish2-background">
+        <div className="publish2-non-background">
+          <div className="publish-content">
             
             {/*
             <button onClick={() => {
@@ -515,8 +520,11 @@ class PublishComponent extends Component {
               </Form.Group>
 
               <br />
+            
+              <div className="publish-img-uploader">
+                <ImageUploader onChange={this.fileHandler} reset={this.state.reset} revertReset={this.revertReset}/>
 
-              <ImageUploader onChange={this.fileHandler} reset={this.state.reset} revertReset={this.revertReset}/>
+              </div>
 
               <br />
               <br />
