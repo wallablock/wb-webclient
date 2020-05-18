@@ -14,17 +14,8 @@ class MyCard extends Component {
       desc: "",
       rdy: false
     };
-  }
 
-  async componentDidMount() {
-    await this.initImgs2()
-    .then (res => {
-      this.setState({
-        rdy: true
-      })
-    })
-
-
+    this.initImgs();
   }
 
   togglePopup() {
@@ -46,20 +37,13 @@ class MyCard extends Component {
     });
   }
 
-  async init() {
-    const res = await this.initImgs2();
-    return res;
-    //this.estado();
-
-  }
-
   estado() {
     this.setState({
       rdy: true
     })
   }
 
-  async initImgs2() {
+  async initImgs() {
     let imgs;
     let desc;
       //let imgs;
@@ -70,32 +54,7 @@ class MyCard extends Component {
           imgs: imgs,
           desc: desc,
         })
-
       }    
-  }
-
-  async initImgs() {
-
-    try {
-      let imgs;
-      if (this.props.data.cid !== "") imgs = await this.props.ipfs.getAllImagesUrl(this.props.data.cid)
-      this.setState({
-        imgs: imgs
-      })
-    } catch (ex) {
-      console.log("exception catched getting ipfs images")
-    }
-
-    try {
-      const desc = await this.props.ipfs.fetchDesc(this.props.data.cid)
-      this.setState({
-        desc: desc
-      })
-    } catch (ex) {
-      console.log("exception catched getting ipfs description")
-    }
-
-
   }
 
   countDecimals(num) {
@@ -140,7 +99,6 @@ class MyCard extends Component {
           :null
         }
 
-        {this.state.rdy ?
           <div
           className="result-card"
           key={this.props.data.offer}
@@ -158,8 +116,6 @@ class MyCard extends Component {
               <div className="card-info-title">{this.props.data.title}</div>
             </div>
           </div>
-          :null
-        }
 
       </div>
     );
