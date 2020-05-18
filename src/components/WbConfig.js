@@ -1,4 +1,7 @@
 import DefaultConfig from "../default-config.json";
+// DevConfig will not be included in production, but it is required
+// anyway due to how WebPack processes imports
+import DevConfig from "../dev-config.json";
 import axios from "axios";
 
 /**
@@ -19,8 +22,7 @@ import axios from "axios";
  */
 async function rawFetchConfig() {
   if (process.env.NODE_ENV === "development") {
-    // Won't fail, because it is required at build time
-    return await import("../dev-config.json");
+    return DevConfig;
   } else {
     try {
       return (await axios.get("/config.json")).data;

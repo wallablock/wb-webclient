@@ -10,6 +10,8 @@ RUN npm ci
 
 COPY public/ public/
 COPY src/ src/
+# Will not be used, but file presence is needed for compilation
+COPY src/default-config.json src/dev-config.json
 
 RUN npm run build
 
