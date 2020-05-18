@@ -274,7 +274,7 @@ class Edit extends Component {
         await contract.methods.setAttachedFiles(cid).send({from: this.state.account})
         .then(response => {
             //Delete old cid
-            //if (this.state.cid !== "" && this.state.cid !== null) this.props.ipfs.delete(this.state.cid);
+            if (this.state.cid !== "" && this.state.cid !== null) this.props.ipfs.delete(this.state.cid);
 
             //Success notification
             NotificationManager.success("Acción realizada con éxito.", "Cambio de imágenes");
@@ -283,7 +283,7 @@ class Edit extends Component {
         })
         .catch((ex) => {
             //Borrar cid creado
-            //if (cid !== "") this.props.ipfs.delete(cid);
+            if (cid !== "") this.props.ipfs.delete(cid);
 
             //Error notification
             NotificationManager.error("Ha surgido un error durante su ejecución.", "Cambio de imágenes");

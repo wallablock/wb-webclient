@@ -125,8 +125,9 @@ class OfferComponent extends Component {
         console.log("Comprar clicked")
 
         //Hay que substituir el hardcoded por la lectura de un campo e-mail
-        const contactInfo = Web3.utils.toHex(contact)
-
+        //const contactInfo = Web3.utils.toHex(contact)
+        const contactInfo = Web3.utils.utf8ToHex(contact)
+        console.log("contactInfo en hexa: ", contactInfo)
 
 
         const contract = new this.props.web3.eth.Contract(

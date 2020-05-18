@@ -74,10 +74,10 @@ class HomeComponent extends Component {
     return (
       <section className="containererer">
         <ReactiveBase
-          app="testweb"
+          app="offers"
           url={this.state.config.url}
-          credentials="webtest:webtest"
-          //headers={{Authorization: `ApiKey ${this.state.config.key}`}}
+          //credentials="webtest:webtest"
+          headers={{Authorization: `ApiKey ${this.state.config.key}`}}
           theme={theme}
           >
           <div className="flex app-container">

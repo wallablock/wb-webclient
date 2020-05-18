@@ -274,9 +274,15 @@ class ViewAllOffers extends Component {
 
     async getContactInfo(contract_addr) {
         console.log("getContactInfo contract: ", contract_addr)
+        console.log("va a obtener el contact");
         const contract = new this.props.web3.eth.Contract(Offer.abi, contract_addr);
 
-        const contactInfo = Web3.utils.hexToUtf8(await contract.methods.getContactInfo().call());
+        console.log("va a obtener contact info");
+        console.log("llamada en console.log(): ", await contract.methods.getContactInfo().call({from: this.state.account}));
+        const contact_info = await contract.methods.getContactInfo().call();
+        console.log("contact info: ", contact_info);
+
+        const contactInfo = Web3.utils.hexToUtf8(contact_info);
         console.log("response contactInfo: ", contactInfo);
 
         //Popup

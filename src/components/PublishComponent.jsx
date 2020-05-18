@@ -34,7 +34,7 @@ class PublishComponent extends Component {
       checked: null,
       files: [],
       reset: false,
-      plan_b: true,
+      plan_b: false,
     };
     this.getAccount();
 
@@ -250,7 +250,7 @@ class PublishComponent extends Component {
             console.log("deploy error: ", ex)
 
             //Delete uploaded cid
-            //if (cid !== "") this.props.ipfs.delete(cid)
+            if (cid !== "") this.props.ipfs.delete(cid)
 
             //Error notification
             this.createNotification2('error', "Ha surgido un error al crear el contrato.", "Blockchain error")
@@ -260,7 +260,7 @@ class PublishComponent extends Component {
         console.log("Exception catched: ", ex)
 
          //Delete uploaded cid
-         //if (cid !== "") this.props.ipfs.delete(cid)
+         if (cid !== "") this.props.ipfs.delete(cid)
 
         //Error notification
         this.createNotification2('error', "Ha surgido un error al crear el contrato.", "Blockchain error")

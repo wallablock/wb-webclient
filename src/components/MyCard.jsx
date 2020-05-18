@@ -48,8 +48,8 @@ class MyCard extends Component {
     let desc;
       //let imgs;
       if (this.props.data.cid !== "") {
-        imgs = await this.props.ipfs.getAllImagesUrl(this.props.data.cid)
-        desc = await this.props.ipfs.fetchDesc(this.props.data.cid)
+        imgs = await this.props.ipfs.getAllImagesUrl(this.props.data.attachedFiles)
+        desc = await this.props.ipfs.fetchDesc(this.props.data.attachedFiles)
         this.setState({
           imgs: imgs,
           desc: desc,
