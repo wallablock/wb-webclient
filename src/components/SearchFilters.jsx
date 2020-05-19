@@ -14,6 +14,7 @@ import getCountryISO2 from "country-iso-3-to-2";
 import CustomSwitchWrapper from "./CustomSwitchWrapper";
 import CustomFilter from "./CustomFilter";
 
+
 //import Web3 from "web3";
 
 import "./styles/SearchFilters.css";
@@ -43,7 +44,7 @@ class SearchFilters extends Component {
         <p className="m14 pfilt">País de origen</p>
           <MultiDropdownList
             componentId="filtroPais"
-            dataField="shipsFrom"            
+            dataField="shipsFrom.keyword"            
             filterLabel="país"
             placeholder="Todos"
             searchPlaceholder="Buscar país..."
@@ -51,6 +52,13 @@ class SearchFilters extends Component {
             innerClass={{
               list: "pfilt",
             }}
+
+            defaultQuery={() => ({
+              query: {
+                term: { bought: false },
+              }
+            })}
+
             renderItem={(label, count, isSelected) => (
               <div className="flex">
                 <ReactCountryFlag
@@ -197,7 +205,10 @@ class SearchFilters extends Component {
                 setQuery={setQuery}
               />
             )}
-          />   
+          />  
+
+
+
           
 
         </div>

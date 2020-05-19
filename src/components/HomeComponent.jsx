@@ -3,7 +3,6 @@ import { ReactiveBase, DataSearch } from "@appbaseio/reactivesearch";
 
 import Header from "./Header";
 import Results from "./Results";
-//import YourOffers from "./YourOffers";
 
 import theme from "../theme";
 import "./styles/HomeComponent.css";
@@ -23,13 +22,6 @@ class HomeComponent extends Component {
 
     this.openYourOffers = this.openYourOffers.bind(this);
     this.closeYourOffers = this.closeYourOffers.bind(this); 
-  }
-
-  //Hem de borrar segurament
-  sQ(func) {
-    this.setState({
-      resetCountryFilter: func,
-    });
   }
 
   clearCFilter() {
@@ -81,7 +73,7 @@ class HomeComponent extends Component {
           theme={theme}
           >
           <div className="flex app-container">
-            <Header /*open={this.openYourOffers}*/ sQ={this.sQ}/>
+            <Header/>
 
             <div className="results-container">
               <DataSearch
